@@ -7,7 +7,9 @@ services:
     restart: always
     ports:
       - '${FRONTEND_PORT}:${FRONTEND_PORT}'
-    command: 'npm run start'
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
 
   nginx:
     image: nginx:1.13

@@ -1,12 +1,32 @@
-FROM node:12.13-alpine
+FROM node:12.13-alpine As development
 
-ENV APP_ROOT /src
+RUN apk add g++ make python
 
-RUN mkdir ${APP_ROOT}
-WORKDIR ${APP_ROOT}
-ADD . ${APP_ROOT}
+WORKDIR /usr/src/app
 
-RUN npm install
-RUN npm run build
+COPY package*.json ./
 
-ENV HOST 0.0.0.0
+RUN yarn install --dev
+
+COPY . .
+
+RUN yarn dev
+
+FROM node:12.13-alpine as production
+
+RUN apk add g++ make python
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN yarn install --production
+
+COPY . .
+
+COPY --from=development /usr/src/app/dist ./dist
+
+RUN yarn start
