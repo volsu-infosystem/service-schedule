@@ -4,7 +4,7 @@ services:
   nuxt:
     build:
       context: ./frontend/
-      target: ${TARGET}
+      target: '${TARGET}'
     container_name: nuxt-container
     restart: always
     ports:
@@ -29,7 +29,7 @@ services:
     container_name: nest-container
     build:
       context: ./backend/
-      target: ${TARGET}
+      target: '${TARGET}'
     volumes:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules
