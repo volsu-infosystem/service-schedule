@@ -3,7 +3,7 @@ export default {
   ssr: false,
 
   server: {
-    port: 3000,
+    port: process.env.FRONTEND_PORT,
     host: '0.0.0.0',
   },
 
@@ -31,7 +31,12 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
+    '@nuxtjs/dotenv',
   ],
+
+  dotenv: {
+    path: '../',
+  },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [

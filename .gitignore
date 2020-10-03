@@ -3,3 +3,5 @@
 ./nginx
 
 ./logs
+
+./.env.local
