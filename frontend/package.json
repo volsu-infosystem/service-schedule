@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/dotenv": "^1.4.1",
     "ant-design-vue": "^1.6.5",
     "core-js": "^3.6.5",
     "nuxt": "^2.14.5"

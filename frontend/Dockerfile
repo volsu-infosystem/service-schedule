@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN yarn install --dev
+RUN yarn
 
 COPY . .
 
@@ -23,10 +23,10 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN yarn install --production
+RUN yarn
+
+RUN yarn build
 
 COPY . .
-
-COPY --from=development /usr/src/app/dist ./dist
 
 RUN yarn start
