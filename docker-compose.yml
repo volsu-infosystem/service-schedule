@@ -15,6 +15,7 @@ services:
       - .env
     networks:
       - webnet
+    command: yarn dev
 
   nest:
     container_name: nest-container

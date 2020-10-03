@@ -10,8 +10,6 @@ RUN yarn
 
 COPY . .
 
-RUN yarn dev
-
 FROM node:12.13-alpine as production
 
 RUN apk add g++ make python
@@ -29,4 +27,4 @@ RUN yarn build
 
 COPY . .
 
-RUN yarn start
+CMD ["yarn", "start"]
