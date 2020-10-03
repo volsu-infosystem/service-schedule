@@ -39,22 +39,21 @@ services:
       - postgresdb
 
   nginx:
-    image: nginx:1.13
     container_name: nginx-container
+    build:
+      context: ./nginx/
     ports:
-      - '80:80'
+      - '${PROXY_PORT}:${PROXY_PORT}'
       - '443:443'
     volumes:
-      - ./nginx:/etc/nginx/conf.d
       - ./logs:/var/log/nginx/
     depends_on:
       - nuxt
       - nest
-    links:
-      - nuxt
-      - nest
     networks:
       - webnet
+    env_file:
+      - .env
 
   postgresdb:
     container_name: postgres-container
