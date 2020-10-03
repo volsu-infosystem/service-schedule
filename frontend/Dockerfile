@@ -5,6 +5,7 @@ RUN apk add g++ make python
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY yarn.* ./
 
 RUN yarn
 
@@ -20,6 +21,7 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY yarn.* ./
 
 RUN yarn
 

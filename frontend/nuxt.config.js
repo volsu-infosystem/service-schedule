@@ -1,13 +1,14 @@
+const { svgoPlugins } = require('./configs/svgo.config.js');
+
 export default {
-  // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
+  components: true,
 
   server: {
     port: process.env.FRONTEND_PORT,
     host: '0.0.0.0',
   },
 
-  // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'frontend',
     meta: [
@@ -18,30 +19,35 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: ['ant-design-vue/dist/antd.css'],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/style-resources'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/svg-sprite'],
 
-  // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ['@/plugins/antd-ui'],
+  plugins: ['@/api/plugin', '@/plugins/antd-ui'],
 
-  // Auto import components (https://go.nuxtjs.dev/config-components)
-  components: true,
+  svgSprite: {
+    input: '~/assets/icons',
+    svgoConfig() {
+      return {
+        plugins: svgoPlugins(),
+      };
+    },
+  },
 
-  // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
-  buildModules: [
-    // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
-  ],
+  css: ['~/assets/default.scss', '~/assets/ant/main.less'],
 
-  // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: [
-    // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
-  ],
+  styleResources: {
+    scss: ['~/assets/app.scss'],
+  },
 
-  // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
 
-  // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    loaders: {
+      less: {
+        lessOptions: {
+          javascriptEnabled: true,
+        },
+      },
+    },
+  },
 };

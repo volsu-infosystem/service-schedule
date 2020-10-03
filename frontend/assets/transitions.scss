@@ -1,0 +1,28 @@
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+}
+
+.fadeScaleY-enter-active,
+.fadeScaleY-leave-active {
+  transition: opacity 0.3s, transform 0.3s;
+  transform-origin: top center;
+}
+.fadeScaleY-enter, .fadeScaleY-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+  transform: scaleY(0.8);
+}
+
+.error-enter-active,
+.error-leave-active {
+  transition: opacity 0.3s, transform 0.3s;
+  transform: translateY(0%);
+  opacity: 1;
+}
+.error-enter, .error-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(-100%);
+}

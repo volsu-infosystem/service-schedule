@@ -1,0 +1,50 @@
+@mixin flex($align: flex-start, $justify: flex-start, $direction: row) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+}
+
+@mixin flex-column(
+  $align: flex-start,
+  $justify: flex-start,
+  $direction: column
+) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+}
+
+@mixin absolute-center($additional: null) {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) $additional;
+}
+
+@mixin top-center($additional: null) {
+  top: 50%;
+  transform: translate(0%, -50%) $additional;
+}
+
+@mixin below($width) {
+  @media (max-width: $width) {
+    @content;
+  }
+}
+@mixin above($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+@mixin between($min-width, $max-width) {
+  @media (min-width: $min-width) and (max-width: $max-width) {
+    @content;
+  }
+}
+
+@mixin ie() {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
