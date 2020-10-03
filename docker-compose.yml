@@ -11,6 +11,7 @@ services:
       - '${FRONTEND_PORT}:${FRONTEND_PORT}'
     volumes:
       - ./frontend/:/usr/src/app
+      - /usr/src/app/node_modules
     env_file:
       - .env
     networks:
