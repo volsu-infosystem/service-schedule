@@ -1,5 +1,5 @@
 <template>
-  <div class="container"></div>
+  <div class="container">Тут фронтенд!</div>
 </template>
 
 <script>

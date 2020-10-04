@@ -16,6 +16,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/svg-sprite": "^0.4.12",
     "ant-design-vue": "^1.6.5",
+    "axios-auth-refresh": "^3.0.0",
     "core-js": "^3.6.5",
     "nuxt": "^2.14.5"
   },
