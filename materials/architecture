@@ -1,0 +1,77 @@
+Table Institute {
+  id int [pk]
+  name string
+  years int [ref: < Year.id]
+}
+
+Table Year {
+  id int [pk]
+  type enum
+  year int
+  groups int [ref: < Group.id]
+}
+
+Table Group {
+  id int [pk]
+  name char
+  students int [ref: < Profile.id]
+  derection_of_study int [ref: < DirectionOfStudy.id]
+  Timetable int [ref: < Cell.id]
+}
+
+Table Profile {
+  id int [pk]
+  name char
+  student_ticket_number int
+  email char
+  user int [ref: - User.id]
+  whichDisciplinesCanBeTeached int [ref: < Discipline.id]
+}
+
+Table User {
+  id int [pk]
+  login char
+  password char
+}
+
+Table DirectionOfStudy {
+  id int [pk]
+  name char
+  educational_units int [ref: < EducationalUnits.id]
+}
+
+Table EducationalUnits {
+  id int [pk]
+  disciplines int [ref: < Discipline.id]
+}
+
+Table Discipline {
+  id int [pk]
+  name char
+  hours int // Количество часов на дисциплину
+}
+
+Table Cell {
+  id int [pk]
+  lessons int [ref: < Lesson.id]
+}
+
+Table Lesson {
+  id int [pk]
+  subgroups int [ref: < Subgroup.id]
+}
+
+Table Subgroup {
+  id int [pk]
+  discipline int [ref: - Discipline.id]
+  teacher int [ref: - Profile.id]
+  room int [ref: - Room.id]
+}
+
+Table Room {
+  id int [pk]
+  name char
+}
+
+
+Ref: "Discipline"."id" < "Discipline"."id"
