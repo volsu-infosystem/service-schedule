@@ -59,10 +59,18 @@ Table Cell {
 Table Lesson {
   id int [pk]
   subgroups int [ref: < Subgroup.id]
+  time int [ref: - Time.id]
+}
+
+Table Time {
+  id int [pk]
+  day enum
+  pair enum
 }
 
 Table Subgroup {
   id int [pk]
+  name char
   discipline int [ref: - Discipline.id]
   teacher int [ref: - Profile.id]
   room int [ref: - Room.id]
@@ -72,6 +80,3 @@ Table Room {
   id int [pk]
   name char
 }
-
-
-Ref: "Discipline"."id" < "Discipline"."id"
