@@ -1,6 +1,7 @@
 Table Institute {
   id int [pk]
   name string
+  direction_of_study int [ref: < DirectionOfStudy.id]
   years int [ref: < Year.id]
 }
 
