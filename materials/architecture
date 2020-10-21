@@ -22,10 +22,18 @@ Table Group {
 Table Profile {
   id int [pk]
   name char
+  type enum
   student_ticket_number int
   email char
   user int [ref: - User.id]
   whichDisciplinesCanBeTeached int [ref: < Discipline.id]
+  whichDisciplinesCanBeEdited int [ref: < EditorRight.id]
+}
+
+Table EditorRight {
+  id int [pk]
+  name char
+  disciplines int [ref: < Discipline.id]
 }
 
 Table User {
@@ -42,13 +50,13 @@ Table DirectionOfStudy {
 
 Table EducationalUnits {
   id int [pk]
-  disciplines int [ref: < Discipline.id]
+  hours int // Количество часов на дисциплину
+  discipline int [ref: - Discipline.id]
 }
 
 Table Discipline {
   id int [pk]
   name char
-  hours int // Количество часов на дисциплину
 }
 
 Table Cell {
@@ -59,18 +67,10 @@ Table Cell {
 Table Lesson {
   id int [pk]
   subgroups int [ref: < Subgroup.id]
-  time int [ref: - Time.id]
-}
-
-Table Time {
-  id int [pk]
-  day enum
-  pair enum
 }
 
 Table Subgroup {
   id int [pk]
-  name char
   discipline int [ref: - Discipline.id]
   teacher int [ref: - Profile.id]
   room int [ref: - Room.id]
