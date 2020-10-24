@@ -1,7 +1,23 @@
 <template>
-  <div class="container">Тут фронтенд!</div>
+  <div class="container">
+    <schedule-table :schedule="schedule" />
+  </div>
 </template>
 
 <script>
-export default {};
+import { schedule } from '@/consts/schedule';
+
+export default {
+  name: 'index-page',
+  data() {
+    return {
+      schedule,
+    };
+  },
+};
 </script>
+
+<style lang="scss">
+.index-page {
+}
+</style>
