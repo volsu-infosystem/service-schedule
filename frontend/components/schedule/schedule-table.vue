@@ -277,7 +277,7 @@ export default {
       z-index: 23;
       height: 100%;
       width: 100%;
-      right: 0px;
+      left: 1px;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
     }
