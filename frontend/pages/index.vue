@@ -9,6 +9,9 @@ import { schedule } from '@/consts/schedule';
 
 export default {
   name: 'index-page',
+
+  middleware: 'auth',
+
   data() {
     return {
       schedule,

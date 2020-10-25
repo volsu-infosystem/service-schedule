@@ -5,6 +5,7 @@ RUN apk add g++ make python
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY node_modules ./
 COPY yarn.* ./
 
 RUN yarn
