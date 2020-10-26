@@ -1,14 +1,14 @@
 @include font-face(
   Montserrat,
   '/fonts/Montserrat-Regular',
-  300,
+  400,
   normal,
   eot woff ttf
 );
 @include font-face(
   Montserrat,
   '/fonts/Montserrat-SemiBold',
-  400,
+  600,
   normal,
   eot woff ttf
 );
@@ -26,7 +26,7 @@ body {
     'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue',
     Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol' !important;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
   color: $text !important;
 }
@@ -43,7 +43,7 @@ html {
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: $accent;
+    background-color: $text-light;
     border-radius: 10px;
   }
 }

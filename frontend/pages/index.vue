@@ -1,22 +1,12 @@
 <template>
   <div class="container">
-    <schedule-table :schedule="schedule" />
+    <nuxt-link to="/edit">Редактирование расписания</nuxt-link>
   </div>
 </template>
 
 <script>
-import { schedule } from '@/consts/schedule';
-
 export default {
   name: 'index-page',
-
-  middleware: 'auth',
-
-  data() {
-    return {
-      schedule,
-    };
-  },
 };
 </script>
 

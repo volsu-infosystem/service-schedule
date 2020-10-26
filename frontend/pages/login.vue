@@ -67,12 +67,6 @@ export default {
   &__form {
     background-color: $white;
     width: 400px;
-    padding: 25px 15px;
-
-    .ui-button {
-      margin-top: 10px;
-      width: 100%;
-    }
   }
 }
 </style>

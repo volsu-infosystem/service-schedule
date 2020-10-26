@@ -43,11 +43,13 @@
               :day="day.day"
               :sizes="sizes"
               @hoverCell="hoverCell"
+              @editCell="editCell"
             />
           </div>
         </div>
       </div>
     </div>
+    <schedule-editor :visible="editorVisible" @close="closeEditor" />
   </div>
 </template>
 
@@ -74,6 +76,7 @@ export default {
         group: null,
         time: null,
       },
+      editorVisible: false,
     };
   },
 
@@ -119,6 +122,14 @@ export default {
           day.day === this.hovered.day && time.number === this.hovered.time,
       };
     },
+
+    editCell() {
+      this.editorVisible = true;
+    },
+
+    closeEditor() {
+      this.editorVisible = false;
+    },
   },
 };
 </script>
@@ -127,6 +138,8 @@ export default {
 .schedule-table {
   margin-left: 10px;
   margin-top: 20px;
+  padding-right: 600px;
+  width: max-content;
   .sential {
     height: 5px;
     width: 5px;
@@ -239,7 +252,7 @@ export default {
       color: $text-light;
       width: 45px;
       font-size: 12px;
-      font-weight: 300;
+      font-weight: 400;
       letter-spacing: 0;
     }
   }
@@ -256,6 +269,7 @@ export default {
     span {
       position: relative;
       z-index: 27;
+      font-weight: 500;
     }
     &:after,
     &:before {
@@ -284,6 +298,11 @@ export default {
     &.hovered {
       &:before {
         opacity: 1;
+      }
+    }
+    &:last-child {
+      &:after {
+        display: none;
       }
     }
   }

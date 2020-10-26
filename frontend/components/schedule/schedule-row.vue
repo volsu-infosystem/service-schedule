@@ -5,6 +5,7 @@
       :key="group.label"
       class="schedule-row__group"
       @mouseenter="hoverCell(group)"
+      @click="editCell(group)"
     >
       <schedule-cell
         v-for="(cell, index) in group.schedule"
@@ -57,6 +58,10 @@ export default {
         time: this.time.number,
         day: this.day,
       });
+    },
+    editCell(group) {
+      this.hoverCell(group);
+      this.$emit('editCell', group);
     },
   },
 };
