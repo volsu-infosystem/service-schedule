@@ -68,6 +68,8 @@ services:
       - webnet
     env_file:
       - .env
+    ports:
+      - '${TYPEORM_PORT}:${TYPEORM_PORT}'
 
   mongodb:
     image: mongo
