@@ -4,11 +4,7 @@ import { ProfileModule } from './profile/profile.module';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(),
-    ProfileModule,
-    UserModule
-],
+  imports: [TypeOrmModule.forRoot(), ProfileModule, UserModule],
   controllers: [],
   providers: [],
 })

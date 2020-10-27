@@ -7,11 +7,11 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY yarn.* ./
 
-RUN yarn install --dev
+RUN yarn
 
 COPY . .
 
-RUN npm run build
+RUN yarn build
 
 FROM node:12.13-alpine as production
 
