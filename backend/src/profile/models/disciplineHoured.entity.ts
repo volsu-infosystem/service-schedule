@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 import { Discipline } from './discipline.enitity';
 import { StudyDirection } from './studyDirection.entity';
 
@@ -16,6 +16,6 @@ export class DisciplineHoured {
     @Column({type: 'numeric'})
     hours: number;
 
-    @ManyToMany(() => StudyDirection)
-    studyDirections: StudyDirection[]
+    @ManyToOne(() => StudyDirection, studyDirection => studyDirection.houredDisciplines)
+    studyDirection: StudyDirection[]
 }

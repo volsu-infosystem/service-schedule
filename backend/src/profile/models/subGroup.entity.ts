@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { Group } from './group.entity';
 import { ProfileStudent } from './profileStudent.entity';
+import { SubCell } from 'src/schedule/models/subCell.entity';
 
 @Entity({name: 'sub_group'})
 export class SubGroup {
@@ -17,4 +18,7 @@ export class SubGroup {
 
     @ManyToOne(() => Group, group => group.subGroups)
     group: Group;
+
+    @OneToMany(() => SubCell, subCell => subCell.subGroup, {nullable: true})
+    subCells: SubCell[];
 }

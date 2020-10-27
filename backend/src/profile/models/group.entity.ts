@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Schedule } from 'src/schedule/models/schedule.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { AdmissionYear } from './admissionYear.entity';
 import { Cathedra } from './cathedra.entity'
 import { ProfileStudent } from './profileStudent.entity';
@@ -32,6 +33,7 @@ export class Group {
     @Column()
     groupLeader: ProfileStudent
 
-    // TO DO Schedule
-    // Schedule <...>
+    @OneToOne(() => Schedule)
+    @JoinColumn()
+    schedule: Schedule;
 }

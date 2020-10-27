@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
-import { Max, Min } from 'class-validator';
+import { MaxLength, MinLength } from 'class-validator';
 import { ProfileBase } from './profileBase.entity';
 import { Group } from './group.entity';
 
@@ -7,8 +7,8 @@ import { Group } from './group.entity';
 export class ProfileStudent extends ProfileBase {
 
     @Column({type: 'numeric'})
-    @Min(6)
-    @Max(8)
+    @MinLength(6)
+    @MaxLength(8)
     studentTicketNumber: number;
     
     @ManyToOne(() => Group, group => group.students)

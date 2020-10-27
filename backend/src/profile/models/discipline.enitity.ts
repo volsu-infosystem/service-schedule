@@ -2,6 +2,7 @@ import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColum
 import { DisciplineHoured } from './disciplineHoured.entity';
 import { Equipment } from './equipment.entity';
 import { ProfileProfessor } from './profileProfessor.entity';
+import { Lesson } from 'src/schedule/models/lesson.entity';
 
 @Entity({name: 'discipline'})
 export class Discipline {
@@ -20,6 +21,9 @@ export class Discipline {
     @ManyToMany(() => ProfileProfessor, profileProfessor => profileProfessor.teachedDisciplines)
     @JoinTable()
     professors: ProfileProfessor[]
+
+    @OneToMany(() => Lesson, lesson => lesson.discipline)
+    lessons: Lesson[]
 
     @Column()
     needEquipments: Equipment[]

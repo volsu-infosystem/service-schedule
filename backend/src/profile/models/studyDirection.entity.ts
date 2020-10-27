@@ -1,4 +1,4 @@
-import { Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { DisciplineHoured } from './disciplineHoured.entity';
 import { Group } from './group.entity';
 
@@ -11,9 +11,8 @@ export class StudyDirection {
     @OneToMany(() => Group, group => group.studyDirection)
     group: Group;
 
-    @ManyToMany(() => DisciplineHoured)
-    @JoinTable()
-    disciplinesHoured: DisciplineHoured[]
+    @OneToMany(() => DisciplineHoured, houredDisciplines => houredDisciplines.studyDirection)
+    houredDisciplines: DisciplineHoured[]
 
 
 }

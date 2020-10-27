@@ -1,3 +1,4 @@
+import { Lesson } from 'src/schedule/models/lesson.entity';
 import { Entity, ManyToMany, ManyToOne } from 'typeorm';
 import { Cathedra } from './cathedra.entity';
 import { Discipline } from './discipline.enitity';
@@ -11,4 +12,8 @@ export class ProfileProfessor extends ProfileBase {
 
     @ManyToMany(() => Discipline, discipline => discipline.professors)
     teachedDisciplines: Discipline[]
+
+    @ManyToMany(() => Lesson)
+    lessons: ProfileProfessor[];
+
 }
