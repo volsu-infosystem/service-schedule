@@ -20,6 +20,8 @@ jobs:
             cd /home/volsu-schedule
             git pull origin master
       - name: Building docker
-        run: docker-compose up --build -V
+        run: |
+          cd /home/volsu-schedule
+          docker-compose up --build -V
       - name: Checking docker
         run: docker ps -a
