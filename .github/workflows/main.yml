@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: connect to ssh
-        uses: applyboy/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.HOST}}
           key: ${{secrets.SSH_PRIVATE}}
