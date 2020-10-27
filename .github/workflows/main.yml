@@ -9,7 +9,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Connect to ssh
+      - name: Deploy to ssh
         uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.HOST}}
@@ -19,9 +19,5 @@ jobs:
           script: |
             cd /home/volsu-schedule
             git pull origin master
-      - name: Open folder
-        run: cd /home/volsu-schedule
-      - name: Building docker
-        run: docker-compose up --build -V
-      - name: Checking docker
-        run: docker ps -a
+            docker-compose up --build -V
+            docker ps -a
