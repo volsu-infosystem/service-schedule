@@ -22,7 +22,7 @@ export default {
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/style-resources'],
   modules: ['@nuxtjs/axios', '@nuxtjs/svg-sprite'],
 
-  plugins: ['@/api/plugin', '@/plugins/antd-ui'],
+  plugins: ['@/api/plugin', '@/plugins/antd-ui', '@/plugins/vee-validate'],
 
   svgSprite: {
     input: '~/assets/icons',
