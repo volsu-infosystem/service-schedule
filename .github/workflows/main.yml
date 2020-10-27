@@ -19,9 +19,9 @@ jobs:
           script: |
             cd /home/volsu-schedule
             git pull origin master
+      - name: Open folder
+        run: cd /home/volsu-schedule
       - name: Building docker
-        run: |
-          cd /home/volsu-schedule
-          docker-compose up --build -V
+        run: docker-compose up --build -V
       - name: Checking docker
         run: docker ps -a
