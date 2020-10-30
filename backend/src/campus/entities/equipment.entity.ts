@@ -1,4 +1,4 @@
-import { Room } from 'src/schedule/models/room.entity';
+import { Room } from 'src/campus/entities/room.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity({name: 'equipment'})

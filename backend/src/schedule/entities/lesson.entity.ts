@@ -1,7 +1,7 @@
-import { Discipline } from 'src/profile/models/discipline.enitity'
-import { ProfileProfessor } from 'src/profile/models/profileProfessor.entity';
-import { Entity } from 'typeorm'
-import { Room } from './room.entity';
+import { Discipline } from 'src/discipline/entities/discipline.enitity'
+import { ProfileProfessor } from 'src/profile/entities/profileProfessor.entity';
+import { Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
+import { Room } from '../../campus/entities/room.entity';
 
 @Entity({name: "lesson"})
 export class Lesson {

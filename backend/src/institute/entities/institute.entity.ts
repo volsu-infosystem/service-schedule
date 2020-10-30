@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { AdmissionYear } from './admissionYear.entity';
+import { AdmissionYear } from '../../profile/entities/admissionYear.entity';
 import { Cathedra } from './cathedra.entity'
 
 @Entity({name: 'institute'})

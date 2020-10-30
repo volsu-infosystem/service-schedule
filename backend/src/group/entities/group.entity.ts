@@ -1,10 +1,10 @@
-import { Schedule } from 'src/schedule/models/schedule.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
-import { AdmissionYear } from './admissionYear.entity';
-import { Cathedra } from './cathedra.entity'
-import { ProfileStudent } from './profileStudent.entity';
-import { StudyDirection } from './studyDirection.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn, OneToOne } from 'typeorm';
+import { AdmissionYear } from '../../profile/entities/admissionYear.entity';
+import { Cathedra } from '../../institute/entities/cathedra.entity'
+import { ProfileStudent } from '../../profile/entities/profileStudent.entity';
+import { StudyDirection } from '../../discipline/studyDirection.entity';
 import { SubGroup } from './subGroup.entity';
+import { Schedule } from 'src/schedule/entities/schedule.entity';
 
 @Entity({name: 'group'})
 export class Group {

@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 import { Discipline } from './discipline.enitity';
-import { StudyDirection } from './studyDirection.entity';
+import { StudyDirection } from '../studyDirection.entity';
 
 @Entity({name: 'discipline_houred'})
 export class DisciplineHoured {

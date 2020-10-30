@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { Group } from './group.entity';
-import { ProfileStudent } from './profileStudent.entity';
-import { SubCell } from 'src/schedule/models/subCell.entity';
+import { ProfileStudent } from '../../profile/entities/profileStudent.entity';
+import { SubCell } from 'src/schedule/entities/subCell.entity';
 
 @Entity({name: 'sub_group'})
 export class SubGroup {

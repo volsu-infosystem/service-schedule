@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
 import { MaxLength, MinLength } from 'class-validator';
 import { ProfileBase } from './profileBase.entity';
-import { Group } from './group.entity';
+import { Group } from '../../group/entities/group.entity';
 
 @Entity({name: 'profile_student'})
 export class ProfileStudent extends ProfileBase {

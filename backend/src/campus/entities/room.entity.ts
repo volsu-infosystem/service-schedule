@@ -1,7 +1,7 @@
-import { Equipment } from 'src/profile/models/equipment.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
 import { Campus } from './campus.entity'
-import { Lesson } from './lesson.entity';
+import { Lesson } from '../../schedule/entities/lesson.entity';
+import { Equipment } from './equipment.entity';
 
 @Entity({name: "room"})
 export class Room {

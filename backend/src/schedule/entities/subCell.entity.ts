@@ -1,4 +1,4 @@
-import { SubGroup } from 'src/profile/models/subGroup.entity';
+import { SubGroup } from 'src/group/entities/subGroup.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
 import { periodEnum } from '../enums/period.enum'
 import { Cell } from './cell.entity';
