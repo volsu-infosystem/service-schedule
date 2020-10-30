@@ -19,5 +19,5 @@ jobs:
           script: |
             cd /home/volsu-schedule
             git pull origin master
-            docker-compose up --build -V
+            docker-compose up --build -V -d
             docker ps -a
