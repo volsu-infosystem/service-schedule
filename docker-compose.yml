@@ -89,7 +89,7 @@ services:
     volumes:
       - pgadmin:/root/.pgadmin
     ports:
-      - '${PGADMIN_PORT:-5050}:80'
+      - '${PGADMIN_PORT:-5050}:${PGADMIN_PORT:-5050}'
     networks:
       - webnet
     env_file:
