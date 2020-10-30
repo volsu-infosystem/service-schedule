@@ -1,8 +1,8 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { DisciplineHoured } from './disciplineHoured.entity';
-import { Equipment } from './equipment.entity';
-import { ProfileProfessor } from './profileProfessor.entity';
-import { Lesson } from 'src/schedule/models/lesson.entity';
+import { Equipment } from '../../campus/entities/equipment.entity';
+import { ProfileProfessor } from '../../profile/entities/profileProfessor.entity';
+import { Lesson } from 'src/schedule/entities/lesson.entity';
 
 @Entity({name: 'discipline'})
 export class Discipline {

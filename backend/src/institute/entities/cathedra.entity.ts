@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
 import { Institute } from './institute.entity';
-import { Group } from './group.entity'
-import { ProfileProfessor } from './profileProfessor.entity';
+import { Group } from '../../group/entities/group.entity'
+import { ProfileProfessor } from '../../profile/entities/profileProfessor.entity';
 
 @Entity({name: 'cathedra'})
 export class Cathedra {

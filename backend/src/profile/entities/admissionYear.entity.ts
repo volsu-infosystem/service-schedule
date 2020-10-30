@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
-import { Group } from './group.entity';
+import { Group } from '../../group/entities/group.entity';
 import { studyLevelEnum } from '../enums/studyLevel.enum'
-import { Institute } from './institute.entity';
+import { Institute } from '../../institute/entities/institute.entity';
 
 @Entity({name: 'admission_year'})
 export class AdmissionYear {
