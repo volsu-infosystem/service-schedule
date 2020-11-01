@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
-import { Discipline } from './discipline.enitity';
 import { StudyDirection } from '../studyDirection.entity';
+import { Discipline } from './discipline.enitity';
 
 @Entity({name: 'discipline_houred'})
 export class DisciplineHoured {
@@ -10,10 +10,10 @@ export class DisciplineHoured {
     @ManyToOne(() => Discipline, discipline => discipline.houred)
     discipline: Discipline
 
-    @Column({type: 'numeric'})
+    @Column('numeric')
     semester: number;
 
-    @Column({type: 'numeric'})
+    @Column('numeric')
     hours: number;
 
     @ManyToOne(() => StudyDirection, studyDirection => studyDirection.houredDisciplines)

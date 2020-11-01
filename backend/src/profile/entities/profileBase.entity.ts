@@ -1,22 +1,22 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { User } from 'src/user/models/user.entity';
 import { IsEmail } from 'class-validator';
+import { User } from 'src/user/models/user.entity';
 
 @Entity({name: 'profile_base'})
 export class ProfileBase {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: 'varchar', length: 64})
+    @Column('varchar', { length: 64 })
     firstName: string;
 
-    @Column({type: 'varchar', length: 64})
+    @Column('varchar', { length: 64 })
     lastName: string;
 
-    @Column({type: 'varchar', length: 64})
+    @Column('varchar', { length: 64 })
     middleName: string;
 
-    @Column({type: 'varchar', length: 256, unique: true})
+    @Column('varchar', { length: 256, unique: true })
     @IsEmail()
     email: string;
 

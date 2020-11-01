@@ -6,6 +6,6 @@ export class Schedule {
     @OneToMany(() => Cell, cell => cell.schedule)
     cells: Cell[]
 
-    @Column({type: 'smallint'})
+    @Column('smallint')
     semester: number
 }

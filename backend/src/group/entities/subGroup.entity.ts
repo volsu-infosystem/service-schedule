@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
-import { Group } from './group.entity';
 import { ProfileStudent } from '../../profile/entities/profileStudent.entity';
 import { SubCell } from 'src/schedule/entities/subCell.entity';
+import { Group } from './group.entity';
 
 @Entity({name: 'sub_group'})
 export class SubGroup {
@@ -9,7 +9,7 @@ export class SubGroup {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({type: 'varchar', length: 64})
+    @Column('varchar', { length: 64 })
     name: string;
 
     @ManyToMany(() => ProfileStudent)

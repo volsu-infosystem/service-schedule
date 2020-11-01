@@ -7,10 +7,10 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: "varchar", length: 16})
+    @Column('varchar', { length: 16 })
     login: string;
 
-    @Column({type: "varchar", length: 300})
+    @Column('varchar', { length: 300 })
     password: string;
 
     @OneToOne(() => ProfileBase, profileBase => profileBase.user)

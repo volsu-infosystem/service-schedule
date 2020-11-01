@@ -1,13 +1,13 @@
-import { SubGroup } from 'src/group/entities/subGroup.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
-import { periodEnum } from '../enums/period.enum'
+import { SubGroup } from 'src/group/entities/subGroup.entity';
 import { Cell } from './cell.entity';
 import { Lesson } from './lesson.entity';
+import { periodEnum } from '../enums/period.enum'
 
 @Entity({name: "sub_cell"})
 export class SubCell {
     
-    @Column({type: "enum", enum: periodEnum})
+    @Column('enum', { enum: periodEnum })
     period: periodEnum;
 
     @ManyToOne(() => SubGroup, subGroup => subGroup.subCells)

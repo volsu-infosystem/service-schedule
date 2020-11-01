@@ -8,7 +8,7 @@ export class Institute {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: 'varchar', length: 256})
+    @Column('varchar', { length: 256 })
     name: string;
 
     @OneToMany(() => Cathedra, cathedra => cathedra.institute)
