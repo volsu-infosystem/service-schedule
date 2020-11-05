@@ -4,7 +4,7 @@ import { Room } from './room.entity';
 @Entity({name: "campus"})
 export class Campus {
     
-    @Column({type: 'varchar'})
+    @Column('varchar')
     name: string;
 
     @OneToMany(() => Room, room => room.campus)
