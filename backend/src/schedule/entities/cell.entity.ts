@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Max, Min } from 'class-validator';
 import { Schedule } from './schedule.entity'
 import { SubCell } from './subCell.entity';
@@ -6,6 +6,9 @@ import { weekDays } from '../enums/weekDays.enum'
 
 @Entity('cell')
 export class Cell {
+    @PrimaryGeneratedColumn()
+    id: number;
+    
     @Column('enum', { enum: weekDays })
     dayWeek: weekDays;
 
