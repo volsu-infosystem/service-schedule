@@ -17,5 +17,5 @@ export class DisciplineHoured {
     hours: number;
 
     @ManyToOne(() => StudyDirection, studyDirection => studyDirection.houredDisciplines)
-    studyDirection: StudyDirection[]
+    studyDirection: StudyDirection
 }
