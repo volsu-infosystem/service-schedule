@@ -3,9 +3,8 @@ import { Institute } from '../../institute/entities/institute.entity';
 import { Group } from '../../group/entities/group.entity';
 import { studyLevelEnum } from '../enums/studyLevel.enum';
 
-@Entity({name: 'admission_year'})
+@Entity('admission_year')
 export class AdmissionYear {
-
     @PrimaryGeneratedColumn()
     id: number;
 

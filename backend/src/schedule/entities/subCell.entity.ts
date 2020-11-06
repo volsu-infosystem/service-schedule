@@ -4,9 +4,8 @@ import { Cell } from './cell.entity';
 import { Lesson } from './lesson.entity';
 import { periodEnum } from '../enums/period.enum'
 
-@Entity({name: "sub_cell"})
+@Entity('sub_cell')
 export class SubCell {
-    
     @Column('enum', { enum: periodEnum })
     period: periodEnum;
 
@@ -19,6 +18,4 @@ export class SubCell {
     @OneToOne(() => Lesson)
     @JoinColumn()
     lesson: Lesson;
-
-
 }

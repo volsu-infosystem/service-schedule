@@ -8,7 +8,7 @@ import {
 import { IsEmail } from 'class-validator';
 import { User } from 'src/user/entities/user.entity';
 
-@Entity({ name: 'profile_base' })
+@Entity('profile_base')
 export class ProfileBase {
   @PrimaryGeneratedColumn()
   id: number;

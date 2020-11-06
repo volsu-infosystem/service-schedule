@@ -4,9 +4,8 @@ import { Schedule } from './schedule.entity'
 import { SubCell } from './subCell.entity';
 import { weekDays } from '../enums/weekDays.enum'
 
-@Entity({name: "cell"})
+@Entity('cell')
 export class Cell {
-
     @Column('enum', { enum: weekDays })
     dayWeek: weekDays;
 

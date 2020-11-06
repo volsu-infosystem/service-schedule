@@ -3,10 +3,8 @@ import { MaxLength, MinLength } from 'class-validator';
 import { Group } from '../../group/entities/group.entity';
 import { ProfileBase } from './profileBase.entity';
 
-
-@Entity({name: 'profile_student'})
+@Entity('profile_student')
 export class ProfileStudent extends ProfileBase {
-
     @Column('numeric')
     @MinLength(6)
     @MaxLength(8)

@@ -4,9 +4,8 @@ import { Discipline } from '../../discipline/entities/discipline.enitity';
 import { Cathedra } from '../../institute/entities/cathedra.entity';
 import { ProfileBase } from './profileBase.entity';
 
-@Entity({name: 'profile_professor'})
+@Entity('profile_professor')
 export class ProfileProfessor extends ProfileBase {
-    
     @ManyToOne(() => Cathedra, cathedra => cathedra.professors)
     cathedra: Cathedra;
 
@@ -15,5 +14,4 @@ export class ProfileProfessor extends ProfileBase {
 
     @ManyToMany(() => Lesson)
     lessons: ProfileProfessor[];
-
 }

@@ -3,9 +3,8 @@ import { ProfileProfessor } from '../../profile/entities/profileProfessor.entity
 import { Group } from '../../group/entities/group.entity'
 import { Institute } from './institute.entity';
 
-@Entity({name: 'cathedra'})
+@Entity('cathedra')
 export class Cathedra {
-
     @PrimaryGeneratedColumn()
     id: number;
 

@@ -3,9 +3,8 @@ import { ProfileStudent } from '../../profile/entities/profileStudent.entity';
 import { SubCell } from 'src/schedule/entities/subCell.entity';
 import { Group } from './group.entity';
 
-@Entity({name: 'sub_group'})
+@Entity('sub_group')
 export class SubGroup {
-    
     @PrimaryGeneratedColumn()
     id: number
 

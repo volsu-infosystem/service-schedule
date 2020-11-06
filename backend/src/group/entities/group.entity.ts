@@ -6,9 +6,8 @@ import { Cathedra } from '../../institute/entities/cathedra.entity'
 import { Schedule } from 'src/schedule/entities/schedule.entity';
 import { SubGroup } from './subGroup.entity';
 
-@Entity({name: 'group'})
+@Entity('group')
 export class Group {
-    
     @PrimaryGeneratedColumn()
     id: number
 

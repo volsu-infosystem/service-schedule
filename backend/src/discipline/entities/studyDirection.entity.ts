@@ -2,7 +2,7 @@ import { Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { DisciplineHoured } from './disciplineHoured.entity';
 import { Group } from '../../group/entities/group.entity';
 
-@Entity({name: 'study_direction'})
+@Entity('study_direction')
 export class StudyDirection {
     
     @PrimaryGeneratedColumn()

@@ -3,7 +3,7 @@ import { ProfileProfessor } from 'src/profile/entities/profileProfessor.entity';
 import { Lesson } from 'src/schedule/entities/lesson.entity';
 import { DisciplineHoured } from './disciplineHoured.entity';
 
-@Entity({name: 'discipline'})
+@Entity('discipline')
 export class Discipline {
     @PrimaryGeneratedColumn()
     id: number;
