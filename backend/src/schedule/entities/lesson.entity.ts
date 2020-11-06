@@ -1,10 +1,13 @@
-import { Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import { Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ProfileProfessor } from 'src/profile/entities/profileProfessor.entity';
 import { Discipline } from 'src/discipline/entities/discipline.entity';
 import { Room } from '../../campus/entities/room.entity';
 
 @Entity('lesson')
 export class Lesson {
+  @PrimaryGeneratedColumn()
+    id: number;
+    
   @ManyToOne(
     () => Discipline,
     discipline => discipline.lessons,
