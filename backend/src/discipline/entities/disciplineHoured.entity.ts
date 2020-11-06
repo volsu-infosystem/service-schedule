@@ -1,21 +1,27 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
-import { Discipline } from './discipline.enitity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Discipline } from './discipline.entity';
 import { StudyDirection } from './studyDirection.entity';
 
 @Entity('discipline_houred')
 export class DisciplineHoured {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @ManyToOne(() => Discipline, discipline => discipline.houred)
-    discipline: Discipline
+  @ManyToOne(
+    () => Discipline,
+    discipline => discipline.houred,
+  )
+  discipline: Discipline;
 
-    @Column('numeric')
-    semester: number;
+  @Column('numeric')
+  semester: number;
 
-    @Column('numeric')
-    hours: number;
+  @Column('numeric')
+  hours: number;
 
-    @ManyToOne(() => StudyDirection, studyDirection => studyDirection.houredDisciplines)
-    studyDirection: StudyDirection
+  @ManyToOne(
+    () => StudyDirection,
+    studyDirection => studyDirection.houredDisciplines,
+  )
+  studyDirection: StudyDirection;
 }
