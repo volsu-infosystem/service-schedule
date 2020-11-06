@@ -1,5 +1,4 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { Equipment } from 'src/campus/entities/equipment.entity';
 import { ProfileProfessor } from 'src/profile/entities/profileProfessor.entity';
 import { Lesson } from 'src/schedule/entities/lesson.entity';
 import { DisciplineHoured } from './disciplineHoured.entity';
