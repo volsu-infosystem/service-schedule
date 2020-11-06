@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn, OneToOne } from 'typeorm';
 import { ProfileStudent } from '../../profile/entities/profileStudent.entity';
 import { AdmissionYear } from '../../profile/entities/admissionYear.entity';
-import { StudyDirection } from '../../discipline/studyDirection.entity';
+import { StudyDirection } from '../../discipline/entities/studyDirection.entity';
 import { Cathedra } from '../../institute/entities/cathedra.entity'
 import { Schedule } from 'src/schedule/entities/schedule.entity';
 import { SubGroup } from './subGroup.entity';
