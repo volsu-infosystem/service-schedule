@@ -1,16 +1,18 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
-import { weekDays } from '../enums/weekDays.enum'
-import { Schedule } from './schedule.entity'
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Max, Min } from 'class-validator';
+import { Schedule } from './schedule.entity'
 import { SubCell } from './subCell.entity';
+import { weekDays } from '../enums/weekDays.enum'
 
-@Entity({name: "cell"})
+@Entity('cell')
 export class Cell {
-
-    @Column({type: "enum", enum: weekDays})
+    @PrimaryGeneratedColumn()
+    id: number;
+    
+    @Column('enum', { enum: weekDays })
     dayWeek: weekDays;
 
-    @Column({type: "smallint"})
+    @Column('smallint')
     @Min(1)
     @Max(7)
     time: number;

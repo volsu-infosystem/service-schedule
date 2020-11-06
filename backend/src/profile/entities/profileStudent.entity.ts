@@ -1,12 +1,11 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
 import { MaxLength, MinLength } from 'class-validator';
-import { ProfileBase } from './profileBase.entity';
 import { Group } from '../../group/entities/group.entity';
+import { ProfileBase } from './profileBase.entity';
 
-@Entity({name: 'profile_student'})
+@Entity('profile_student')
 export class ProfileStudent extends ProfileBase {
-
-    @Column({type: 'numeric'})
+    @Column('numeric')
     @MinLength(6)
     @MaxLength(8)
     studentTicketNumber: number;

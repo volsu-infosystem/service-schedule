@@ -2,13 +2,12 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { AdmissionYear } from '../../profile/entities/admissionYear.entity';
 import { Cathedra } from './cathedra.entity'
 
-@Entity({name: 'institute'})
+@Entity('institute')
 export class Institute {
-
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: 'varchar', length: 256})
+    @Column('varchar', { length: 256 })
     name: string;
 
     @OneToMany(() => Cathedra, cathedra => cathedra.institute)

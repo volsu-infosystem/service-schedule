@@ -1,18 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn, OneToOne } from 'typeorm';
-import { AdmissionYear } from '../../profile/entities/admissionYear.entity';
-import { Cathedra } from '../../institute/entities/cathedra.entity'
 import { ProfileStudent } from '../../profile/entities/profileStudent.entity';
-import { StudyDirection } from '../../discipline/studyDirection.entity';
-import { SubGroup } from './subGroup.entity';
+import { AdmissionYear } from '../../profile/entities/admissionYear.entity';
+import { StudyDirection } from '../../discipline/entities/studyDirection.entity';
+import { Cathedra } from '../../institute/entities/cathedra.entity'
 import { Schedule } from 'src/schedule/entities/schedule.entity';
+import { SubGroup } from './subGroup.entity';
 
-@Entity({name: 'group'})
+@Entity('group')
 export class Group {
-    
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({type: 'varchar', length: 64})
+    @Column('varchar', { length: 64 })
     name: string;
 
     @ManyToOne(() => Cathedra, cathedra => cathedra.groups)
@@ -30,7 +29,8 @@ export class Group {
     @OneToMany(() => SubGroup, subGroup => subGroup.group)
     subGroups: SubGroup[]
 
-    @Column()
+    @OneToOne(() => ProfileStudent)
+    @JoinColumn()
     groupLeader: ProfileStudent
 
     @OneToOne(() => Schedule)

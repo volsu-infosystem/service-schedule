@@ -1,13 +1,15 @@
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { SubGroup } from 'src/group/entities/subGroup.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
-import { periodEnum } from '../enums/period.enum'
 import { Cell } from './cell.entity';
 import { Lesson } from './lesson.entity';
+import { periodEnum } from '../enums/period.enum'
 
-@Entity({name: "sub_cell"})
+@Entity('sub_cell')
 export class SubCell {
-    
-    @Column({type: "enum", enum: periodEnum})
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column('enum', { enum: periodEnum })
     period: periodEnum;
 
     @ManyToOne(() => SubGroup, subGroup => subGroup.subCells)
@@ -19,6 +21,4 @@ export class SubCell {
     @OneToOne(() => Lesson)
     @JoinColumn()
     lesson: Lesson;
-
-
 }

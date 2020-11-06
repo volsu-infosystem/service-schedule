@@ -1,18 +1,17 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { DisciplineHoured } from './disciplineHoured.entity';
-import { Equipment } from '../../campus/entities/equipment.entity';
-import { ProfileProfessor } from '../../profile/entities/profileProfessor.entity';
+import { ProfileProfessor } from 'src/profile/entities/profileProfessor.entity';
 import { Lesson } from 'src/schedule/entities/lesson.entity';
+import { DisciplineHoured } from './disciplineHoured.entity';
 
-@Entity({name: 'discipline'})
+@Entity('discipline')
 export class Discipline {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: 'varchar', length: 256})
+    @Column('varchar', { length: 256 })
     name: string;
 
-    @Column({type: 'varchar', length: 2048})
+    @Column('varchar', { length: 2048 })
     desc: string;
 
     @OneToMany(() => DisciplineHoured, disciplineHoured => disciplineHoured.discipline)
@@ -25,6 +24,6 @@ export class Discipline {
     @OneToMany(() => Lesson, lesson => lesson.discipline)
     lessons: Lesson[]
 
-    @Column()
-    needEquipments: Equipment[]
+    @Column('varchar')
+    needEquipments: string;
 }
