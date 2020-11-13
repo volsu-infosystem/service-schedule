@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { AdmissionYear } from '../../profile/entities/admissionYear.entity';
-import { Cathedra } from './cathedra.entity'
+import { Cathedra } from '../../cathedra/entities/cathedra.entity'
 
 @Entity('institute')
 export class Institute {
