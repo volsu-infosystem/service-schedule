@@ -6,7 +6,7 @@ export class Campus {
     @PrimaryGeneratedColumn()
     id: number;
     
-    @Column('varchar')
+    @Column('varchar', { length: 256 })
     name: string;
 
     @OneToMany(() => Room, room => room.campus)

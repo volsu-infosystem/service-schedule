@@ -11,10 +11,10 @@ export class Room {
     @ManyToOne(() => Campus, campus => campus.rooms)
     campus: Campus;
 
-    @Column({type: 'varchar'})
+    @Column('varchar', { length: 64 })
     name: string;
 
-    @Column({type: 'smallint'})
+    @Column('smallint')
     capacity: number;
 
     @OneToMany(() => Equipment, equipment => equipment.room)
