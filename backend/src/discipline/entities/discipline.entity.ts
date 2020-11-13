@@ -24,6 +24,7 @@ export class Discipline {
     @OneToMany(() => Lesson, lesson => lesson.discipline)
     lessons: Lesson[]
 
-    @Column('varchar')
+    // To Do: Add Equipments Logic
+    @Column('varchar', { nullable: true })
     needEquipments: string;
 }
