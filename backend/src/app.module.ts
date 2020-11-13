@@ -7,6 +7,7 @@ import { DisciplineModule } from './discipline/discipline.module';
 import { InstituteModule } from './institute/institute.module';
 import { GroupModule } from './group/group.module';
 import { CampusModule } from './campus/campus.module';
+import { CathedraModule } from './cathedra/cathedra.module';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { CampusModule } from './campus/campus.module';
     DisciplineModule, 
     InstituteModule, 
     GroupModule, 
-    CampusModule],
+    CampusModule, CathedraModule],
   controllers: [],
   providers: [],
 })
