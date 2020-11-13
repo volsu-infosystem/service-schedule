@@ -2,15 +2,15 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'ty
 import { Max, Min } from 'class-validator';
 import { Schedule } from './schedule.entity'
 import { SubCell } from './subCell.entity';
-import { weekDays } from '../enums/weekDays.enum'
+import { weekDaysEnum } from '../enums/weekDays.enum'
 
 @Entity('cell')
 export class Cell {
     @PrimaryGeneratedColumn()
     id: number;
     
-    @Column('enum', { enum: weekDays })
-    dayWeek: weekDays;
+    @Column('enum', { enum: weekDaysEnum })
+    dayWeek: weekDaysEnum;
 
     @Column('smallint')
     @Min(1)
