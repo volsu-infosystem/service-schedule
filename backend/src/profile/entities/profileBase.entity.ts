@@ -19,7 +19,7 @@ export class ProfileBase {
   @Column('varchar', { length: 64 })
   lastName: string;
 
-  @Column('varchar', { length: 64 })
+  @Column('varchar', { length: 64, nullable: true })
   middleName: string;
 
   @Column('varchar', { length: 256, unique: true })
