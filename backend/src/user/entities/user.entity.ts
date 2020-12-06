@@ -1,4 +1,3 @@
-import { IsEmail } from 'class-validator';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -15,7 +14,6 @@ export class UserEntity {
   id: number;
 
   @Column('varchar', { length: 256, unique: true })
-  @IsEmail()
   email: string; 
   
   @OneToOne(
