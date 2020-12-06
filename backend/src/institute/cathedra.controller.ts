@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { CathedraService } from './cathedra.service';
-import { CreateCathedraDto } from './dto/create-cathedra.dto';
-import { UpdateCathedraDto } from './dto/update-cathedra.dto';
-import { CathedraEntity } from './entities/cathedra.entity';
+import { Controller, Post, Body, Get, Param, Put, Delete } from "@nestjs/common";
+import { CathedraService } from "./cathedra.service";
+import { CreateCathedraDto } from "./dto/create-cathedra.dto";
+import { UpdateCathedraDto } from "./dto/update-cathedra.dto";
+import { CathedraEntity } from "./entities/cathedra.entity";
+
 
 @Controller('cathedra')
 export class CathedraController {

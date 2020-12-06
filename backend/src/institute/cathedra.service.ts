@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeepPartial } from 'typeorm';
-import { CreateCathedraDto } from './dto/create-cathedra.dto';
-import { UpdateCathedraDto } from './dto/update-cathedra.dto';
-import { CathedraEntity } from './entities/cathedra.entity';
-import { CathedraNotFoundException } from './exceptions/cathedra.exceptions'
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository, DeepPartial } from "typeorm";
+import { CreateCathedraDto } from "./dto/create-cathedra.dto";
+import { UpdateCathedraDto } from "./dto/update-cathedra.dto";
+import { CathedraEntity } from "./entities/cathedra.entity";
+import { CathedraNotFoundException } from "./exceptions/cathedra.exceptions";
 
 @Injectable()
 export class CathedraService {

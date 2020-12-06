@@ -1,7 +1,7 @@
 import { LessonEntity } from 'src/schedule/entities/lesson.entity';
 import { Entity, ManyToMany, ManyToOne } from 'typeorm';
 import { DisciplineEntity } from '../../discipline/entities/discipline.entity';
-import { CathedraEntity } from '../../cathedra/entities/cathedra.entity';
+import { CathedraEntity } from '../../institute/entities/cathedra.entity';
 import { ProfileBaseEntity } from './profileBase.entity';
 
 @Entity('profile_professor')

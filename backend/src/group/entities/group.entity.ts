@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColum
 import { ProfileStudentEntity } from '../../profile/entities/profileStudent.entity';
 import { AdmissionYearEntity } from '../../profile/entities/admissionYear.entity';
 import { StudyDirectionEntity } from '../../discipline/entities/studyDirection.entity';
-import { CathedraEntity } from '../../cathedra/entities/cathedra.entity'
+import { CathedraEntity } from '../../institute/entities/cathedra.entity'
 import { ScheduleEntity } from 'src/schedule/entities/schedule.entity';
 import { SubGroupEntity } from './subGroup.entity';
 
