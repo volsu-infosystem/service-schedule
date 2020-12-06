@@ -1,7 +1,7 @@
 import { IsEnum, IsNumber } from "class-validator";
 import { studyLevelEnum } from "../enums/studyLevel.enum";
 
-export class UpdateCathedraDto {
+export class UpdateAdmissionYearDto {
     @IsNumber()
     readonly year: number;
 

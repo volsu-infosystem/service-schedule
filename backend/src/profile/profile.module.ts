@@ -6,10 +6,12 @@ import { ProfileStudentEntity } from './entities/profileStudent.entity';
 import { ProfileProfessorEntity } from './entities/profileProfessor.entity';
 import { AdmissionYearEntity } from './entities/admissionYear.entity';
 import { ProfileBaseEntity } from './entities/profileBase.entity';
+import { AdmissionYearController } from './admissionYear.controller';
+import { AdmissionYearService } from './admissionYear.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ProfileBaseEntity, ProfileStudentEntity, ProfileProfessorEntity, AdmissionYearEntity])],
-  controllers: [ProfileController],
-  providers: [ProfileService]
+  controllers: [ProfileController, AdmissionYearController],
+  providers: [ProfileService, AdmissionYearService]
 })
 export class ProfileModule {}
