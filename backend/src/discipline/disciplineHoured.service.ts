@@ -3,30 +3,30 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository, DeepPartial } from "typeorm";
 import { CreateDisciplineHouredDto } from "./dto/create-discipline-houred";
 import { UpdateDisciplineHouredDto } from "./dto/update-discipline-houred.dto";
-import { DisciplineHoured } from "./entities/disciplineHoured.entity";
+import { DisciplineHouredEntity } from "./entities/disciplineHoured.entity";
 import { DisciplineHouredNotFoundException } from "./exceptions/disciplineHoured.exceptions";
 
 @Injectable()
 export class DisciplineHouredService {
     constructor(
-        @InjectRepository(DisciplineHoured)
-        private readonly disciplinehouredRepository: Repository<DisciplineHoured>
+        @InjectRepository(DisciplineHouredEntity)
+        private readonly disciplinehouredRepository: Repository<DisciplineHouredEntity>
     ) {}
 
-    async create(disciplinehoured: CreateDisciplineHouredDto): Promise<DisciplineHoured> {
+    async create(disciplinehoured: CreateDisciplineHouredDto): Promise<DisciplineHouredEntity> {
         const newDisciplineHoured = this.disciplinehouredRepository.create(disciplinehoured)
         return await this.disciplinehouredRepository.save(newDisciplineHoured)
     }
 
-    async findAll(): Promise<DisciplineHoured[]> {
+    async findAll(): Promise<DisciplineHouredEntity[]> {
         return await this.disciplinehouredRepository.find();
     }
 
-    async findOneById(disciplinehouredId: number): Promise<DisciplineHoured> {
+    async findOneById(disciplinehouredId: number): Promise<DisciplineHouredEntity> {
         return await this.disciplinehouredRepository.findOne({id: disciplinehouredId})
     }
 
-    async updateOne(disciplinehouredId: number, updateDisciplineHoured: DeepPartial<UpdateDisciplineHouredDto>): Promise<DisciplineHoured> {
+    async updateOne(disciplinehouredId: number, updateDisciplineHoured: DeepPartial<UpdateDisciplineHouredDto>): Promise<DisciplineHouredEntity> {
         await this.disciplinehouredRepository.update({id: disciplinehouredId}, updateDisciplineHoured);
         const updatedDisciplineHoured = await this.disciplinehouredRepository.findOne(disciplinehouredId);
         if (updatedDisciplineHoured) {
@@ -35,7 +35,7 @@ export class DisciplineHouredService {
         throw new DisciplineHouredNotFoundException(disciplinehouredId);
     }
 
-    async deleteOne(disciplinehouredId: number): Promise<DisciplineHoured[]> {
+    async deleteOne(disciplinehouredId: number): Promise<DisciplineHouredEntity[]> {
         const disciplinehouredToRemove = await this.disciplinehouredRepository.find({id: disciplinehouredId});
         return await this.disciplinehouredRepository.remove(disciplinehouredToRemove);
     }

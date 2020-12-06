@@ -3,30 +3,30 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
-import { Group } from './entities/group.entity';
+import { GroupEntity } from './entities/group.entity';
 import { GroupNotFoundException } from './exceptions/group.exceptions';
 
 @Injectable()
 export class GroupService {
     constructor(
-        @InjectRepository(Group)
-        private readonly groupRepository: Repository<Group>
+        @InjectRepository(GroupEntity)
+        private readonly groupRepository: Repository<GroupEntity>
     ) {}
 
-    async create(group: CreateGroupDto): Promise<Group> {
+    async create(group: CreateGroupDto): Promise<GroupEntity> {
         const newGroup = this.groupRepository.create(group)
         return await this.groupRepository.save(newGroup)
     }
 
-    async findAll(): Promise<Group[]> {
+    async findAll(): Promise<GroupEntity[]> {
         return await this.groupRepository.find();
     }
 
-    async findOneById(groupId: number): Promise<Group> {
+    async findOneById(groupId: number): Promise<GroupEntity> {
         return await this.groupRepository.findOne({id: groupId})
     }
 
-    async updateOne(groupId: number, updateGroup: DeepPartial<UpdateGroupDto>): Promise<Group> {
+    async updateOne(groupId: number, updateGroup: DeepPartial<UpdateGroupDto>): Promise<GroupEntity> {
         await this.groupRepository.update({id: groupId}, updateGroup);
         const updatedGroup = await this.groupRepository.findOne(groupId);
         if (updatedGroup) {
@@ -35,7 +35,7 @@ export class GroupService {
         throw new GroupNotFoundException(groupId);
     }
 
-    async deleteOne(groupId: number): Promise<Group[]> {
+    async deleteOne(groupId: number): Promise<GroupEntity[]> {
         const groupToRemove = await this.groupRepository.find({id: groupId});
         return await this.groupRepository.remove(groupToRemove);
     }

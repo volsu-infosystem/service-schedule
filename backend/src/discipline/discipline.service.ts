@@ -3,30 +3,30 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository, DeepPartial } from "typeorm";
 import { CreateDisciplineDto } from "./dto/create-discipline.dto";
 import { UpdateDisciplineDto } from "./dto/update-discipline.dto";
-import { Discipline } from "./entities/discipline.entity";
+import { DisciplineEntity } from "./entities/discipline.entity";
 import { DisciplineNotFoundException } from "./exceptions/discipline.exceptions";
 
 @Injectable()
 export class DisciplineService {
     constructor(
-        @InjectRepository(Discipline)
-        private readonly disciplineRepository: Repository<Discipline>
+        @InjectRepository(DisciplineEntity)
+        private readonly disciplineRepository: Repository<DisciplineEntity>
     ) {}
 
-    async create(discipline: CreateDisciplineDto): Promise<Discipline> {
+    async create(discipline: CreateDisciplineDto): Promise<DisciplineEntity> {
         const newDiscipline = this.disciplineRepository.create(discipline)
         return await this.disciplineRepository.save(newDiscipline)
     }
 
-    async findAll(): Promise<Discipline[]> {
+    async findAll(): Promise<DisciplineEntity[]> {
         return await this.disciplineRepository.find();
     }
 
-    async findOneById(disciplineId: number): Promise<Discipline> {
+    async findOneById(disciplineId: number): Promise<DisciplineEntity> {
         return await this.disciplineRepository.findOne({id: disciplineId})
     }
 
-    async updateOne(disciplineId: number, updateDiscipline: DeepPartial<UpdateDisciplineDto>): Promise<Discipline> {
+    async updateOne(disciplineId: number, updateDiscipline: DeepPartial<UpdateDisciplineDto>): Promise<DisciplineEntity> {
         await this.disciplineRepository.update({id: disciplineId}, updateDiscipline);
         const updatedDiscipline = await this.disciplineRepository.findOne(disciplineId);
         if (updatedDiscipline) {
@@ -35,7 +35,7 @@ export class DisciplineService {
         throw new DisciplineNotFoundException(disciplineId);
     }
 
-    async deleteOne(disciplineId: number): Promise<Discipline[]> {
+    async deleteOne(disciplineId: number): Promise<DisciplineEntity[]> {
         const disciplineToRemove = await this.disciplineRepository.find({id: disciplineId});
         return await this.disciplineRepository.remove(disciplineToRemove);
     }

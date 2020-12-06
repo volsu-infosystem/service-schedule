@@ -1,22 +1,22 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
-import { ProfileProfessor } from '../../profile/entities/profileProfessor.entity';
-import { Group } from '../../group/entities/group.entity'
-import { Institute } from '../../institute/entities/institute.entity';
+import { ProfileProfessorEntity } from '../../profile/entities/profileProfessor.entity';
+import { GroupEntity } from '../../group/entities/group.entity'
+import { InstituteEntity } from '../../institute/entities/institute.entity';
 
 @Entity('cathedra')
-export class Cathedra {
+export class CathedraEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column('varchar', { length: 256 })
     name: string;
 
-    @ManyToOne(() => Institute, institute => institute.cathedras)
-    institute: Institute
+    @ManyToOne(() => GroupEntity, group => group.cathedraOwn)
+    groups: GroupEntity[];
 
-    @OneToMany(() => Group, group => group.cathedra)
-    groups: Group[];
+    @ManyToOne(() => InstituteEntity, institute => institute.cathedras)
+    institute: InstituteEntity
 
-    @OneToMany(() => ProfileProfessor, profileProfessor => profileProfessor.cathedra)
-    professors: ProfileProfessor
+    @OneToMany(() => ProfileProfessorEntity, profileProfessor => profileProfessor.cathedra)
+    professors: ProfileProfessorEntity
 }

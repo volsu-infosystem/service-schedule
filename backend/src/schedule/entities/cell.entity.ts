@@ -1,11 +1,11 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Max, Min } from 'class-validator';
-import { Schedule } from './schedule.entity'
-import { SubCell } from './subCell.entity';
+import { ScheduleEntity } from './schedule.entity'
+import { SubCellEntity } from './subCell.entity';
 import { weekDaysEnum } from '../enums/weekDays.enum'
 
 @Entity('cell')
-export class Cell {
+export class CellEntity {
     @PrimaryGeneratedColumn()
     id: number;
     
@@ -17,9 +17,9 @@ export class Cell {
     @Max(7)
     time: number;
 
-    @ManyToOne(() => Schedule, schedule => schedule.cells)
-    schedule: Schedule;
+    @ManyToOne(() => ScheduleEntity, schedule => schedule.cells)
+    schedule: ScheduleEntity;
 
-    @OneToMany(() => SubCell, subCell => subCell.cell, {nullable: true})
-    subCells: SubCell[];
+    @OneToMany(() => SubCellEntity, subCell => subCell.cell, {nullable: true})
+    subCells: SubCellEntity[];
 }

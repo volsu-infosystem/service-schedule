@@ -1,3 +1,4 @@
+import { IsEmail } from 'class-validator';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,29 +6,28 @@ import {
   OneToOne,
   ManyToOne,
 } from 'typeorm';
-import { ProfileBase } from '../../profile/entities/profileBase.entity';
-import { Role } from './role.entity';
+import { ProfileBaseEntity } from '../../profile/entities/profileBase.entity';
+import { RoleEntity } from './role.entity';
 
 @Entity('user')
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { length: 16 })
-  login: string;
-
-  @Column('varchar', { length: 300 })
-  password: string;
-
+  @Column('varchar', { length: 256, unique: true })
+  @IsEmail()
+  email: string; 
+  
   @OneToOne(
-    () => ProfileBase,
+    () => ProfileBaseEntity,
     profileBase => profileBase.user,
   )
-  profile: ProfileBase;
+  profile: ProfileBaseEntity;
 
   @ManyToOne(
-    () => Role,
+    () => RoleEntity,
     role => role.users,
+    { nullable: true }
   )
-  role: Role;
+  role: RoleEntity;
 }

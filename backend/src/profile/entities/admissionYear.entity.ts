@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
-import { Institute } from '../../institute/entities/institute.entity';
-import { Group } from '../../group/entities/group.entity';
+import { InstituteEntity } from '../../institute/entities/institute.entity';
+import { GroupEntity } from '../../group/entities/group.entity';
 import { studyLevelEnum } from '../enums/studyLevel.enum';
 
 @Entity('admission_year')
-export class AdmissionYear {
+export class AdmissionYearEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -14,9 +14,9 @@ export class AdmissionYear {
     @Column('enum', { enum: studyLevelEnum })
     studyLevel: studyLevelEnum;
 
-    @ManyToOne(() => Institute, institute => institute.admissionYears)
-    institute: Institute;
+    @ManyToOne(() => InstituteEntity, institute => institute.admissionYears)
+    institute: InstituteEntity;
 
-    @OneToMany(() => Group, group => group.cathedra)
-    groups: Group[];
+    @OneToMany(() => GroupEntity, group => group.admissionYear)
+    groups: GroupEntity[];
 }

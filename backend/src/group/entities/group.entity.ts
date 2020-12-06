@@ -1,39 +1,39 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn, OneToOne } from 'typeorm';
-import { ProfileStudent } from '../../profile/entities/profileStudent.entity';
-import { AdmissionYear } from '../../profile/entities/admissionYear.entity';
-import { StudyDirection } from '../../discipline/entities/studyDirection.entity';
-import { Cathedra } from '../../cathedra/entities/cathedra.entity'
-import { Schedule } from 'src/schedule/entities/schedule.entity';
-import { SubGroup } from './subGroup.entity';
+import { ProfileStudentEntity } from '../../profile/entities/profileStudent.entity';
+import { AdmissionYearEntity } from '../../profile/entities/admissionYear.entity';
+import { StudyDirectionEntity } from '../../discipline/entities/studyDirection.entity';
+import { CathedraEntity } from '../../cathedra/entities/cathedra.entity'
+import { ScheduleEntity } from 'src/schedule/entities/schedule.entity';
+import { SubGroupEntity } from './subGroup.entity';
 
 @Entity('group')
-export class Group {
+export class GroupEntity {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column('varchar', { length: 64 })
     name: string;
 
-    @ManyToOne(() => Cathedra, cathedra => cathedra.groups)
-    cathedra: Cathedra;
+    @ManyToOne(() => StudyDirectionEntity, studyDirection => studyDirection.group)
+    studyDirection: StudyDirectionEntity;
 
-    @ManyToOne(() => StudyDirection, studyDirection => studyDirection.group)
-    studyDirection: StudyDirection;
+    @ManyToOne(() => CathedraEntity, cathedra => cathedra.groups)
+    cathedraOwn: CathedraEntity;
 
-    @ManyToOne(() => AdmissionYear, admissionYear => admissionYear.groups)
-    admissionYear: AdmissionYear;   
+    @ManyToOne(() => AdmissionYearEntity, admissionYear => admissionYear.groups)
+    admissionYear: AdmissionYearEntity;
 
-    @OneToMany(() => ProfileStudent, profileStudent => profileStudent.group)
-    students: ProfileStudent[]
+    @OneToMany(() => ProfileStudentEntity, profileStudent => profileStudent.group)
+    students: ProfileStudentEntity[]
 
-    @OneToMany(() => SubGroup, subGroup => subGroup.group)
-    subGroups: SubGroup[]
+    @OneToMany(() => SubGroupEntity, subGroup => subGroup.group)
+    subGroups: SubGroupEntity[]
 
-    @OneToOne(() => ProfileStudent)
+    @OneToOne(() => ProfileStudentEntity)
     @JoinColumn()
-    groupLeader: ProfileStudent
+    groupLeader: ProfileStudentEntity
 
-    @OneToOne(() => Schedule)
+    @OneToOne(() => ScheduleEntity)
     @JoinColumn()
-    schedule: Schedule;
+    schedule: ScheduleEntity;
 }

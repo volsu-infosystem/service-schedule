@@ -2,7 +2,7 @@ import { Controller, Post, Body, Get, Param, Put, Delete } from "@nestjs/common"
 import { DisciplineService } from "./discipline.service";
 import { CreateDisciplineDto } from "./dto/create-discipline.dto";
 import { UpdateDisciplineDto } from "./dto/update-discipline.dto";
-import { Discipline } from "./entities/discipline.entity";
+import { DisciplineEntity } from "./entities/discipline.entity";
 
 @Controller('discipline')
 export class DisciplineController {
@@ -11,28 +11,28 @@ export class DisciplineController {
     ) {}
 
     @Post()
-    async create(@Body() createDisciplineDto: CreateDisciplineDto): Promise<Discipline> {
+    async create(@Body() createDisciplineDto: CreateDisciplineDto): Promise<DisciplineEntity> {
         console.log(createDisciplineDto)
         return await this.disciplineService.create(createDisciplineDto)
     }
 
     @Get()
-    async findAll(): Promise<Discipline[]> {
+    async findAll(): Promise<DisciplineEntity[]> {
         return await this.disciplineService.findAll()
     }
 
     @Get(':id')
-    async findOneById(@Param('id') disciplineId: number): Promise<Discipline> {
+    async findOneById(@Param('id') disciplineId: number): Promise<DisciplineEntity> {
         return await this.disciplineService.findOneById(disciplineId)
     }
 
     @Put(':id')
-    async update(@Param('id') disciplineId: number, @Body() updateDisciplineDto: UpdateDisciplineDto): Promise<Discipline> {
+    async update(@Param('id') disciplineId: number, @Body() updateDisciplineDto: UpdateDisciplineDto): Promise<DisciplineEntity> {
         return await this.disciplineService.updateOne(disciplineId, updateDisciplineDto);
     }
 
     @Delete(':id')
-    async remove(@Param('id') disciplineId: number): Promise<Discipline[]> {
+    async remove(@Param('id') disciplineId: number): Promise<DisciplineEntity[]> {
         return await this.disciplineService.deleteOne(disciplineId);
     }
 }

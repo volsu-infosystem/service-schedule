@@ -1,26 +1,26 @@
 import { Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ProfileProfessor } from 'src/profile/entities/profileProfessor.entity';
-import { Discipline } from 'src/discipline/entities/discipline.entity';
-import { Room } from '../../campus/entities/room.entity';
+import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
+import { DisciplineEntity } from 'src/discipline/entities/discipline.entity';
+import { RoomEntity } from '../../campus/entities/room.entity';
 
 @Entity('lesson')
-export class Lesson {
+export class LessonEntity {
   @PrimaryGeneratedColumn()
     id: number;
     
   @ManyToOne(
-    () => Discipline,
+    () => DisciplineEntity,
     discipline => discipline.lessons,
   )
-  discipline: Discipline;
+  discipline: DisciplineEntity;
 
-  @ManyToMany(() => ProfileProfessor)
+  @ManyToMany(() => ProfileProfessorEntity)
   @JoinTable()
-  professors: ProfileProfessor[];
+  professors: ProfileProfessorEntity[];
 
   @ManyToOne(
-    () => Room,
+    () => RoomEntity,
     room => room.lessons,
   )
-  room: Room;
+  room: RoomEntity;
 }

@@ -1,8 +1,8 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Room } from './room.entity'
+import { RoomEntity } from './room.entity'
 
 @Entity({name: 'equipment'})
-export class Equipment {
+export class EquipmentEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -12,6 +12,6 @@ export class Equipment {
     @Column({type: 'varchar', length: 2048})
     desc: string;
 
-    @ManyToOne(() => Room, room => room.equipments)
-    room: Room;
+    @ManyToOne(() => RoomEntity, room => room.equipments)
+    room: RoomEntity;
 }
