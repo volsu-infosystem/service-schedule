@@ -1,12 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeepPartial, Repository } from "typeorm";
-import { CreateProfileProfessorDto } from "./dto/create-profile-professor.dto";
-import { CreateProfileStudentDto } from "./dto/create-profile-student.dto";
 import { ProfileProfessorEntity } from "./entities/profileProfessor.entity";
 import { ProfileStudentEntity } from "./entities/profileStudent.entity";
 import { profileTypeEnum } from "./enums/profileType.enum";
-import { ProfileInvalidDtoException, ProfileNotFoundException } from "./exceptions/profile.exceptions";
+import { ProfileInvalidDtoException, ProfileInvalidTypeException, ProfileNotFoundException } from "./exceptions/profile.exceptions";
 import { CreateProfileDto, ProfileEntity, UpdateProfileDto } from "./interfaces/profile.interface";
 
 
@@ -20,13 +18,13 @@ export class ProfileService {
         private readonly professorRepository: Repository<ProfileProfessorEntity>
     ) {}
     
-    async create(profile: CreateProfileDto): Promise<ProfileEntity> {
+    async create(profile: CreateProfileDto, type: profileTypeEnum): Promise<ProfileEntity> {
 
         let profileRepository;
 
-        if (profile instanceof CreateProfileStudentDto) {
+        if (type === profileTypeEnum.Student) {
             profileRepository = this.studentRepository;
-        } else if (profile instanceof CreateProfileProfessorDto) {
+        } else if (type === profileTypeEnum.Professor) {
             profileRepository = this.professorRepository;
         } else throw new ProfileInvalidDtoException()
 
@@ -35,7 +33,26 @@ export class ProfileService {
         return await profileRepository.save(newProfile)
     }
 
-    async findOneById(profileId: number, type: profileTypeEnum ): Promise<ProfileEntity> {
+    async findAll(type: profileTypeEnum | undefined): Promise<ProfileEntity[]> {
+        
+        let res = [];
+
+        if (type === profileTypeEnum.Student) {
+            const students = await this.studentRepository.find();
+            res = res.concat(students);
+        } else if (type === profileTypeEnum.Professor) {
+            const professors = await this.professorRepository.find();
+            res = res.concat(professors)
+        } else {
+            const students = await this.studentRepository.find();
+            const professors = await this.professorRepository.find();
+            res = res.concat(students, professors)
+        }
+        
+        return res;
+    }
+
+    async findOneById(profileId: number, type: profileTypeEnum | undefined): Promise<ProfileEntity> {
         
         let profileRepository;
 
@@ -48,7 +65,7 @@ export class ProfileService {
         return await profileRepository.findOne({id: profileId})
     }
 
-    async updateOne(profileId: number, updateProfile: DeepPartial<UpdateProfileDto>, type: profileTypeEnum): Promise<ProfileEntity> {
+    async updateOne(profileId: number, updateProfile: DeepPartial<UpdateProfileDto>, type: profileTypeEnum | undefined): Promise<ProfileEntity> {
         
         let profileRepository;
 
@@ -61,7 +78,7 @@ export class ProfileService {
             profileRepository = this.studentRepository;
         } else if (type === profileTypeEnum.Professor) {
             profileRepository = this.professorRepository;
-        } else throw new ProfileInvalidDtoException()
+        } else throw new ProfileInvalidTypeException()
 
 
         await profileRepository.update({id: profileId}, updateProfile);
@@ -81,7 +98,7 @@ export class ProfileService {
             profileRepository = this.studentRepository;
         } else if (type === profileTypeEnum.Professor) {
             profileRepository = this.professorRepository;
-        } else throw new ProfileInvalidDtoException()
+        } else throw new ProfileInvalidTypeException()
 
         const profileToRemove = await profileRepository.find({id: profileId});
         return await profileRepository.remove(profileToRemove);

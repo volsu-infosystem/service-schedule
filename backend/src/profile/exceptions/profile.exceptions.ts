@@ -13,3 +13,11 @@ export class ProfileInvalidDtoException extends Error {
         this.name = 'ProfileInvalidDtoException' 
     }
 }
+
+export class ProfileInvalidTypeException extends Error {
+    constructor() {
+        const message = `Profile Type is invalid`;
+        super(message);
+        this.name = 'ProfileInvalidTypeException' 
+    }
+}
