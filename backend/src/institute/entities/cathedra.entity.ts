@@ -11,7 +11,7 @@ export class CathedraEntity {
     @Column('varchar', { length: 256 })
     name: string;
 
-    @ManyToOne(() => GroupEntity, group => group.cathedraOwn)
+    @ManyToOne(() => GroupEntity, group => group.cathedra)
     groups: GroupEntity[];
 
     @ManyToOne(() => InstituteEntity, institute => institute.cathedras)

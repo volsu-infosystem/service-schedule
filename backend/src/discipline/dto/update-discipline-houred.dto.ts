@@ -2,14 +2,14 @@ import { IsNumber } from "class-validator";
 
 export class UpdateDisciplineHouredDto {
     @IsNumber()
-    readonly semester: number
+    readonly semester?: number
 
     @IsNumber()
-    readonly hours: number
+    readonly hours?: number
 
     @IsNumber()
-    readonly disciplineId: number
+    readonly disciplineId?: number
 
     @IsNumber()
-    readonly studyDirectionId: number
+    readonly studyDirectionId?: number
 }

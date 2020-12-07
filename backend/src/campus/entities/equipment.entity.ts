@@ -9,9 +9,9 @@ export class EquipmentEntity {
     @Column({type: 'varchar', length: 256})
     name: string;
 
-    @Column({type: 'varchar', length: 2048})
+    @Column({type: 'varchar', length: 2048, nullable: true})
     desc: string;
 
-    @ManyToOne(() => RoomEntity, room => room.equipments)
+    @ManyToOne(() => RoomEntity, room => room.equipments, { nullable: true })
     room: RoomEntity;
 }

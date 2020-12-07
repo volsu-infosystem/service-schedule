@@ -21,6 +21,9 @@ export class ProfileBaseEntity {
   @Column('varchar', { length: 64, nullable: true })
   middleName: string;
 
+  @Column('varchar', { length: 256, unique: true })
+  email: string; 
+
   @OneToOne(() => UserEntity, { nullable: true })
   @JoinColumn()
   user: UserEntity;

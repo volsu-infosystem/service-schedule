@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { ProfileBaseEntity } from '../../profile/entities/profileBase.entity';
 import { RoleEntity } from './role.entity';
+import { ProfileEntity } from 'src/profile/interfaces/profile.interface'
 
 @Entity('user')
 export class UserEntity {
@@ -20,7 +21,7 @@ export class UserEntity {
     () => ProfileBaseEntity,
     profileBase => profileBase.user,
   )
-  profile: ProfileBaseEntity;
+  profile: ProfileEntity;
 
   @ManyToOne(
     () => RoleEntity,

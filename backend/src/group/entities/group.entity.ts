@@ -18,7 +18,7 @@ export class GroupEntity {
     studyDirection: StudyDirectionEntity;
 
     @ManyToOne(() => CathedraEntity, cathedra => cathedra.groups)
-    cathedraOwn: CathedraEntity;
+    cathedra: CathedraEntity;
 
     @ManyToOne(() => AdmissionYearEntity, admissionYear => admissionYear.groups)
     admissionYear: AdmissionYearEntity;

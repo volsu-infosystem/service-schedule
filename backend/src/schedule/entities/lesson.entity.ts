@@ -14,8 +14,12 @@ export class LessonEntity {
   )
   discipline: DisciplineEntity;
 
-  @ManyToMany(() => ProfileProfessorEntity)
-  @JoinTable()
+  @ManyToMany(() => ProfileProfessorEntity, professor => professor.lessons, { cascade: true })
+  @JoinTable({
+    name: 'lessons_professors',
+    joinColumn: {name: 'lesson_id', referencedColumnName: 'id'},
+    inverseJoinColumn: {name: 'professor_id', referencedColumnName: 'id'}
+})
   professors: ProfileProfessorEntity[];
 
   @ManyToOne(

@@ -10,6 +10,7 @@ export class DisciplineHouredEntity {
   @ManyToOne(
     () => DisciplineEntity,
     discipline => discipline.houred,
+    { nullable: true }
   )
   discipline: DisciplineEntity;
 
@@ -22,6 +23,7 @@ export class DisciplineHouredEntity {
   @ManyToOne(
     () => StudyDirectionEntity,
     studyDirection => studyDirection.houredDisciplines,
+    { nullable: true }
   )
   studyDirection: StudyDirectionEntity;
 }

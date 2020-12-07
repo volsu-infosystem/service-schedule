@@ -7,8 +7,8 @@ export class CreateEquipmentDto {
 
     @IsString()
     @Length(0, 2048)
-    readonly desc: string;
+    readonly desc?: string;
 
     @IsNumber()
-    readonly roomId: number;
+    readonly roomId?: number;
 }

@@ -15,6 +15,7 @@ export class ProfileProfessorEntity extends ProfileBaseEntity {
   @ManyToMany(
     () => DisciplineEntity,
     discipline => discipline.professors,
+    { nullable: true }
   )
   teachedDisciplines: DisciplineEntity[];
 

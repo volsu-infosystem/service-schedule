@@ -11,13 +11,17 @@ export class SubGroupEntity {
     @Column('varchar', { length: 64 })
     name: string;
 
-    @ManyToMany(() => ProfileStudentEntity)
-    @JoinTable()
+    @ManyToMany(() => ProfileStudentEntity, student => student.subGroups, { cascade: true })
+    @JoinTable({
+        name: 'sub_groups_students',
+        joinColumn: {name: 'sub_group_id', referencedColumnName: 'id'},
+        inverseJoinColumn: {name: 'student_id', referencedColumnName: 'id'}
+    })
     students: ProfileStudentEntity[]
 
     @ManyToOne(() => GroupEntity, group => group.subGroups)
     group: GroupEntity;
 
-    @OneToMany(() => SubCellEntity, subCell => subCell.subGroup, {nullable: true})
+    @OneToMany(() => SubCellEntity, subCell => subCell.subGroup, { nullable: true })
     subCells: SubCellEntity[];
 }

@@ -8,7 +8,7 @@ export class RoomEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => CampusEntity, campus => campus.rooms)
+    @ManyToOne(() => CampusEntity, campus => campus.rooms, { nullable: true })
     campus: CampusEntity;
 
     @Column('varchar', { length: 64 })

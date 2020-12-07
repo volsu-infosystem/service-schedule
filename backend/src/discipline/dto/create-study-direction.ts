@@ -7,5 +7,5 @@ export class CreateStudyDirectionDto {
 
     @IsString()
     @Length(0, 2048)
-    desc?: string;
+    readonly desc?: string;
 }

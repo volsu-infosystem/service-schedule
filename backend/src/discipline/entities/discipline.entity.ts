@@ -17,8 +17,12 @@ export class DisciplineEntity {
     @OneToMany(() => DisciplineHouredEntity, disciplineHoured => disciplineHoured.discipline)
     houred: DisciplineHouredEntity[]
 
-    @ManyToMany(() => ProfileProfessorEntity, profileProfessor => profileProfessor.teachedDisciplines)
-    @JoinTable()
+    @ManyToMany(() => ProfileProfessorEntity, profileProfessor => profileProfessor.teachedDisciplines, { cascade: true })
+    @JoinTable({
+        name: 'professors_disciplines',
+        joinColumn: {name: 'professor_id', referencedColumnName: 'id'},
+        inverseJoinColumn: {name: 'discipline_id', referencedColumnName: 'id'}
+    })
     professors: ProfileProfessorEntity[]
 
     @OneToMany(() => LessonEntity, lesson => lesson.discipline)
