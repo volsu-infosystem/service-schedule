@@ -1,12 +1,6 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsEmail } from "class-validator";
 
 export class CreateUserDto {
-    @IsString()
-    readonly login;
-
-    @IsString()
-    readonly password;
-
-    @IsNumber()
-    readonly roleId: number;
+    @IsEmail()
+    readonly email;
 };
