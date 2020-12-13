@@ -4,7 +4,7 @@ import { DeepPartial, Repository } from "typeorm";
 import { ProfileProfessorEntity } from "./entities/profileProfessor.entity";
 import { ProfileStudentEntity } from "./entities/profileStudent.entity";
 import { profileTypeEnum } from "./enums/profileType.enum";
-import { ProfileInvalidDtoException, ProfileInvalidTypeException, ProfileNotFoundException } from "./exceptions/profile.exceptions";
+import { ProfileByEmailNotFoundException, ProfileInvalidDtoException, ProfileInvalidTypeException, ProfileNotFoundException } from "./exceptions/profile.exceptions";
 import { CreateProfileDto, ProfileEntity, UpdateProfileDto } from "./interfaces/profile.interface";
 
 
@@ -63,6 +63,23 @@ export class ProfileService {
         } else throw new ProfileInvalidDtoException()
         
         return await profileRepository.findOne({id: profileId})
+    }
+
+    async findOneByEmail(userEmail: string): Promise<ProfileEntity> {
+        let result;
+        
+        const findByStudents = await this.studentRepository.findOne({ where: { email: userEmail}})
+        
+        if (findByStudents) {  
+            result = findByStudents
+        } else {
+            const findByProfessors = await this.professorRepository.findOne({ where: { email: userEmail}}) 
+            result = findByProfessors
+        }
+
+        if (result) {
+            return result
+        } else throw new ProfileByEmailNotFoundException(userEmail);
     }
 
     async updateOne(profileId: number, updateProfile: DeepPartial<UpdateProfileDto>, type: profileTypeEnum | undefined): Promise<ProfileEntity> {

@@ -10,12 +10,6 @@ export class UserController {
         private readonly userService: UserService,
     ) {}
 
-    @Post()
-    async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
-        console.log(createUserDto)
-        return await this.userService.create(createUserDto)
-    }
-
     @Get()
     async findAll(): Promise<UserEntity[]> {
         return await this.userService.findAll()

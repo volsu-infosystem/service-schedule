@@ -6,6 +6,15 @@ export class ProfileNotFoundException extends Error {
     }
 }
 
+export class ProfileByEmailNotFoundException extends Error {
+    constructor(email: string) {
+        const message = `Profile where email = ${email} is not exist`;
+        super(message);
+        this.name = 'ProfileByEmailNotFoundException' 
+    }
+}
+
+
 export class ProfileInvalidDtoException extends Error {
     constructor() {
         const message = `CreateProfileDto is invalid`;

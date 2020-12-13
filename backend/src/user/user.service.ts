@@ -1,16 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository, DeepPartial } from "typeorm";
+import { DeepPartial } from "typeorm";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserEntity } from "./entities/user.entity";
 import { UserNotFoundException } from "./exceptions/user.exceptions";
+import { UserRepository } from "./user.repository";
 
 @Injectable()
 export class UserService {
     constructor(
-        @InjectRepository(UserEntity)
-        private readonly userRepository: Repository<UserEntity>
+        private readonly userRepository: UserRepository
     ) {}
 
     async create(user: CreateUserDto): Promise<UserEntity> {
@@ -19,11 +18,24 @@ export class UserService {
     }
 
     async findAll(): Promise<UserEntity[]> {
-        return await this.userRepository.find();
+        return await this.userRepository.findAll();
     }
 
     async findOneById(userId: number): Promise<UserEntity> {
         return await this.userRepository.findOne({id: userId})
+    }
+
+    async findOneByEmail(email: string): Promise<UserEntity> {
+        return await this.userRepository.findOneByEmail(email)
+    }
+
+    async changeSecret(userId: number, newSecret: number): Promise<UserEntity> {
+        await this.userRepository.update({id: userId}, {secretCode: newSecret})
+        const updatedUser = await this.userRepository.findOne(userId)
+        if (updatedUser) {
+            return updatedUser
+        }
+        throw new UserNotFoundException(userId)
     }
 
     async updateOne(userId: number, updateUser: DeepPartial<UpdateUserDto>): Promise<UserEntity> {

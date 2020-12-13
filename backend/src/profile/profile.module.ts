@@ -11,6 +11,7 @@ import { AdmissionYearService } from './admissionYear.service';
 @Module({
   imports: [TypeOrmModule.forFeature([ProfileStudentEntity, ProfileProfessorEntity, AdmissionYearEntity])],
   controllers: [ProfileController, AdmissionYearController],
-  providers: [ProfileService, AdmissionYearService]
+  providers: [ProfileService, AdmissionYearService],
+  exports: [ProfileService]
 })
 export class ProfileModule {}
