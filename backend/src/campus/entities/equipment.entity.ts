@@ -1,17 +1,17 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Room } from './room.entity'
+import { RoomEntity } from './room.entity'
 
 @Entity({name: 'equipment'})
-export class Equipment {
+export class EquipmentEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column({type: 'varchar', length: 256})
     name: string;
 
-    @Column({type: 'varchar', length: 2048})
+    @Column({type: 'varchar', length: 2048, nullable: true})
     desc: string;
 
-    @ManyToOne(() => Room, room => room.equipments)
-    room: Room;
+    @ManyToOne(() => RoomEntity, room => room.equipments, { nullable: true })
+    room: RoomEntity;
 }

@@ -5,29 +5,33 @@ import {
   OneToOne,
   ManyToOne,
 } from 'typeorm';
-import { ProfileBase } from '../../profile/entities/profileBase.entity';
-import { Role } from './role.entity';
+import { ProfileBaseEntity } from '../../profile/entities/profileBase.entity';
+import { RoleEntity } from './role.entity';
+import { ProfileEntity } from 'src/profile/interfaces/profile.interface'
+import { Exclude } from 'class-transformer'
 
 @Entity('user')
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { length: 16 })
-  login: string;
+  @Column('varchar', { length: 256, unique: true })
+  email: string; 
 
-  @Column('varchar', { length: 300 })
-  password: string;
-
+  @Exclude()
+  @Column('smallint')
+  secretCode: number;
+  
   @OneToOne(
-    () => ProfileBase,
+    () => ProfileBaseEntity,
     profileBase => profileBase.user,
   )
-  profile: ProfileBase;
+  profile: ProfileEntity;
 
   @ManyToOne(
-    () => Role,
+    () => RoleEntity,
     role => role.users,
+    { nullable: true }
   )
-  role: Role;
+  role: RoleEntity;
 }

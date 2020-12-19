@@ -1,15 +1,19 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
-import { MaxLength, MinLength } from 'class-validator';
-import { Group } from '../../group/entities/group.entity';
-import { ProfileBase } from './profileBase.entity';
+import { Entity, Column, ManyToOne, ManyToMany } from 'typeorm';
+import { Length } from 'class-validator';
+import { GroupEntity } from '../../group/entities/group.entity';
+import { ProfileBaseEntity } from './profileBase.entity';
+import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
+import { SubGroupController } from 'src/group/subGroup.controller';
 
 @Entity('profile_student')
-export class ProfileStudent extends ProfileBase {
+export class ProfileStudentEntity extends ProfileBaseEntity {
     @Column('numeric')
-    @MinLength(6)
-    @MaxLength(8)
+    @Length(6, 8)
     studentTicketNumber: number;
     
-    @ManyToOne(() => Group, group => group.students)
-    group: Group;
+    @ManyToOne(() => GroupEntity, group => group.students)
+    group: GroupEntity;
+
+    @ManyToMany(() => SubGroupEntity, subGroup => subGroup.students)
+    subGroups: SubGroupController;
 }
