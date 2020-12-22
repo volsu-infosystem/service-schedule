@@ -1,10 +1,12 @@
-import { Controller, Post, Body, Get, Param, Put, Delete } from "@nestjs/common";
+import { Controller, Post, Body, Get, Param, Put, Delete, UseGuards } from "@nestjs/common";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { CreateStudyDirectionDto } from "./dto/create-study-direction";
 import { UpdateStudyDirectionDto } from "./dto/update-study-direction.dto";
 import { StudyDirectionEntity } from "./entities/studyDirection.entity";
 import { StudyDirectionService } from "./studyDirection.service";
 
 @Controller('studydirection')
+@UseGuards(JwtAuthGuard)
 export class StudyDirectionController {
     constructor(
         private readonly studydirectionService: StudyDirectionService,
@@ -12,7 +14,6 @@ export class StudyDirectionController {
 
     @Post()
     async create(@Body() createStudyDirectionDto: CreateStudyDirectionDto): Promise<StudyDirectionEntity> {
-        console.log(createStudyDirectionDto)
         return await this.studydirectionService.create(createStudyDirectionDto)
     }
 

@@ -11,9 +11,12 @@ export class MailService {
 
         this.mailerService.sendMail({
             to: email,
-            from: 'auth@ratingvolsu.ru',
+            from: 'volsu-application@yandex.ru',
             subject: 'ВолГу Рейтинг: Авторизация нового устройства',
-            text: String(secretCode)
+            template: 'secretCodeMail',
+            context: {
+                secretCode: secretCode
+            },
         })
     }
 }

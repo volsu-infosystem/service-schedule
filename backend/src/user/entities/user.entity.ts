@@ -19,7 +19,7 @@ export class UserEntity {
   email: string; 
 
   @Exclude()
-  @Column('smallint')
+  @Column('integer')
   secretCode: number;
   
   @OneToOne(

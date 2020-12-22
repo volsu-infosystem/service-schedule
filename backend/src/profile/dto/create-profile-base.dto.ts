@@ -1,4 +1,5 @@
-import { IsEmail, IsNumber, IsString, Length } from "class-validator";
+import { IsEmail, IsEnum, IsNumber, IsString, Length } from "class-validator";
+import { profileTypeEnum } from "../enums/profileType.enum";
 
 export class CreateProfileBaseDto {
     @IsString()
@@ -20,4 +21,7 @@ export class CreateProfileBaseDto {
     @IsNumber()
     @Length(6, 8)
     readonly userId?: string;
+
+    @IsEnum(profileTypeEnum)
+    readonly profileType: profileTypeEnum;
 }

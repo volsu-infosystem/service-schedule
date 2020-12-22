@@ -12,7 +12,6 @@ export class SubGroupController {
 
     @Post()
     async create(@Body() createSubGroupDto: CreateSubGroupDto): Promise<SubGroupEntity> {
-        console.log(createSubGroupDto)
         return await this.subgroupService.create(createSubGroupDto)
     }
 

@@ -6,6 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { UserEntity } from 'src/user/entities/user.entity';
+import { profileTypeEnum } from '../enums/profileType.enum';
 
 @Entity('profile_base')
 export class ProfileBaseEntity {
@@ -27,4 +28,7 @@ export class ProfileBaseEntity {
   @OneToOne(() => UserEntity, { nullable: true })
   @JoinColumn()
   user: UserEntity;
+
+  @Column('enum', { enum: profileTypeEnum })
+  profileType: profileTypeEnum;
 }

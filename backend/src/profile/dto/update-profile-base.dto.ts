@@ -1,4 +1,6 @@
-import { IsEmail, IsNumber, IsString, Length } from "class-validator";
+import { IsEmail, IsEnum, IsNumber, IsString, Length } from "class-validator";
+import { UserEntity } from "src/user/entities/user.entity";
+import { profileTypeEnum } from "../enums/profileType.enum";
 
 export class UpdateProfileBaseDto {
     @IsString()
@@ -17,7 +19,8 @@ export class UpdateProfileBaseDto {
     @Length(0, 256)
     readonly email: string;
 
-    @IsNumber()
-    @Length(6, 8)
-    readonly userId?: string;
+    readonly user: UserEntity;
+
+    @IsEnum(profileTypeEnum)
+    readonly profileType: profileTypeEnum;
 }

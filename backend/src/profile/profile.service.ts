@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UserEntity } from "src/user/entities/user.entity";
 import { DeepPartial, Repository } from "typeorm";
 import { ProfileProfessorEntity } from "./entities/profileProfessor.entity";
 import { ProfileStudentEntity } from "./entities/profileStudent.entity";
@@ -119,6 +120,15 @@ export class ProfileService {
 
         const profileToRemove = await profileRepository.find({id: profileId});
         return await profileRepository.remove(profileToRemove);
+    }
+
+    async linkToUser(user: UserEntity, profileId: number, profileType: profileTypeEnum): Promise<ProfileEntity> {
+
+        const updateData = {
+            user: user
+        }
+
+        return await this.updateOne(profileId, updateData, profileType)
     }
 
 }

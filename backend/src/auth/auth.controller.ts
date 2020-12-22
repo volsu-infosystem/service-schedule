@@ -1,25 +1,28 @@
-import { Body, Post } from "@nestjs/common";
+import { Body, Post, UseGuards } from "@nestjs/common";
 import { Controller } from "@nestjs/common/decorators/core/controller.decorator";
+import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
+import { LoginUserDto } from "./dto/login-user.dto";
 import { RegisterUserDto } from "./dto/register-user.dto";
-import { AuthResponse } from "./interfaces/authResponse.interface";
 import { RegisterResponse } from "./interfaces/registerResponse.interface";
 
 @Controller('auth')
 export class AuthController {
-    // @Post()
-    // async auth(@Body() ): Promise<AuthResponse> { 
-    // return await 
-    // }
 
     constructor(
         private readonly authService: AuthService
     ) {}
 
-    @Post()
+    @Post('register')
     async register(@Body() registerUserDto: RegisterUserDto): Promise<RegisterResponse> {
         return await this.authService.register(registerUserDto)
     } 
+
+    @UseGuards(AuthGuard('local'))
+    @Post('login')
+    async login(@Body() loginUserDto: LoginUserDto): Promise<any> {
+        return this.authService.createToken(loginUserDto)
+    }
 
 
 }

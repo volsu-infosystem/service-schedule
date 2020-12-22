@@ -1,4 +1,5 @@
-import { Controller, Post, Body, Get, Param, Put, Delete } from "@nestjs/common";
+import { Controller, Post, Body, Get, Param, Put, Delete, UseGuards } from "@nestjs/common";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { CathedraService } from "./cathedra.service";
 import { CreateCathedraDto } from "./dto/create-cathedra.dto";
 import { UpdateCathedraDto } from "./dto/update-cathedra.dto";
@@ -6,6 +7,7 @@ import { CathedraEntity } from "./entities/cathedra.entity";
 
 
 @Controller('cathedra')
+@UseGuards(JwtAuthGuard)
 export class CathedraController {
     constructor(
         private readonly cathedraService: CathedraService,
@@ -13,7 +15,6 @@ export class CathedraController {
 
     @Post()
     async create(@Body() createCathedraDto: CreateCathedraDto): Promise<CathedraEntity> {
-        console.log(createCathedraDto)
         return await this.cathedraService.create(createCathedraDto)
     }
 

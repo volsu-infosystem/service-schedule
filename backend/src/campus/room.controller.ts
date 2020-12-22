@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { RoomService } from './room.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { RoomEntity } from './entities/room.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('room')
+@UseGuards(JwtAuthGuard)
 export class RoomController {
     constructor(
         private readonly roomService: RoomService,
@@ -12,7 +14,6 @@ export class RoomController {
 
     @Post()
     async create(@Body() createRoomDto: CreateRoomDto): Promise<RoomEntity> {
-        console.log(createRoomDto)
         return await this.roomService.create(createRoomDto)
     }
 

@@ -1,4 +1,3 @@
-import { RegisterUserDto } from "src/auth/dto/register-user.dto";
 import { DeepPartial, EntityRepository, Repository } from "typeorm";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserEntity } from "./entities/user.entity";

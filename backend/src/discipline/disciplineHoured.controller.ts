@@ -1,10 +1,12 @@
-import { Controller, Post, Body, Get, Param, Put, Delete } from "@nestjs/common";
+import { Controller, Post, Body, Get, Param, Put, Delete, UseGuards } from "@nestjs/common";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { DisciplineHouredService } from "./disciplineHoured.service";
 import { CreateDisciplineHouredDto } from "./dto/create-discipline-houred";
 import { UpdateDisciplineHouredDto } from "./dto/update-discipline-houred.dto";
 import { DisciplineHouredEntity } from "./entities/disciplineHoured.entity";
 
 @Controller('disciplinehoured')
+@UseGuards(JwtAuthGuard)
 export class DisciplineHouredController {
     constructor(
         private readonly disciplinehouredService: DisciplineHouredService,
@@ -12,7 +14,6 @@ export class DisciplineHouredController {
 
     @Post()
     async create(@Body() createDisciplineHouredDto: CreateDisciplineHouredDto): Promise<DisciplineHouredEntity> {
-        console.log(createDisciplineHouredDto)
         return await this.disciplinehouredService.create(createDisciplineHouredDto)
     }
 

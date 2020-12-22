@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CampusService } from './campus.service';
 import { CreateCampusDto } from './dto/create-campus.dto';
 import { UpdateCampusDto } from './dto/update-campus.dto';
 import { CampusEntity } from './entities/campus.entity';
 
 @Controller('campus')
+@UseGuards(JwtAuthGuard)
 export class CampusController {
     constructor(
         private readonly campusService: CampusService,
@@ -12,7 +14,6 @@ export class CampusController {
 
     @Post()
     async create(@Body() createCampusDto: CreateCampusDto): Promise<CampusEntity> {
-        console.log(createCampusDto)
         return await this.campusService.create(createCampusDto)
     }
 

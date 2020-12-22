@@ -1,18 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateInstituteDto } from './dto/create-institute.dto';
 import { UpdateInstituteDto } from './dto/update-institute.dto';
 import { InstituteEntity } from './entities/institute.entity';
 import { InstituteService } from './institute.service';
 
 @Controller('institute')
+@UseGuards(JwtAuthGuard)
 export class InstituteController {
     constructor(
         private readonly instituteService: InstituteService,
     ) {}
-
-    @Post()
+ 
+    @Post() 
     async create(@Body() createInstituteDto: CreateInstituteDto): Promise<InstituteEntity> {
-        console.log(createInstituteDto)
         return await this.instituteService.create(createInstituteDto)
     }
 

@@ -1,10 +1,12 @@
-import { Controller, Post, Body, Get, Param, Put, Delete } from "@nestjs/common";
+import { Controller, Post, Body, Get, Param, Put, Delete, UseGuards } from "@nestjs/common";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { CreateEquipmentDto } from "./dto/create-equipment.dto";
 import { UpdateEquipmentDto } from "./dto/update-equipment.dto";
 import { EquipmentEntity } from "./entities/equipment.entity";
 import { EquipmentService } from "./equipment.service";
 
 @Controller('equipment')
+@UseGuards(JwtAuthGuard)
 export class EquipmentController {
     constructor(
         private readonly equipmentService: EquipmentService,
@@ -12,7 +14,6 @@ export class EquipmentController {
 
     @Post()
     async create(@Body() createEquipmentDto: CreateEquipmentDto): Promise<EquipmentEntity> {
-        console.log(createEquipmentDto)
         return await this.equipmentService.create(createEquipmentDto)
     }
 

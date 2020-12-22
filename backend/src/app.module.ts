@@ -8,20 +8,37 @@ import { InstituteModule } from './institute/institute.module';
 import { GroupModule } from './group/group.module';
 import { CampusModule } from './campus/campus.module';
 import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
 import { MailerModule } from '@nestjs-modules/mailer'
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
     MailerModule.forRoot({
-      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
+      transport: {
+        host: "smtp.yandex.ru",
+        port: 465,
+        secure: true,
+        auth: {
+          user: "volsu-application",
+          pass: "zSK-bKm-E6X-g8z"
+        }
+        //
+        // Test smtp
+        // host: "smtp.mailtrap.io",
+        // port: 2525,
+        // auth: {
+        //   user: "ae927fd0a9d6d1",
+        //   pass: "e53a0f37a19d39"
+        // }
+        //
+      },
       defaults: {
-        from:'"rating-volsu" <ratingvolsu@domain.com>',
+        from:'"VolSU Application" <volsu-application@yandex.ru>',
       },
       template: {
-        dir: __dirname + '/src/mailer/views',
+        dir: './dist/mail/templates',
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,
