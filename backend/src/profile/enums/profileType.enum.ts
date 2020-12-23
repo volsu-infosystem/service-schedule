@@ -1,4 +1,4 @@
 export enum profileTypeEnum {
-    Student = "student",
-    Professor = "professor"
+  Student = 'student',
+  Professor = 'professor',
 }

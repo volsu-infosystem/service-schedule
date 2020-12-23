@@ -1,6 +1,6 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
 export class UpdateRoleDto {
-    @IsString()
-    readonly name: string;
-};
+  @IsString()
+  readonly name: string;
+}

@@ -22,9 +22,10 @@ import { SecretCodeService } from './secretCode.service';
     }),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN}
-    })],
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
+    }),
+  ],
   controllers: [AuthController],
-  providers: [AuthService, SecretCodeService, LocalStrategy, JwtStrategy]
+  providers: [AuthService, SecretCodeService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}

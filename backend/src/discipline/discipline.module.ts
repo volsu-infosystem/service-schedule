@@ -12,9 +12,21 @@ import { StudyDirectionService } from './studyDirection.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([DisciplineEntity, DisciplineHouredEntity, StudyDirectionEntity]),
+    TypeOrmModule.forFeature([
+      DisciplineEntity,
+      DisciplineHouredEntity,
+      StudyDirectionEntity,
+    ]),
   ],
-  controllers: [DisciplineController, DisciplineHouredController, StudyDirectionController],
-  providers: [DisciplineService, DisciplineHouredService, StudyDirectionService],
+  controllers: [
+    DisciplineController,
+    DisciplineHouredController,
+    StudyDirectionController,
+  ],
+  providers: [
+    DisciplineService,
+    DisciplineHouredService,
+    StudyDirectionService,
+  ],
 })
 export class DisciplineModule {}

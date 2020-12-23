@@ -11,8 +11,10 @@ import { RoomController } from './room.controller';
 import { RoomService } from './room.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CampusEntity, RoomEntity, EquipmentEntity])],
+  imports: [
+    TypeOrmModule.forFeature([CampusEntity, RoomEntity, EquipmentEntity]),
+  ],
   controllers: [CampusController, EquipmentController, RoomController],
-  providers: [CampusService, EquipmentService, RoomService]
+  providers: [CampusService, EquipmentService, RoomService],
 })
 export class CampusModule {}

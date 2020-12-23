@@ -7,8 +7,8 @@ import {
 } from 'typeorm';
 import { ProfileBaseEntity } from '../../profile/entities/profileBase.entity';
 import { RoleEntity } from './role.entity';
-import { ProfileEntity } from 'src/profile/interfaces/profile.interface'
-import { Exclude } from 'class-transformer'
+import { ProfileEntity } from 'src/profile/interfaces/profile.interface';
+import { Exclude } from 'class-transformer';
 
 @Entity('user')
 export class UserEntity {
@@ -16,12 +16,12 @@ export class UserEntity {
   id: number;
 
   @Column('varchar', { length: 256, unique: true })
-  email: string; 
+  email: string;
 
   @Exclude()
   @Column('integer')
   secretCode: number;
-  
+
   @OneToOne(
     () => ProfileBaseEntity,
     profileBase => profileBase.user,
@@ -31,7 +31,7 @@ export class UserEntity {
   @ManyToOne(
     () => RoleEntity,
     role => role.users,
-    { nullable: true }
+    { nullable: true },
   )
   role: RoleEntity;
 }

@@ -23,7 +23,7 @@ export class ProfileBaseEntity {
   middleName: string;
 
   @Column('varchar', { length: 256, unique: true })
-  email: string; 
+  email: string;
 
   @OneToOne(() => UserEntity, { nullable: true })
   @JoinColumn()

@@ -8,35 +8,38 @@ import { CampusNotFoundException } from './exceptions/campus.exceptions';
 
 @Injectable()
 export class CampusService {
-    constructor(
-        @InjectRepository(CampusEntity)
-        private readonly campusRepository: Repository<CampusEntity>
-    ) {}
+  constructor(
+    @InjectRepository(CampusEntity)
+    private readonly campusRepository: Repository<CampusEntity>,
+  ) {}
 
-    async create(campus: CreateCampusDto): Promise<CampusEntity> {
-        const newCampus = this.campusRepository.create(campus)
-        return await this.campusRepository.save(newCampus)
-    }
+  async create(campus: CreateCampusDto): Promise<CampusEntity> {
+    const newCampus = this.campusRepository.create(campus);
+    return await this.campusRepository.save(newCampus);
+  }
 
-    async findAll(): Promise<CampusEntity[]> {
-        return await this.campusRepository.find();
-    }
+  async findAll(): Promise<CampusEntity[]> {
+    return await this.campusRepository.find();
+  }
 
-    async findOneById(campusId: number): Promise<CampusEntity> {
-        return await this.campusRepository.findOne({id: campusId})
-    }
+  async findOneById(campusId: number): Promise<CampusEntity> {
+    return await this.campusRepository.findOne({ id: campusId });
+  }
 
-    async updateOne(campusId: number, updateCampus: DeepPartial<UpdateCampusDto>): Promise<CampusEntity> {
-        await this.campusRepository.update({id: campusId}, updateCampus);
-        const updatedCampus = await this.campusRepository.findOne(campusId);
-        if (updatedCampus) {
-            return updatedCampus
-        } 
-        throw new CampusNotFoundException(campusId);
+  async updateOne(
+    campusId: number,
+    updateCampus: DeepPartial<UpdateCampusDto>,
+  ): Promise<CampusEntity> {
+    await this.campusRepository.update({ id: campusId }, updateCampus);
+    const updatedCampus = await this.campusRepository.findOne(campusId);
+    if (updatedCampus) {
+      return updatedCampus;
     }
+    throw new CampusNotFoundException(campusId);
+  }
 
-    async deleteOne(campusId: number): Promise<CampusEntity[]> {
-        const campusToRemove = await this.campusRepository.find({id: campusId});
-        return await this.campusRepository.remove(campusToRemove);
-    }
+  async deleteOne(campusId: number): Promise<CampusEntity[]> {
+    const campusToRemove = await this.campusRepository.find({ id: campusId });
+    return await this.campusRepository.remove(campusToRemove);
+  }
 }

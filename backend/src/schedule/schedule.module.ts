@@ -8,8 +8,15 @@ import { SubCellEntity } from './entities/subCell.entity';
 import { LessonEntity } from './entities/lesson.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ScheduleEntity, CellEntity, SubCellEntity, LessonEntity])],
+  imports: [
+    TypeOrmModule.forFeature([
+      ScheduleEntity,
+      CellEntity,
+      SubCellEntity,
+      LessonEntity,
+    ]),
+  ],
   providers: [ScheduleService],
-  controllers: [ScheduleController]
+  controllers: [ScheduleController],
 })
 export class ScheduleModule {}

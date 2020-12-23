@@ -13,69 +13,75 @@ import { SecretCodeService } from './secretCode.service';
 
 @Injectable()
 export class AuthService {
+  constructor(
+    private readonly userService: UserService,
+    private readonly profileService: ProfileService,
+    private readonly secretCodeService: SecretCodeService,
+    private readonly roleService: RoleService,
+    private readonly mailService: MailService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-    constructor(
-        private readonly userService: UserService,
-        private readonly profileService: ProfileService,
-        private readonly secretCodeService: SecretCodeService,
-        private readonly roleService: RoleService,
-        private readonly mailService: MailService,
-        private readonly jwtService: JwtService
-    ) {}
+  async register(user: RegisterUserDto): Promise<RegisterResponse> {
+    let currUser = await this.userService.findOneByEmail(user.email);
 
-    async register(user: RegisterUserDto): Promise<RegisterResponse> {
-
-        let currUser = await this.userService.findOneByEmail(user.email)
-        
-        if (currUser) {
-            const newSecret = await this.secretCodeService.generateSecretCode() 
-            currUser = await this.userService.changeSecret(currUser.id, newSecret)
-        } else {
-            const newUserDto: CreateUserDto = {
-                email: user.email,
-                secretCode: await this.secretCodeService.generateSecretCode(),
-                profile: await this.profileService.findOneByEmail(user.email),
-                role: await this.roleService.getRoleByName('user')
-            };
-            currUser = await this.userService.create(newUserDto)
-            await this.profileService.linkToUser(currUser, newUserDto.profile.id, newUserDto.profile.profileType)
-        }
-
-        await this.mailService.sendSecretCode(currUser.email, currUser.secretCode)
-
-        const res = {
-            status: 200,
-            user: currUser
-        }
-        return res;
+    if (currUser) {
+      const newSecret = await this.secretCodeService.generateSecretCode();
+      currUser = await this.userService.changeSecret(currUser.id, newSecret);
+    } else {
+      const newUserDto: CreateUserDto = {
+        email: user.email,
+        secretCode: await this.secretCodeService.generateSecretCode(),
+        profile: await this.profileService.findOneByEmail(user.email),
+        role: await this.roleService.getRoleByName('user'),
+      };
+      currUser = await this.userService.create(newUserDto);
+      await this.profileService.linkToUser(
+        currUser,
+        newUserDto.profile.id,
+        newUserDto.profile.profileType,
+      );
     }
 
-    async validateUser(email: string, secret: number): Promise<any> {
-        const user = await this.userService.findOneByEmail(email)
+    await this.mailService.sendSecretCode(currUser.email, currUser.secretCode);
 
-        if (user && user.secretCode === secret) {
-            return user
-        }
-        
-        return null;
+    const res = {
+      status: 200,
+      user: currUser,
+    };
+    return res;
+  }
+
+  async validateUser(email: string, secret: number): Promise<any> {
+    const user = await this.userService.findOneByEmail(email);
+
+    if (user && user.secretCode === secret) {
+      return user;
     }
 
-    async createToken(user: LoginUserDto): Promise<any> {
-        const currUser = await this.userService.findOneByEmail(user.email)
-        const currUserProfile = await this.profileService.findOneByEmail(user.email)
+    return null;
+  }
 
-        if (currUser) {
-            const userPayload = { user: currUser.id, role: currUser.role, profile: currUserProfile }
+  async createToken(user: LoginUserDto): Promise<any> {
+    const currUser = await this.userService.findOneByEmail(user.email);
+    const currUserProfile = await this.profileService.findOneByEmail(
+      user.email,
+    );
 
-            return {
-                access_token: this.jwtService.sign({
-                    userPayload
-                })
-            }
-        }
-        
-        return null
-        
+    if (currUser) {
+      const userPayload = {
+        user: currUser.id,
+        role: currUser.role,
+        profile: currUserProfile,
+      };
+
+      return {
+        access_token: this.jwtService.sign({
+          userPayload,
+        }),
+      };
     }
 
+    return null;
+  }
 }

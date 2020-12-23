@@ -1,6 +1,6 @@
-import { IsNumber } from "class-validator";
+import { IsNumber } from 'class-validator';
 
 export class CreateScheduleDto {
-    @IsNumber()
-    readonly semester: number
+  @IsNumber()
+  readonly semester: number;
 }

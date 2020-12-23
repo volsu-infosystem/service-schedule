@@ -5,21 +5,18 @@ import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor(
-        private readonly userService: UserService
-    ) {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: true,
-            secretOrKey: process.env.JWT_SECRET,
-        })
-    }
-    
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    async validate(payload: any): Promise<any> {
-        console.log("==== IN JWT ===")
-        console.log(payload)
+  constructor(private readonly userService: UserService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: true,
+      secretOrKey: process.env.JWT_SECRET,
+    });
+  }
 
-        return await this.userService.findOneByEmail(payload.userPayload.profile.email)
-    }
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async validate(payload: any): Promise<any> {
+    return await this.userService.findOneByEmail(
+      payload.userPayload.profile.email,
+    );
+  }
 }

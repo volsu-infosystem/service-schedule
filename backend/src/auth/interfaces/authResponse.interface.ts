@@ -1,3 +1,3 @@
 export interface AuthResponse {
-    readonly status: number;
+  readonly status: number;
 }

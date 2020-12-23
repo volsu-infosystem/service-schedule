@@ -9,7 +9,7 @@ import { GroupModule } from './group/group.module';
 import { CampusModule } from './campus/campus.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
-import { MailerModule } from '@nestjs-modules/mailer'
+import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
@@ -17,25 +17,16 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     TypeOrmModule.forRoot(),
     MailerModule.forRoot({
       transport: {
-        host: "smtp.yandex.ru",
+        host: 'smtp.yandex.ru',
         port: 465,
         secure: true,
         auth: {
-          user: "volsu-application",
-          pass: "zSK-bKm-E6X-g8z"
-        }
-        //
-        // Test smtp
-        // host: "smtp.mailtrap.io",
-        // port: 2525,
-        // auth: {
-        //   user: "ae927fd0a9d6d1",
-        //   pass: "e53a0f37a19d39"
-        // }
-        //
+          user: 'volsu-application',
+          pass: 'zSK-bKm-E6X-g8z',
+        },
       },
       defaults: {
-        from:'"VolSU Application" <volsu-application@yandex.ru>',
+        from: '"VolSU Application" <volsu-application@yandex.ru>',
       },
       template: {
         dir: './dist/mail/templates',
@@ -45,15 +36,16 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         },
       },
     }),
-    ProfileModule, 
-    UserModule, 
-    ScheduleModule, 
-    DisciplineModule, 
-    InstituteModule, 
-    GroupModule, 
-    CampusModule, 
-    AuthModule, 
-    MailModule],
+    ProfileModule,
+    UserModule,
+    ScheduleModule,
+    DisciplineModule,
+    InstituteModule,
+    GroupModule,
+    CampusModule,
+    AuthModule,
+    MailModule,
+  ],
   controllers: [],
   providers: [],
 })
