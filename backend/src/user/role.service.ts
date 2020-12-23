@@ -8,39 +8,42 @@ import { RoleNotFoundException } from './exceptions/role.exceptions';
 
 @Injectable()
 export class RoleService {
-    constructor(
-        @InjectRepository(RoleEntity)
-        private readonly roleRepository: Repository<RoleEntity>
-    ) {}
+  constructor(
+    @InjectRepository(RoleEntity)
+    private readonly roleRepository: Repository<RoleEntity>,
+  ) {}
 
-    async getRoleByName(roleName: string): Promise<RoleEntity> {
-        return await this.roleRepository.findOne({where: { name: roleName}})
-    }
+  async getRoleByName(roleName: string): Promise<RoleEntity> {
+    return await this.roleRepository.findOne({ where: { name: roleName } });
+  }
 
-    async create(role: CreateRoleDto): Promise<RoleEntity> {
-        const newRole = this.roleRepository.create(role)
-        return await this.roleRepository.save(newRole)
-    }
+  async create(role: CreateRoleDto): Promise<RoleEntity> {
+    const newRole = this.roleRepository.create(role);
+    return await this.roleRepository.save(newRole);
+  }
 
-    async findAll(): Promise<RoleEntity[]> {
-        return await this.roleRepository.find();
-    }
+  async findAll(): Promise<RoleEntity[]> {
+    return await this.roleRepository.find();
+  }
 
-    async findOneById(roleId: number): Promise<RoleEntity> {
-        return await this.roleRepository.findOne({id: roleId})
-    }
+  async findOneById(roleId: number): Promise<RoleEntity> {
+    return await this.roleRepository.findOne({ id: roleId });
+  }
 
-    async updateOne(roleId: number, updateRole: DeepPartial<UpdateRoleDto>): Promise<RoleEntity> {
-        await this.roleRepository.update({id: roleId}, updateRole);
-        const updatedRole = await this.roleRepository.findOne(roleId);
-        if (updatedRole) {
-            return updatedRole
-        } 
-        throw new RoleNotFoundException(roleId);
+  async updateOne(
+    roleId: number,
+    updateRole: DeepPartial<UpdateRoleDto>,
+  ): Promise<RoleEntity> {
+    await this.roleRepository.update({ id: roleId }, updateRole);
+    const updatedRole = await this.roleRepository.findOne(roleId);
+    if (updatedRole) {
+      return updatedRole;
     }
+    throw new RoleNotFoundException(roleId);
+  }
 
-    async deleteOne(roleId: number): Promise<RoleEntity[]> {
-        const roleToRemove = await this.roleRepository.find({id: roleId});
-        return await this.roleRepository.remove(roleToRemove);
-    }
+  async deleteOne(roleId: number): Promise<RoleEntity[]> {
+    const roleToRemove = await this.roleRepository.find({ id: roleId });
+    return await this.roleRepository.remove(roleToRemove);
+  }
 }

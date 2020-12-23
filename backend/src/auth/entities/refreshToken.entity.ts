@@ -1,16 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('refresh_token')
 export class RefreshTokenEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column('integer')
-    userId: number;
+  @Column('integer')
+  userId: number;
 
-    @Column('boolean')
-    isRevoked: boolean;
+  @Column('boolean')
+  isRevoked: boolean;
 
-    @Column('date')
-    expires: Date
+  @Column('date')
+  expires: Date;
 }

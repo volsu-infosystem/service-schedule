@@ -1,34 +1,51 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
 import { LessonEntity } from 'src/schedule/entities/lesson.entity';
 import { DisciplineHouredEntity } from './disciplineHoured.entity';
 
 @Entity('discipline')
 export class DisciplineEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column('varchar', { length: 256 })
-    name: string;
+  @Column('varchar', { length: 256 })
+  name: string;
 
-    @Column('varchar', { length: 2048 })
-    desc: string;
+  @Column('varchar', { length: 2048 })
+  desc: string;
 
-    @OneToMany(() => DisciplineHouredEntity, disciplineHoured => disciplineHoured.discipline)
-    houred: DisciplineHouredEntity[]
+  @OneToMany(
+    () => DisciplineHouredEntity,
+    disciplineHoured => disciplineHoured.discipline,
+  )
+  houred: DisciplineHouredEntity[];
 
-    @ManyToMany(() => ProfileProfessorEntity, profileProfessor => profileProfessor.teachedDisciplines, { cascade: true })
-    @JoinTable({
-        name: 'professors_disciplines',
-        joinColumn: {name: 'professor_id', referencedColumnName: 'id'},
-        inverseJoinColumn: {name: 'discipline_id', referencedColumnName: 'id'}
-    })
-    professors: ProfileProfessorEntity[]
+  @ManyToMany(
+    () => ProfileProfessorEntity,
+    profileProfessor => profileProfessor.teachedDisciplines,
+    { cascade: true },
+  )
+  @JoinTable({
+    name: 'professors_disciplines',
+    joinColumn: { name: 'professor_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'discipline_id', referencedColumnName: 'id' },
+  })
+  professors: ProfileProfessorEntity[];
 
-    @OneToMany(() => LessonEntity, lesson => lesson.discipline)
-    lessons: LessonEntity[]
+  @OneToMany(
+    () => LessonEntity,
+    lesson => lesson.discipline,
+  )
+  lessons: LessonEntity[];
 
-    // To Do: Add Equipments Logic
-    @Column('varchar', { nullable: true })
-    needEquipments: string;
+  // To Do: Add Equipments Logic
+  @Column('varchar', { nullable: true })
+  needEquipments: string;
 }

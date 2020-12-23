@@ -10,6 +10,6 @@ import { CathedraService } from './cathedra.service';
 @Module({
   imports: [TypeOrmModule.forFeature([InstituteEntity, CathedraEntity])],
   controllers: [InstituteController, CathedraController],
-  providers: [InstituteService, CathedraService]
+  providers: [InstituteService, CathedraService],
 })
 export class InstituteModule {}

@@ -8,35 +8,44 @@ import { InstituteModule } from './institute/institute.module';
 import { GroupModule } from './group/group.module';
 import { CampusModule } from './campus/campus.module';
 import { AuthModule } from './auth/auth.module';
-import { MailerModule } from '@nestjs-modules/mailer'
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MailModule } from './mail/mail.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
     MailerModule.forRoot({
-      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
+      transport: {
+        host: 'smtp.yandex.ru',
+        port: 465,
+        secure: true,
+        auth: {
+          user: 'volsu-application',
+          pass: 'zSK-bKm-E6X-g8z',
+        },
+      },
       defaults: {
-        from:'"rating-volsu" <ratingvolsu@domain.com>',
+        from: '"VolSU Application" <volsu-application@yandex.ru>',
       },
       template: {
-        dir: __dirname + '/src/mailer/views',
+        dir: './dist/mail/templates',
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,
         },
       },
     }),
-    ProfileModule, 
-    UserModule, 
-    ScheduleModule, 
-    DisciplineModule, 
-    InstituteModule, 
-    GroupModule, 
-    CampusModule, 
-    AuthModule, 
-    MailModule],
+    ProfileModule,
+    UserModule,
+    ScheduleModule,
+    DisciplineModule,
+    InstituteModule,
+    GroupModule,
+    CampusModule,
+    AuthModule,
+    MailModule,
+  ],
   controllers: [],
   providers: [],
 })

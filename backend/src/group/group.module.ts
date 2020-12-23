@@ -7,10 +7,9 @@ import { SubGroupEntity } from './entities/subGroup.entity';
 import { SubGroupService } from './subGroup.service';
 import { SubGroupController } from './subGroup.controller';
 
-
 @Module({
   imports: [TypeOrmModule.forFeature([GroupEntity, SubGroupEntity])],
   providers: [GroupService, SubGroupService],
-  controllers: [GroupController, SubGroupController]
+  controllers: [GroupController, SubGroupController],
 })
 export class GroupModule {}

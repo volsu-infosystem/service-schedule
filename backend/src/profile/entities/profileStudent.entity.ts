@@ -7,13 +7,19 @@ import { SubGroupController } from 'src/group/subGroup.controller';
 
 @Entity('profile_student')
 export class ProfileStudentEntity extends ProfileBaseEntity {
-    @Column('numeric')
-    @Length(6, 8)
-    studentTicketNumber: number;
-    
-    @ManyToOne(() => GroupEntity, group => group.students)
-    group: GroupEntity;
+  @Column('numeric')
+  @Length(6, 8)
+  studentTicketNumber: number;
 
-    @ManyToMany(() => SubGroupEntity, subGroup => subGroup.students)
-    subGroups: SubGroupController;
+  @ManyToOne(
+    () => GroupEntity,
+    group => group.students,
+  )
+  group: GroupEntity;
+
+  @ManyToMany(
+    () => SubGroupEntity,
+    subGroup => subGroup.students,
+  )
+  subGroups: SubGroupController;
 }
