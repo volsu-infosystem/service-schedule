@@ -1,14 +1,17 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { Room } from './room.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { RoomEntity } from './room.entity';
 
-@Entity({name: "campus"})
-export class Campus {
-    @PrimaryGeneratedColumn()
-    id: number;
-    
-    @Column('varchar')
-    name: string;
+@Entity({ name: 'campus' })
+export class CampusEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @OneToMany(() => Room, room => room.campus)
-    rooms: Room[]
+  @Column('varchar', { length: 256 })
+  name: string;
+
+  @OneToMany(
+    () => RoomEntity,
+    room => room.campus,
+  )
+  rooms: RoomEntity[];
 }

@@ -1,16 +1,27 @@
-import { Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { DisciplineHoured } from './disciplineHoured.entity';
-import { Group } from '../../group/entities/group.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { DisciplineHouredEntity } from './disciplineHoured.entity';
+import { GroupEntity } from '../../group/entities/group.entity';
 
 @Entity('study_direction')
-export class StudyDirection {
-    
-    @PrimaryGeneratedColumn()
-    id: number;
+export class StudyDirectionEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @OneToMany(() => Group, group => group.studyDirection)
-    group: Group;
+  @Column('varchar', { length: 256 })
+  name: string;
 
-    @OneToMany(() => DisciplineHoured, houredDisciplines => houredDisciplines.studyDirection)
-    houredDisciplines: DisciplineHoured[]
+  @Column('varchar', { length: 2048, nullable: true })
+  desc: string;
+
+  @OneToMany(
+    () => GroupEntity,
+    group => group.studyDirection,
+  )
+  group: GroupEntity;
+
+  @OneToMany(
+    () => DisciplineHouredEntity,
+    houredDisciplines => houredDisciplines.studyDirection,
+  )
+  houredDisciplines: DisciplineHouredEntity[];
 }

@@ -1,18 +1,24 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { AdmissionYear } from '../../profile/entities/admissionYear.entity';
-import { Cathedra } from './cathedra.entity'
+import { AdmissionYearEntity } from '../../profile/entities/admissionYear.entity';
+import { CathedraEntity } from './cathedra.entity';
 
 @Entity('institute')
-export class Institute {
-    @PrimaryGeneratedColumn()
-    id: number;
+export class InstituteEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column('varchar', { length: 256 })
-    name: string;
+  @Column('varchar', { length: 256 })
+  name: string;
 
-    @OneToMany(() => Cathedra, cathedra => cathedra.institute)
-    cathedras: Cathedra[];
+  @OneToMany(
+    () => CathedraEntity,
+    cathedra => cathedra.institute,
+  )
+  cathedras: CathedraEntity[];
 
-    @OneToMany(() => AdmissionYear, admissionYear => admissionYear.institute)
-    admissionYears: AdmissionYear[]
+  @OneToMany(
+    () => AdmissionYearEntity,
+    admissionYear => admissionYear.institute,
+  )
+  admissionYears: AdmissionYearEntity[];
 }

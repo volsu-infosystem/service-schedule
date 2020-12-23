@@ -5,11 +5,11 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { IsEmail } from 'class-validator';
-import { User } from 'src/user/entities/user.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { profileTypeEnum } from '../enums/profileType.enum';
 
 @Entity('profile_base')
-export class ProfileBase {
+export class ProfileBaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,14 +19,16 @@ export class ProfileBase {
   @Column('varchar', { length: 64 })
   lastName: string;
 
-  @Column('varchar', { length: 64 })
+  @Column('varchar', { length: 64, nullable: true })
   middleName: string;
 
   @Column('varchar', { length: 256, unique: true })
-  @IsEmail()
   email: string;
 
-  @OneToOne(() => User, { nullable: true })
+  @OneToOne(() => UserEntity, { nullable: true })
   @JoinColumn()
-  user: User;
+  user: UserEntity;
+
+  @Column('enum', { enum: profileTypeEnum })
+  profileType: profileTypeEnum;
 }

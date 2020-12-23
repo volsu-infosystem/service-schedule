@@ -1,14 +1,17 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { Cell } from './cell.entity'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { CellEntity } from './cell.entity';
 
 @Entity('schedule')
-export class Schedule {
-    @PrimaryGeneratedColumn()
-    id: number;
-    
-    @OneToMany(() => Cell, cell => cell.schedule)
-    cells: Cell[]
+export class ScheduleEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column('smallint')
-    semester: number
+  @OneToMany(
+    () => CellEntity,
+    cell => cell.schedule,
+  )
+  cells: CellEntity[];
+
+  @Column('smallint')
+  semester: number;
 }

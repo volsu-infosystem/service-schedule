@@ -1,24 +1,37 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { SubGroup } from 'src/group/entities/subGroup.entity';
-import { Cell } from './cell.entity';
-import { Lesson } from './lesson.entity';
-import { periodEnum } from '../enums/period.enum'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
+import { CellEntity } from './cell.entity';
+import { LessonEntity } from './lesson.entity';
+import { periodEnum } from '../enums/period.enum';
 
 @Entity('sub_cell')
-export class SubCell {
-    @PrimaryGeneratedColumn()
-    id: number;
+export class SubCellEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column('enum', { enum: periodEnum })
-    period: periodEnum;
+  @Column('enum', { enum: periodEnum })
+  period: periodEnum;
 
-    @ManyToOne(() => SubGroup, subGroup => subGroup.subCells)
-    subGroup: SubGroup;
+  @ManyToOne(
+    () => SubGroupEntity,
+    subGroup => subGroup.subCells,
+  )
+  subGroup: SubGroupEntity;
 
-    @ManyToOne(() => Cell, cell => cell.subCells)
-    cell: Cell;
+  @ManyToOne(
+    () => CellEntity,
+    cell => cell.subCells,
+  )
+  cell: CellEntity;
 
-    @OneToOne(() => Lesson)
-    @JoinColumn()
-    lesson: Lesson;
+  @OneToOne(() => LessonEntity)
+  @JoinColumn()
+  lesson: LessonEntity;
 }

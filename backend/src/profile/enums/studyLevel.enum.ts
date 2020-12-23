@@ -1,5 +1,5 @@
 export enum studyLevelEnum {
-    Specialty = 'S',
-    Bachelor = 'B',
-    Magistracy = 'M',
+  Specialty = 'S',
+  Bachelor = 'B',
+  Magistracy = 'M',
 }

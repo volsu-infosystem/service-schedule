@@ -1,23 +1,24 @@
-import { Lesson } from 'src/schedule/entities/lesson.entity';
+import { LessonEntity } from 'src/schedule/entities/lesson.entity';
 import { Entity, ManyToMany, ManyToOne } from 'typeorm';
-import { Discipline } from '../../discipline/entities/discipline.entity';
-import { Cathedra } from '../../institute/entities/cathedra.entity';
-import { ProfileBase } from './profileBase.entity';
+import { DisciplineEntity } from '../../discipline/entities/discipline.entity';
+import { CathedraEntity } from '../../institute/entities/cathedra.entity';
+import { ProfileBaseEntity } from './profileBase.entity';
 
 @Entity('profile_professor')
-export class ProfileProfessor extends ProfileBase {
+export class ProfileProfessorEntity extends ProfileBaseEntity {
   @ManyToOne(
-    () => Cathedra,
+    () => CathedraEntity,
     cathedra => cathedra.professors,
   )
-  cathedra: Cathedra;
+  cathedra: CathedraEntity;
 
   @ManyToMany(
-    () => Discipline,
+    () => DisciplineEntity,
     discipline => discipline.professors,
+    { nullable: true },
   )
-  teachedDisciplines: Discipline[];
+  teachedDisciplines: DisciplineEntity[];
 
-  @ManyToMany(() => Lesson)
-  lessons: ProfileProfessor[];
+  @ManyToMany(() => LessonEntity)
+  lessons: ProfileProfessorEntity[];
 }

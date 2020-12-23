@@ -1,23 +1,46 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, OneToMany } from 'typeorm';
-import { ProfileStudent } from '../../profile/entities/profileStudent.entity';
-import { SubCell } from 'src/schedule/entities/subCell.entity';
-import { Group } from './group.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+  OneToMany,
+} from 'typeorm';
+import { ProfileStudentEntity } from '../../profile/entities/profileStudent.entity';
+import { SubCellEntity } from 'src/schedule/entities/subCell.entity';
+import { GroupEntity } from './group.entity';
 
 @Entity('sub_group')
-export class SubGroup {
-    @PrimaryGeneratedColumn()
-    id: number
+export class SubGroupEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column('varchar', { length: 64 })
-    name: string;
+  @Column('varchar', { length: 64 })
+  name: string;
 
-    @ManyToMany(() => ProfileStudent)
-    @JoinTable()
-    students: ProfileStudent[]
+  @ManyToMany(
+    () => ProfileStudentEntity,
+    student => student.subGroups,
+    { cascade: true },
+  )
+  @JoinTable({
+    name: 'sub_groups_students',
+    joinColumn: { name: 'sub_group_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'student_id', referencedColumnName: 'id' },
+  })
+  students: ProfileStudentEntity[];
 
-    @ManyToOne(() => Group, group => group.subGroups)
-    group: Group;
+  @ManyToOne(
+    () => GroupEntity,
+    group => group.subGroups,
+  )
+  group: GroupEntity;
 
-    @OneToMany(() => SubCell, subCell => subCell.subGroup, {nullable: true})
-    subCells: SubCell[];
+  @OneToMany(
+    () => SubCellEntity,
+    subCell => subCell.subGroup,
+    { nullable: true },
+  )
+  subCells: SubCellEntity[];
 }
