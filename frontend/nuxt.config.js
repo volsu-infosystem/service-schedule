@@ -9,6 +9,10 @@ export default {
     host: '0.0.0.0',
   },
 
+  loading: {
+    color: '#2b82d8',
+  },
+
   head: {
     title: 'frontend',
     meta: [
