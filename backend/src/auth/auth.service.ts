@@ -46,7 +46,6 @@ export class AuthService {
 
     const res = {
       status: 200,
-      user: currUser,
     };
     return res;
   }
