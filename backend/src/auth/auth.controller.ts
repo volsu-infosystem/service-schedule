@@ -10,11 +10,11 @@ import { RegisterResponse } from './interfaces/registerResponse.interface';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('register')
-  async register(
+  @Post('request')
+  async requestSecretCode(
     @Body() registerUserDto: RegisterUserDto,
   ): Promise<RegisterResponse> {
-    return await this.authService.register(registerUserDto);
+    return await this.authService.registerNewDevice(registerUserDto);
   }
 
   @UseGuards(AuthGuard('local'))
