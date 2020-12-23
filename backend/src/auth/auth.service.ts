@@ -3,7 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
 import { ProfileService } from 'src/profile/profile.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { UserEntity } from 'src/user/entities/user.entity';
 import { RoleService } from 'src/user/role.service';
 import { UserService } from 'src/user/user.service';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -22,7 +21,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(user: RegisterUserDto): Promise<RegisterResponse> {
+  async registerNewDevice(user: RegisterUserDto): Promise<RegisterResponse> {
     let currUser = await this.userService.findOneByEmail(user.email);
 
     if (currUser) {
