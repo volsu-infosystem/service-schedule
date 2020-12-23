@@ -1,20 +1,21 @@
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { Api } from './api';
 
-export default function ({ $axios, store, error }, inject) {
-  // $axios.onRequest(async config => {
-  //   const user = store.state.global.user;
-  //   config.headers['Authorization'] = `Bearer ${user.token}`;
-  //   if (isServer) {
-  //     res.setHeader('Set-Cookie', [`Bearer ${user.token}`]);
-  //   }
-  //   return config;
-  // });
+export default function ({ $axios, store, error, isServer }, inject) {
+  $axios.onRequest(async (config, res) => {
+    console.log(store.state);
+    const user = store.state.user;
+    config.headers['Authorization'] = `Bearer ${user.token}`;
+    if (isServer) {
+      res.setHeader('Set-Cookie', [`Bearer ${user.token}`]);
+    }
+    return config;
+  });
 
   $axios.onResponse(response => {
     return {
       ...response,
-      data: response.data.success,
+      data: response.data,
     };
   });
 

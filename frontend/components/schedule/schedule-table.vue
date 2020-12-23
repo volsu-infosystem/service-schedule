@@ -18,7 +18,7 @@
         </div>
       </div>
       <div v-for="day in days" :key="day.day" class="schedule-table__day">
-        <div class="schedule-table__day-label" ref="label">
+        <div ref="label" class="schedule-table__day-label">
           <span>{{ day.label }}</span>
         </div>
         <div class="schedule-table__times">
@@ -28,11 +28,11 @@
             class="schedule-table__time"
           >
             <div
+              ref="info"
               :class="[
                 'schedule-table__time-info',
                 { pin: isLeftPinned, ...isTimeHover(day, time) },
               ]"
-              ref="info"
             >
               <span class="schedule-table__time-label">{{ time.label }}</span>
               <span class="schedule-table__time-time">{{ time.time }}</span>

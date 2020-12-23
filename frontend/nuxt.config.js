@@ -39,7 +39,9 @@ export default {
     scss: ['~/assets/app.scss'],
   },
 
-  axios: {},
+  axios: {
+    baseURL: '/',
+  },
 
   build: {
     loaders: {

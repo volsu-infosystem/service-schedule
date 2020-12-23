@@ -9,10 +9,11 @@
     <ui-error :errors="errors">
       <a-input
         v-model="localValue"
+        :placeholder="placeholder"
+        :type="type"
+        :name="name"
         @blur="blurHandler"
         @focus="focusHandler"
-        :placeholder="placeholder"
-        :name="name"
       />
     </ui-error>
   </validation-provider>

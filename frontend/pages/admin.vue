@@ -12,8 +12,12 @@
 </template>
 
 <script>
+import auth from '@/middleware/auth';
+
 export default {
   name: 'admin',
+
+  middleware: [auth],
 
   data() {
     return {
@@ -23,7 +27,8 @@ export default {
   },
 
   async created() {
-    this.institutes = await this.$api.institute.institutes();
+    const { data } = await this.$api.institute.institutes();
+    this.institutes = data;
   },
 
   methods: {

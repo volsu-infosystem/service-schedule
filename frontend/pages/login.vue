@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-    <ui-form class="login-page__form" ref="form" @submit="submit">
+    <ui-form ref="form" class="login-page__form" @submit="submit">
       <h4>Вход в систему:</h4>
       <ui-input
         v-model="email"
@@ -14,6 +14,7 @@
         name="code"
         rules="required"
         placeholder="Код из сообщения"
+        type="number"
       />
       <ui-button type="primary" @click="submit">{{ buttonText }}</ui-button>
     </ui-form>
@@ -42,14 +43,27 @@ export default {
     async submit() {
       const valid = await this.$refs.form.validate();
 
+      if (!valid) return;
+
       if (this.isCode) {
-        this.$store.commit('setUser', {});
+        const { data } = await this.$api.auth.login({
+          email: this.email,
+          secretCode: parseInt(this.code),
+        });
+
+        this.$store.commit('setUser', {
+          token: data.access_token,
+        });
+
         this.$router.push('/');
+
+        return;
       }
 
-      if (valid) {
-        this.addCodeField();
-      }
+      await this.$api.auth.request({
+        email: this.email,
+      });
+      this.addCodeField();
     },
 
     addCodeField() {

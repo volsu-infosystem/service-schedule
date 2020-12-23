@@ -5,8 +5,11 @@
 </template>
 
 <script>
+import auth from '@/middleware/auth';
+
 export default {
   name: 'index-page',
+  middleware: [auth],
 };
 </script>
 
