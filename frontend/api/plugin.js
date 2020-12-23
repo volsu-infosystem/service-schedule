@@ -1,15 +1,15 @@
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { Api } from './api';
 
-export default function ({ $axios, store, isServer, res, error }, inject) {
-  $axios.onRequest(async config => {
-    const user = store.state.global.user;
-    config.headers['Authorization'] = `Bearer ${user.token}`;
-    if (isServer) {
-      res.setHeader('Set-Cookie', [`Bearer ${user.token}`]);
-    }
-    return config;
-  });
+export default function ({ $axios, store, error }, inject) {
+  // $axios.onRequest(async config => {
+  //   const user = store.state.global.user;
+  //   config.headers['Authorization'] = `Bearer ${user.token}`;
+  //   if (isServer) {
+  //     res.setHeader('Set-Cookie', [`Bearer ${user.token}`]);
+  //   }
+  //   return config;
+  // });
 
   $axios.onResponse(response => {
     return {
@@ -30,6 +30,7 @@ export default function ({ $axios, store, isServer, res, error }, inject) {
   });
 
   $axios.onError(async errorObject => {
+    console.log(errorObject);
     const code = parseInt(errorObject.response && errorObject.response.status);
     let message = '';
     if (code === 404) {
