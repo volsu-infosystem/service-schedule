@@ -8,6 +8,7 @@ COPY package*.json ./
 COPY yarn.* ./
 
 RUN yarn
+RUN yarn copy:assets
 
 COPY . .
 
@@ -26,6 +27,8 @@ COPY package*.json ./
 COPY yarn.* ./
 
 RUN yarn install --production
+
+RUN yarn copy:assets
 
 COPY . .
 

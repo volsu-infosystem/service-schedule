@@ -2,7 +2,7 @@
   <div class="container">
     <schedule-table v-if="schedule" :schedule="schedule" />
 
-    <ui-form v-else class="edit-page__form" ref="form" @submit="getTimetable">
+    <ui-form v-else ref="form" class="edit-page__form" @submit="getTimetable">
       <h4>Выбрать расписание</h4>
 
       <ui-select
@@ -28,11 +28,12 @@
 
 <script>
 import { schedule } from '@/consts/schedule';
+import auth from '@/middleware/auth';
 
 export default {
   name: 'edit-page',
 
-  middleware: 'auth',
+  middleware: [auth],
 
   asyncData({ params }) {
     const timetable = params.timetable;

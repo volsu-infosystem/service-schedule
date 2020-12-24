@@ -17,7 +17,6 @@ export class AuthController {
     return await this.authService.registerNewDevice(registerUserDto);
   }
 
-  @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto): Promise<any> {
     return this.authService.createToken(loginUserDto);

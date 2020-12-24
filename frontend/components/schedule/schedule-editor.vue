@@ -6,11 +6,11 @@
     </div>
     <ui-form>
       <h4>{{ discipline.header }}</h4>
-      <ui-select :options="discipline.options" v-model="discipline.model" />
+      <ui-select v-model="discipline.model" :options="discipline.options" />
       <h4>{{ professor.header }}</h4>
-      <ui-select :options="professor.options" v-model="professor.model" />
+      <ui-select v-model="professor.model" :options="professor.options" />
       <h4>{{ room.header }}</h4>
-      <ui-select :options="room.options" v-model="room.model" />
+      <ui-select v-model="room.model" :options="room.options" />
       <ui-button type="primary"> Сохранить </ui-button>
     </ui-form>
     <ui-loading :loading="loading" />
