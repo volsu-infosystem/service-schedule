@@ -11,5 +11,6 @@ import { SubGroupController } from './subGroup.controller';
   imports: [TypeOrmModule.forFeature([GroupEntity, SubGroupEntity])],
   providers: [GroupService, SubGroupService],
   controllers: [GroupController, SubGroupController],
+  exports: [GroupService],
 })
 export class GroupModule {}

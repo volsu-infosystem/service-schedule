@@ -1,9 +1,14 @@
-import { IsNumber } from 'class-validator';
+import { ImportanceStatusEnum } from '../enums/importanceStatus.enum';
+import { LessonTypeEnum } from '../enums/lessonType.enum';
+import { PeriodicityEnum } from '../enums/periodicity.enum';
 
 export class UpdateLessonDto {
-  @IsNumber()
   readonly disciplineId: number;
-
-  @IsNumber()
+  readonly professorId: number;
   readonly roomId: number;
+  readonly lessonType: LessonTypeEnum;
+  readonly importanceStatus: ImportanceStatusEnum;
+  readonly startTime: string;
+  readonly endTime: string;
+  readonly periodicity: PeriodicityEnum;
 }

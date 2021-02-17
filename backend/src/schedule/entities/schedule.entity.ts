@@ -1,5 +1,12 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { CellEntity } from './cell.entity';
+import { GroupEntity } from 'src/group/entities/group.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { LessonEntity } from './lesson.entity';
 
 @Entity('schedule')
 export class ScheduleEntity {
@@ -7,11 +14,17 @@ export class ScheduleEntity {
   id: number;
 
   @OneToMany(
-    () => CellEntity,
-    cell => cell.schedule,
+    () => LessonEntity,
+    lessonEntity => lessonEntity.schedule,
   )
-  cells: CellEntity[];
+  lessons: LessonEntity[];
 
-  @Column('smallint')
+  @Column('smallint', { unique: true })
   semester: number;
+
+  @ManyToOne(
+    () => GroupEntity,
+    groupEntity => groupEntity.schedules,
+  )
+  group: GroupEntity;
 }

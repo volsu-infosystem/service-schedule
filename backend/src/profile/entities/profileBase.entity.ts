@@ -13,6 +13,9 @@ export class ProfileBaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column('varchar', { length: 128 })
+  initials: string;
+
   @Column('varchar', { length: 64 })
   firstName: string;
 

@@ -1,13 +1,17 @@
+import { RoomEntity } from 'src/campus/entities/room.entity';
+import { DisciplineEntity } from 'src/discipline/entities/discipline.entity';
+import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
 import {
+  Column,
   Entity,
-  JoinTable,
-  ManyToMany,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
-import { DisciplineEntity } from 'src/discipline/entities/discipline.entity';
-import { RoomEntity } from '../../campus/entities/room.entity';
+import { ImportanceStatusEnum } from '../enums/importanceStatus.enum';
+import { LessonTypeEnum } from '../enums/lessonType.enum';
+import { PeriodicityEnum } from '../enums/periodicity.enum';
+import { ScheduleEntity } from './schedule.entity';
 
 @Entity('lesson')
 export class LessonEntity {
@@ -15,26 +19,47 @@ export class LessonEntity {
   id: number;
 
   @ManyToOne(
-    () => DisciplineEntity,
-    discipline => discipline.lessons,
+    () => ScheduleEntity,
+    scheduleEntity => scheduleEntity.lessons,
   )
+  schedule: ScheduleEntity;
+
+  @ManyToOne(
+    () => DisciplineEntity,
+    disciplineEntity => disciplineEntity.lessons,
+    { nullable: true },
+  )
+  @JoinColumn({ name: 'disciplineId' })
   discipline: DisciplineEntity;
 
-  @ManyToMany(
+  @ManyToOne(
     () => ProfileProfessorEntity,
     professor => professor.lessons,
-    { cascade: true },
+    { nullable: true },
   )
-  @JoinTable({
-    name: 'lessons_professors',
-    joinColumn: { name: 'lesson_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'professor_id', referencedColumnName: 'id' },
-  })
-  professors: ProfileProfessorEntity[];
+  @JoinColumn({ name: 'professorId' })
+  professor: ProfileProfessorEntity;
 
   @ManyToOne(
     () => RoomEntity,
-    room => room.lessons,
+    roomEntity => roomEntity.lessons,
+    { nullable: true },
   )
+  @JoinColumn({ name: 'roomId' })
   room: RoomEntity;
+
+  @Column('enum', { enum: LessonTypeEnum })
+  lessonType: LessonTypeEnum;
+
+  @Column('enum', { enum: ImportanceStatusEnum })
+  importanceStatus: ImportanceStatusEnum;
+
+  @Column('varchar', { length: 5 })
+  startTime: string;
+
+  @Column('varchar', { length: 5 })
+  endTime: string;
+
+  @Column('enum', { enum: PeriodicityEnum })
+  periodicity: PeriodicityEnum;
 }

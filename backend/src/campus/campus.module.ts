@@ -16,5 +16,6 @@ import { RoomService } from './room.service';
   ],
   controllers: [CampusController, EquipmentController, RoomController],
   providers: [CampusService, EquipmentService, RoomService],
+  exports: [RoomService],
 })
 export class CampusModule {}

@@ -28,14 +28,14 @@ export class RoomEntity {
   capacity: number;
 
   @OneToMany(
+    () => LessonEntity,
+    lessonEntity => lessonEntity.room,
+  )
+  lessons: LessonEntity;
+
+  @OneToMany(
     () => EquipmentEntity,
     equipment => equipment.room,
   )
   equipments: EquipmentEntity[];
-
-  @OneToMany(
-    () => LessonEntity,
-    lesson => lesson.room,
-  )
-  lessons: LessonEntity[];
 }
