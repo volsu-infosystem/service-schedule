@@ -1,0 +1,105 @@
+version: '3.7'
+
+services:
+  nuxt:
+    build:
+      context: ./frontend/
+      target: 'development'
+    container_name: nuxt-container
+    restart: always
+    ports:
+      - '${FRONTEND_PORT}:${FRONTEND_PORT}'
+    volumes:
+      - ./frontend/:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - .env
+    networks:
+      - webnet
+    command: yarn dev
+
+  nest:
+    container_name: nest-container
+    build:
+      context: ./backend/
+      target: 'development'
+    volumes:
+      - ./backend/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '${API_PORT}:${API_PORT}'
+      - '5431:5431'
+      - '9229:9229'
+    command: npm run start:dev
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      - postgresdb
+
+  nginx:
+    container_name: nginx-container
+    build:
+      context: ./nginx/
+    ports:
+      - '${PROXY_PORT}:${PROXY_PORT}'
+      - '443:443'
+    volumes:
+      - ./logs:/var/log/nginx/
+    depends_on:
+      - nuxt
+      - nest
+    networks:
+      - webnet
+    env_file:
+      - .env
+
+  postgresdb:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - webnet
+    env_file:
+      - .env
+    ports:
+      - '${TYPEORM_PORT}:${TYPEORM_PORT}'
+
+  redis:
+    container_name: redis
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - webnet
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: '${POSTGRES_EMAIL}'
+      PGADMIN_DEFAULT_PASSWORD: '${POSTGRES_PASSWORD}'
+    volumes:
+      - pgadmin:/root/.pgadmin
+    ports:
+      - '${PGADMIN_PORT:-5050}:80'
+    networks:
+      - webnet
+    env_file:
+      - .env
+
+networks:
+  webnet:
+    driver: bridge
+    name: webnet
+
+volumes:
+  postgres:
+  pgadmin:

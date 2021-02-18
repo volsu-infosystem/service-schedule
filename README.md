@@ -1,7 +1,11 @@
 # Volsu-schedule
 
-Для развертки проекта:
-`docker-compose up --build -V`
+Для развертки проекта для разработки:
+`docker-compose -f docker-compose.dev.yml up --build -V -d`
+Для продакшна:
+`docker-compose -f docker-compose.dev.yml up --build -V -d`
+Для бекенда:
+`docker-compose -f docker-compose.backend.yml up --build -V -d`
 
 Установятся все сервисы, базы данных, зависимости и nginx прокси. Дальнейшее взаимодействие осуществляется по адресам
 
