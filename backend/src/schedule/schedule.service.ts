@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { RoomService } from 'src/campus/room.service';
 import { DisciplineService } from 'src/discipline/discipline.service';
 import { GroupService } from 'src/group/group.service';
-import { profileTypeEnum } from 'src/profile/enums/profileType.enum';
 import { ProfileService } from 'src/profile/profile.service';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
@@ -76,9 +75,8 @@ export class ScheduleService {
         const disciplineEntity = await this.disciplineService.findOneById(
           disciplineId,
         );
-        const professorEntity = await this.profileService.findOneById(
+        const professorEntity = await this.profileService.findOneProfessorById(
           professorId,
-          profileTypeEnum.Professor,
         );
         const roomEntity = await this.roomService.findOneById(roomId);
 

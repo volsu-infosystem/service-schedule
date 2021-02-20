@@ -1,5 +1,6 @@
 export enum LessonTypeEnum {
   lection = 'lec',
   practice = 'prac',
-  exam = 'ex',
+  exam = 'exam',
+  other = 'other',
 }

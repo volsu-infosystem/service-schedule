@@ -35,10 +35,10 @@ export class AuthService {
         role: await this.roleService.getRoleByName('user'),
       };
       currUser = await this.userService.create(newUserDto);
-      await this.profileService.linkToUser(
+      await this.profileService.linkStudentToUser(
         currUser,
         newUserDto.profile.id,
-        newUserDto.profile.profileType,
+        newUserDto.email,
       );
     }
 

@@ -1,3 +1,6 @@
+import { RoomEntity } from 'src/campus/entities/room.entity';
+import { DisciplineEntity } from 'src/discipline/entities/discipline.entity';
+import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
 import { ImportanceStatusEnum } from '../enums/importanceStatus.enum';
 import { LessonTypeEnum } from '../enums/lessonType.enum';
 import { PeriodicityEnum } from '../enums/periodicity.enum';
@@ -11,4 +14,8 @@ export class CreateLessonDto {
   readonly startTime: string;
   readonly endTime: string;
   readonly periodicity: PeriodicityEnum;
+
+  discipline: DisciplineEntity;
+  professor: ProfileProfessorEntity;
+  room: RoomEntity;
 }

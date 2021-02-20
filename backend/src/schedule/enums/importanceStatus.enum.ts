@@ -1,6 +1,6 @@
 export enum ImportanceStatusEnum {
   low = 'low',
   normal = 'normal',
-  hight = 'hight',
+  high = 'high',
   special = 'special',
 }

@@ -13,19 +13,3 @@ export class ProfileByEmailNotFoundException extends Error {
     this.name = 'ProfileByEmailNotFoundException';
   }
 }
-
-export class ProfileInvalidDtoException extends Error {
-  constructor() {
-    const message = `CreateProfileDto is invalid`;
-    super(message);
-    this.name = 'ProfileInvalidDtoException';
-  }
-}
-
-export class ProfileInvalidTypeException extends Error {
-  constructor() {
-    const message = `Profile Type is invalid`;
-    super(message);
-    this.name = 'ProfileInvalidTypeException';
-  }
-}

@@ -1,5 +1,8 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RoomService } from 'src/campus/room.service';
+import { DisciplineService } from 'src/discipline/discipline.service';
+import { ProfileService } from 'src/profile/profile.service';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
@@ -10,9 +13,20 @@ export class LessonService {
   constructor(
     @InjectRepository(LessonEntity)
     private readonly lessonRepository: Repository<LessonEntity>,
+    private readonly disciplineService: DisciplineService,
+    private readonly profileService: ProfileService,
+    private readonly roomService: RoomService,
   ) {}
 
   async create(lesson: CreateLessonDto): Promise<LessonEntity> {
+    lesson.discipline = await this.disciplineService.findOneById(
+      lesson.disciplineId,
+    );
+    lesson.professor = await this.profileService.findOneProfessorById(
+      lesson.professorId,
+    );
+    lesson.room = await this.roomService.findOneById(lesson.roomId);
+
     const newLesson = this.lessonRepository.create(lesson);
     return await this.lessonRepository.save(newLesson);
   }
