@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { throwError } from 'rxjs';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { DeepPartial, Repository } from 'typeorm';
 import { CreateProfileProfessorDto } from './dto/create-profile-professor.dto';
@@ -148,7 +147,6 @@ export class ProfileService {
 
   async linkStudentToUser(
     user: UserEntity,
-    profileId: number,
     email: string,
   ): Promise<ProfileEntity> {
     const profileStudent = await this.findOneStudentByEmail(email);

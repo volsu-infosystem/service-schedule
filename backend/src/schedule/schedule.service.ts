@@ -65,26 +65,13 @@ export class ScheduleService {
     });
 
     const lessonsList = await this.lessonService.getLessons(schedule.id);
-
     const lessonsListResponse = await Promise.all(
       lessonsList.map(async lesson => {
-        const disciplineId = +lesson.discipline;
-        const professorId = +lesson.professor;
-        const roomId = +lesson.room;
-
-        const disciplineEntity = await this.disciplineService.findOneById(
-          disciplineId,
-        );
-        const professorEntity = await this.profileService.findOneProfessorById(
-          professorId,
-        );
-        const roomEntity = await this.roomService.findOneById(roomId);
-
         const lessonResponse: LessonResponse = {
           id: lesson.id,
-          discipline: disciplineEntity.name,
-          professor: professorEntity.initials,
-          room: roomEntity.name,
+          discipline: lesson.discipline.name,
+          professor: lesson.professor.initials,
+          room: lesson.room.name,
           lessonType: lesson.lessonType,
           importanceStatus: lesson.importanceStatus,
           startTime: lesson.startTime,

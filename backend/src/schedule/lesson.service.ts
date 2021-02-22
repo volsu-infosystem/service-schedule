@@ -7,6 +7,7 @@ import { Repository, DeepPartial } from 'typeorm';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
 import { LessonEntity } from './entities/lesson.entity';
+import { ScheduleService } from './schedule.service';
 
 @Injectable()
 export class LessonService {
@@ -16,9 +17,11 @@ export class LessonService {
     private readonly disciplineService: DisciplineService,
     private readonly profileService: ProfileService,
     private readonly roomService: RoomService,
+    private readonly scheduleService: ScheduleService,
   ) {}
 
   async create(lesson: CreateLessonDto): Promise<LessonEntity> {
+    lesson.schedule = await this.scheduleService.findOneById(lesson.scheduleId);
     lesson.discipline = await this.disciplineService.findOneById(
       lesson.disciplineId,
     );
@@ -61,7 +64,7 @@ export class LessonService {
   async getLessons(schedule: number): Promise<LessonEntity[]> {
     return await this.lessonRepository.find({
       where: { schedule },
-      loadRelationIds: true,
+      relations: ['discipline', 'professor', 'room'],
     });
   }
 }

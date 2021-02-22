@@ -35,11 +35,7 @@ export class AuthService {
         role: await this.roleService.getRoleByName('user'),
       };
       currUser = await this.userService.create(newUserDto);
-      await this.profileService.linkStudentToUser(
-        currUser,
-        newUserDto.profile.id,
-        newUserDto.email,
-      );
+      await this.profileService.linkStudentToUser(currUser, newUserDto.email);
     }
 
     await this.mailService.sendSecretCode(currUser.email, currUser.secretCode);
