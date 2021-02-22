@@ -1,21 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { DeepPartial, Repository } from 'typeorm';
+import { CreateProfileProfessorDto } from './dto/create-profile-professor.dto';
+import { CreateProfileStudentDto } from './dto/create-profile-student.dto';
+import { UpdateProfileProfessorDto } from './dto/update-profile-professor.dto';
+import { UpdateProfileStudentDto } from './dto/update-profile-student.dto';
 import { ProfileProfessorEntity } from './entities/profileProfessor.entity';
 import { ProfileStudentEntity } from './entities/profileStudent.entity';
-import { profileTypeEnum } from './enums/profileType.enum';
 import {
   ProfileByEmailNotFoundException,
-  ProfileInvalidDtoException,
-  ProfileInvalidTypeException,
   ProfileNotFoundException,
 } from './exceptions/profile.exceptions';
-import {
-  CreateProfileDto,
-  ProfileEntity,
-  UpdateProfileDto,
-} from './interfaces/profile.interface';
+import { ProfileEntity } from './interfaces/profile.interface';
 
 @Injectable()
 export class ProfileService {
@@ -27,54 +24,38 @@ export class ProfileService {
     private readonly professorRepository: Repository<ProfileProfessorEntity>,
   ) {}
 
-  async create(
-    profile: CreateProfileDto,
-    type: profileTypeEnum,
-  ): Promise<ProfileEntity> {
-    let profileRepository;
+  async createStudent(
+    profile: CreateProfileStudentDto,
+  ): Promise<ProfileStudentEntity> {
+    const newProfile = this.studentRepository.create(profile);
 
-    if (type === profileTypeEnum.Student) {
-      profileRepository = this.studentRepository;
-    } else if (type === profileTypeEnum.Professor) {
-      profileRepository = this.professorRepository;
-    } else throw new ProfileInvalidDtoException();
-
-    const newProfile = profileRepository.create(profile);
-
-    return await profileRepository.save(newProfile);
+    return await this.studentRepository.save(newProfile);
   }
 
-  async findAll(type: profileTypeEnum | undefined): Promise<ProfileEntity[]> {
-    let res = [];
+  async createProfessor(
+    profile: CreateProfileProfessorDto,
+  ): Promise<ProfileProfessorEntity> {
+    const newProfile = this.professorRepository.create(profile);
 
-    if (type === profileTypeEnum.Student) {
-      const students = await this.studentRepository.find();
-      res = res.concat(students);
-    } else if (type === profileTypeEnum.Professor) {
-      const professors = await this.professorRepository.find();
-      res = res.concat(professors);
-    } else {
-      const students = await this.studentRepository.find();
-      const professors = await this.professorRepository.find();
-      res = res.concat(students, professors);
-    }
-
-    return res;
+    return await this.professorRepository.save(newProfile);
   }
 
-  async findOneById(
+  async findAllStudents(): Promise<ProfileStudentEntity[]> {
+    return await this.studentRepository.find();
+  }
+
+  async findAllProfessors(): Promise<ProfileProfessorEntity[]> {
+    return await this.professorRepository.find();
+  }
+
+  async findOneStudentById(profileId: number): Promise<ProfileStudentEntity> {
+    return await this.studentRepository.findOne({ id: profileId });
+  }
+
+  async findOneProfessorById(
     profileId: number,
-    type: profileTypeEnum | undefined,
-  ): Promise<ProfileEntity> {
-    let profileRepository;
-
-    if (type === profileTypeEnum.Student) {
-      profileRepository = this.studentRepository;
-    } else if (type === profileTypeEnum.Professor) {
-      profileRepository = this.professorRepository;
-    } else throw new ProfileInvalidDtoException();
-
-    return await profileRepository.findOne({ id: profileId });
+  ): Promise<ProfileProfessorEntity> {
+    return await this.professorRepository.findOne({ id: profileId });
   }
 
   async findOneByEmail(userEmail: string): Promise<ProfileEntity> {
@@ -98,58 +79,98 @@ export class ProfileService {
     } else throw new ProfileByEmailNotFoundException(userEmail);
   }
 
-  async updateOne(
+  async findOneStudentByEmail(
+    userEmail: string,
+  ): Promise<ProfileStudentEntity> {
+    const result = await this.studentRepository.findOne({
+      where: { email: userEmail },
+    });
+
+    if (result) {
+      return result;
+    } else throw new ProfileByEmailNotFoundException(userEmail);
+  }
+
+  async findOneProfessorByEmail(
+    userEmail: string,
+  ): Promise<ProfileProfessorEntity> {
+    const result = await this.professorRepository.findOne({
+      where: { email: userEmail },
+    });
+
+    if (result) {
+      return result;
+    } else throw new ProfileByEmailNotFoundException(userEmail);
+  }
+
+  async updateOneStudent(
     profileId: number,
-    updateProfile: DeepPartial<UpdateProfileDto>,
-    type: profileTypeEnum | undefined,
-  ): Promise<ProfileEntity> {
-    let profileRepository;
+    updateProfile: DeepPartial<UpdateProfileStudentDto>,
+  ): Promise<ProfileStudentEntity> {
+    await this.studentRepository.update({ id: profileId }, updateProfile);
 
-    //
-    // WARNING! To Do: Write normal DeepPartial verification
-    // This service needed hard refactoring
-    //
-
-    if (type === profileTypeEnum.Student) {
-      profileRepository = this.studentRepository;
-    } else if (type === profileTypeEnum.Professor) {
-      profileRepository = this.professorRepository;
-    } else throw new ProfileInvalidTypeException();
-
-    await profileRepository.update({ id: profileId }, updateProfile);
-
-    const updatedProfile = await profileRepository.findOne(profileId);
+    const updatedProfile = await this.findOneStudentById(profileId);
     if (updatedProfile) {
       return updatedProfile;
     }
     throw new ProfileNotFoundException(profileId);
   }
 
-  async deleteOne(
+  async updateOneProfessor(
     profileId: number,
-    type: profileTypeEnum,
-  ): Promise<ProfileEntity[]> {
-    let profileRepository;
+    updateProfile: DeepPartial<UpdateProfileProfessorDto>,
+  ): Promise<ProfileProfessorEntity> {
+    await this.professorRepository.update({ id: profileId }, updateProfile);
 
-    if (type === profileTypeEnum.Student) {
-      profileRepository = this.studentRepository;
-    } else if (type === profileTypeEnum.Professor) {
-      profileRepository = this.professorRepository;
-    } else throw new ProfileInvalidTypeException();
-
-    const profileToRemove = await profileRepository.find({ id: profileId });
-    return await profileRepository.remove(profileToRemove);
+    const updatedProfile = await this.findOneProfessorById(profileId);
+    if (updatedProfile) {
+      return updatedProfile;
+    }
+    throw new ProfileNotFoundException(profileId);
   }
 
-  async linkToUser(
+  async deleteOneStudent(profileId: number): Promise<ProfileStudentEntity[]> {
+    const profileToRemove = await this.studentRepository.find({
+      id: profileId,
+    });
+    return await this.studentRepository.remove(profileToRemove);
+  }
+
+  async deleteOneProfessor(
+    profileId: number,
+  ): Promise<ProfileProfessorEntity[]> {
+    const profileToRemove = await this.professorRepository.find({
+      id: profileId,
+    });
+    return await this.professorRepository.remove(profileToRemove);
+  }
+
+  async linkStudentToUser(
+    user: UserEntity,
+    email: string,
+  ): Promise<ProfileEntity> {
+    const profileStudent = await this.findOneStudentByEmail(email);
+
+    if (profileStudent) {
+      return await this.updateOneStudent(profileStudent.id, user);
+    }
+
+    const profileProfessor = await this.findOneProfessorByEmail(email);
+    if (profileProfessor) {
+      return await this.updateOneProfessor(profileProfessor.id, user);
+    }
+
+    throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+  }
+
+  async linkProfessorToUser(
     user: UserEntity,
     profileId: number,
-    profileType: profileTypeEnum,
-  ): Promise<ProfileEntity> {
+  ): Promise<ProfileProfessorEntity> {
     const updateData = {
       user: user,
     };
 
-    return await this.updateOne(profileId, updateData, profileType);
+    return await this.updateOneProfessor(profileId, updateData);
   }
 }

@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
-import { LessonEntity } from 'src/schedule/entities/lesson.entity';
 import { DisciplineHouredEntity } from './disciplineHoured.entity';
+import { LessonEntity } from 'src/schedule/entities/lesson.entity';
 
 @Entity('discipline')
 export class DisciplineEntity {
@@ -41,7 +41,7 @@ export class DisciplineEntity {
 
   @OneToMany(
     () => LessonEntity,
-    lesson => lesson.discipline,
+    lessonEntity => lessonEntity.discipline,
   )
   lessons: LessonEntity[];
 

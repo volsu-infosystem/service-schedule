@@ -1,5 +1,5 @@
 import { LessonEntity } from 'src/schedule/entities/lesson.entity';
-import { Entity, ManyToMany, ManyToOne } from 'typeorm';
+import { Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { DisciplineEntity } from '../../discipline/entities/discipline.entity';
 import { CathedraEntity } from '../../institute/entities/cathedra.entity';
 import { ProfileBaseEntity } from './profileBase.entity';
@@ -19,6 +19,9 @@ export class ProfileProfessorEntity extends ProfileBaseEntity {
   )
   teachedDisciplines: DisciplineEntity[];
 
-  @ManyToMany(() => LessonEntity)
-  lessons: ProfileProfessorEntity[];
+  @OneToMany(
+    () => LessonEntity,
+    lesson => lesson.professor,
+  )
+  lessons: LessonEntity[];
 }
