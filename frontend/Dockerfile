@@ -15,8 +15,8 @@ FROM node:12.13-alpine as production
 
 RUN apk add g++ make python
 
-ARG DEBAG='production'
-ENV DEBAG=${DEBAG}
+ARG DEBUG='production'
+ENV DEBUG=${DEBUG}
 
 WORKDIR /usr/src/app
 
