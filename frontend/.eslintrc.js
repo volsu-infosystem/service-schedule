@@ -14,8 +14,8 @@ module.exports = {
     'vue/name-property-casing': ['error', 'kebab-case'],
     'vue/no-v-html': 0,
     indent: ['error', 2],
-    'no-console': process.env.DEBUG === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.DEBUG === 'production' ? 'error' : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'vue/attribute-hyphenation': 0,
   },
   globals: {
