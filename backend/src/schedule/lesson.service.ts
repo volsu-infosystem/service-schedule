@@ -21,14 +21,17 @@ export class LessonService {
   ) {}
 
   async create(lesson: CreateLessonDto): Promise<LessonEntity> {
-    lesson.schedule = await this.scheduleService.findOneById(lesson.scheduleId);
-    lesson.discipline = await this.disciplineService.findOneById(
-      lesson.disciplineId,
-    );
-    lesson.professor = await this.profileService.findOneProfessorById(
-      lesson.professorId,
-    );
-    lesson.room = await this.roomService.findOneById(lesson.roomId);
+    const [schedule, discipline, professor, room] = await Promise.all([
+      this.scheduleService.findOneById(lesson.scheduleId),
+      this.disciplineService.findOneById(lesson.disciplineId),
+      this.profileService.findOneProfessorById(lesson.professorId),
+      this.roomService.findOneById(lesson.roomId),
+    ]);
+
+    lesson.schedule = schedule;
+    lesson.discipline = discipline;
+    lesson.professor = professor;
+    lesson.room = room;
 
     const newLesson = this.lessonRepository.create(lesson);
     return await this.lessonRepository.save(newLesson);
@@ -46,6 +49,26 @@ export class LessonService {
     lessonId: number,
     updateLesson: DeepPartial<UpdateLessonDto>,
   ): Promise<LessonEntity> {
+    const [schedule, discipline, professor, room] = await Promise.all([
+      updateLesson.scheduleId
+        ? this.scheduleService.findOneById(updateLesson.scheduleId)
+        : null,
+      updateLesson.disciplineId
+        ? this.disciplineService.findOneById(updateLesson.disciplineId)
+        : null,
+      updateLesson.professorId
+        ? this.profileService.findOneProfessorById(updateLesson.professorId)
+        : null,
+      updateLesson.roomId
+        ? this.roomService.findOneById(updateLesson.roomId)
+        : null,
+    ]);
+
+    if (schedule) updateLesson.schedule = schedule;
+    if (discipline) updateLesson.discipline = discipline;
+    if (professor) updateLesson.professor = professor;
+    if (room) updateLesson.room = room;
+
     await this.lessonRepository.update({ id: lessonId }, updateLesson);
     const updatedLesson = await this.lessonRepository.findOne(lessonId);
     if (updatedLesson) {

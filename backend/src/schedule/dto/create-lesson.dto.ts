@@ -17,8 +17,8 @@ export class CreateLessonDto {
   readonly endTime: string;
   readonly periodicity: PeriodicityEnum;
 
-  discipline: DisciplineEntity;
-  professor: ProfileProfessorEntity;
-  room: RoomEntity;
-  schedule: ScheduleEntity;
+  discipline?: DisciplineEntity;
+  professor?: ProfileProfessorEntity;
+  room?: RoomEntity;
+  schedule?: ScheduleEntity;
 }
