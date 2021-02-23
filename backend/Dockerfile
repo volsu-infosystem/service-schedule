@@ -21,7 +21,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY yarn.* ./
 
-RUN yarn install --production
+RUN yarn
 
 RUN yarn global add cpx
 RUN yarn copy:assets
