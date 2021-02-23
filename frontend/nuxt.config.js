@@ -23,8 +23,8 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
-  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/style-resources'],
-  modules: ['@nuxtjs/axios', '@nuxtjs/svg-sprite'],
+  buildModules: ['@nuxtjs/style-resources'],
+  modules: ['@nuxtjs/eslint-module', '@nuxtjs/axios', '@nuxtjs/svg-sprite'],
 
   plugins: ['@/api/plugin', '@/plugins/antd-ui', '@/plugins/vee-validate'],
 
