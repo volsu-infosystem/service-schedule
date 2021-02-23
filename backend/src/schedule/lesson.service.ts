@@ -1,4 +1,10 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  forwardRef,
+  Inject,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RoomService } from 'src/campus/room.service';
 import { DisciplineService } from 'src/discipline/discipline.service';
@@ -17,6 +23,7 @@ export class LessonService {
     private readonly disciplineService: DisciplineService,
     private readonly profileService: ProfileService,
     private readonly roomService: RoomService,
+    @Inject(forwardRef(() => ScheduleService))
     private readonly scheduleService: ScheduleService,
   ) {}
 

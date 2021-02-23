@@ -11,7 +11,6 @@ import { ProfileStudentEntity } from '../../profile/entities/profileStudent.enti
 import { AdmissionYearEntity } from '../../profile/entities/admissionYear.entity';
 import { StudyDirectionEntity } from '../../discipline/entities/studyDirection.entity';
 import { CathedraEntity } from '../../institute/entities/cathedra.entity';
-import { SubGroupEntity } from './subGroup.entity';
 import { ScheduleEntity } from 'src/schedule/entities/schedule.entity';
 
 @Entity('group')
@@ -45,12 +44,6 @@ export class GroupEntity {
     profileStudent => profileStudent.group,
   )
   students: ProfileStudentEntity[];
-
-  @OneToMany(
-    () => SubGroupEntity,
-    subGroup => subGroup.group,
-  )
-  subGroups: SubGroupEntity[];
 
   @OneToOne(() => ProfileStudentEntity)
   @JoinColumn()

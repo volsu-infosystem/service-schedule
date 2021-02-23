@@ -1,13 +1,13 @@
+import { LessonEntity } from 'src/schedule/entities/lesson.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { ProfileStudentEntity } from '../../profile/entities/profileStudent.entity';
-import { GroupEntity } from './group.entity';
 
 @Entity('sub_group')
 export class SubGroupEntity {
@@ -20,18 +20,17 @@ export class SubGroupEntity {
   @ManyToMany(
     () => ProfileStudentEntity,
     student => student.subGroups,
-    { cascade: true },
   )
   @JoinTable({
-    name: 'sub_groups_students',
-    joinColumn: { name: 'sub_group_id', referencedColumnName: 'id' },
+    name: 'sub_subGroups_students',
+    joinColumn: { name: 'sub_subGroup_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'student_id', referencedColumnName: 'id' },
   })
   students: ProfileStudentEntity[];
 
-  @ManyToOne(
-    () => GroupEntity,
-    group => group.subGroups,
+  @OneToMany(
+    () => LessonEntity,
+    lessonEntity => lessonEntity.subGroup,
   )
-  group: GroupEntity;
+  lessons: LessonEntity;
 }

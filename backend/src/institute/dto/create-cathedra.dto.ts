@@ -1,4 +1,5 @@
 import { IsNumber, IsString, Length } from 'class-validator';
+import { InstituteEntity } from '../entities/institute.entity';
 
 export class CreateCathedraDto {
   @IsString()
@@ -7,4 +8,6 @@ export class CreateCathedraDto {
 
   @IsNumber()
   readonly instituteId: number;
+
+  institute?: InstituteEntity;
 }

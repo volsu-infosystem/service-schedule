@@ -1,5 +1,6 @@
 import { RoomEntity } from 'src/campus/entities/room.entity';
 import { DisciplineEntity } from 'src/discipline/entities/discipline.entity';
+import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
 import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
 import {
   Column,
@@ -23,6 +24,12 @@ export class LessonEntity {
     scheduleEntity => scheduleEntity.lessons,
   )
   schedule: ScheduleEntity;
+
+  @ManyToOne(
+    () => SubGroupEntity,
+    subGroupEntity => subGroupEntity.lessons,
+  )
+  subGroup: SubGroupEntity;
 
   @ManyToOne(
     () => DisciplineEntity,

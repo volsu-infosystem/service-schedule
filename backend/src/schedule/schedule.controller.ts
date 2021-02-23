@@ -9,7 +9,7 @@ import { ScheduleService } from './schedule.service';
 
 @Controller('schedule')
 @ApiTags('schedule')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class ScheduleController {
   constructor(
     private readonly scheduleService: ScheduleService,
