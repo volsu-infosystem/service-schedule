@@ -15,15 +15,15 @@ FROM node:12.13-alpine as production
 
 RUN apk add g++ make python
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+ARG DEBAG='production'
+ENV DEBAG=${DEBAG}
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 COPY yarn.* ./
 
-RUN yarn install --production
+RUN yarn
 
 RUN yarn build
 
