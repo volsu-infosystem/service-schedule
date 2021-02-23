@@ -23,6 +23,7 @@ COPY yarn.* ./
 
 RUN yarn install --production
 
+RUN yarn global add cpx
 RUN yarn copy:assets
 
 COPY . .
