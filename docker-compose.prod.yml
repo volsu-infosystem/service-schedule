@@ -15,7 +15,6 @@ services:
       - .env
     networks:
       - webnet
-    command: yarn start
 
   nest:
     container_name: nest-container
@@ -25,7 +24,6 @@ services:
     volumes:
       - ./backend/:/usr/src/app
       - /usr/src/app/node_modules
-    command: npm run start:prod
     env_file:
       - .env
     networks:
