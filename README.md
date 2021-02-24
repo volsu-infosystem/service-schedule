@@ -2,8 +2,10 @@
 
 Для развертки проекта для разработки:
 `docker-compose -f docker-compose.dev.yml up --build -V -d`
+
 Для продакшна:
 `docker-compose -f docker-compose.dev.yml up --build -V -d`
+
 Для бекенда:
 `docker-compose -f docker-compose.backend.yml up --build -V -d`
 
