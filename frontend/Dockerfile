@@ -22,8 +22,8 @@ WORKDIR /usr/src/app
 
 COPY --from=development /usr/src/app .
 
-RUN yarn build
-
 COPY . .
+
+RUN yarn build
 
 CMD ["yarn", "start"]
