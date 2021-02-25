@@ -1,17 +1,16 @@
-FROM node:12.13-alpine As development
+FROM node:lts-alpine As development
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-COPY yarn.* ./
 
-RUN yarn
+RUN yarn install --only=development
 
 COPY . .
 
 RUN yarn build
 
-FROM node:12.13-alpine as production
+FROM node:lts-alpine as production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
@@ -19,15 +18,11 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-COPY yarn.* ./
 
-RUN yarn
-
-RUN yarn global add cpx
-RUN yarn copy:assets
+RUN yarn install --only=production
 
 COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/main"]
+CMD ["yarn", "start:prod"]

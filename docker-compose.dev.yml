@@ -4,9 +4,9 @@ services:
   nuxt:
     build:
       context: ./frontend/
+      dockerfile: Dockerfile.dev
       target: 'development'
     container_name: nuxt-container
-    restart: always
     ports:
       - '${FRONTEND_PORT}:${FRONTEND_PORT}'
     volumes:
@@ -30,7 +30,7 @@ services:
       - '${API_PORT}:${API_PORT}'
       - '5431:5431'
       - '9229:9229'
-    command: npm run start:dev
+    command: yarn start:dev
     env_file:
       - .env
     networks:
@@ -58,7 +58,6 @@ services:
   postgresdb:
     container_name: postgres
     image: postgres
-    restart: always
     environment:
       - POSTGRES_DB
       - POSTGRES_USER

@@ -14,9 +14,9 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/dotenv": "^1.4.1",
-    "@nuxtjs/svg-sprite": "^0.4.12",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/style-resources": "^1.0.0",
+    "@nuxtjs/svg-sprite": "^0.4.12",
     "ant-design-vue": "^1.6.5",
     "axios-auth-refresh": "^3.0.0",
     "core-js": "^3.6.5",
