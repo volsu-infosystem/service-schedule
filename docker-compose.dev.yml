@@ -4,6 +4,7 @@ services:
   nuxt:
     build:
       context: ./frontend/
+      dockerfile: Dockerfile.dev
       target: 'development'
     container_name: nuxt-container
     ports:
