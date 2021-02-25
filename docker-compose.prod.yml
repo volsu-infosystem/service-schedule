@@ -3,7 +3,8 @@ version: '3.7'
 services:
   nuxt:
     build:
-      context: ./frontend/Dockerfile.prod
+      context: ./frontend/
+      dockerfile: Dockerfile.prod
       target: 'production'
     container_name: nuxt-container
     ports:
