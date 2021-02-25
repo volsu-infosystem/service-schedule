@@ -21,8 +21,9 @@ WORKDIR /usr/src/app
 
 ENV NODE_ENV=production
 COPY --from=builder /usr/src/app/nuxt.config.js ./
-COPY --from=builder /usr/src/app/public ./public
+COPY --from=builder /usr/src/app/static ./static
 COPY --from=builder /usr/src/app/.nuxt ./.nuxt
+COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 
 CMD ["yarn", "start"]
