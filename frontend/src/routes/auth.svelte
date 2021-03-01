@@ -4,12 +4,16 @@
   import Button from '../components/ui/Button.svelte'
   import FormItem from '../components/ui/FormItem.svelte'
 
+  import auth from '../../api/auth'
+
   let val = ''
   let buttonText = 'Войти'
   let codeSended = false
 
-  function login() {
+  async function login() {
     codeSended = true
+
+    await auth.request()
   }
 </script>
 
