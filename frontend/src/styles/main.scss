@@ -25,17 +25,42 @@
   eot woff ttf
 );
 
-$accent: #2b82d8;
-$accent-hover: #3f98ef;
-$light: #ddeeff;
-$extra-light: #f6fbff;
-$text: #2f2f2f;
-$text-light: #696969;
-$gray: #dcdcdc;
-$white: #fff;
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+:root {
+  --accent: #2b82d8;
+  --accent-hover: #3f98ef;
+  --light: #ddeeff;
+  --extra-light: #f6fbff;
+  --text: #2f2f2f;
+  --text-light: #696969;
+  --gray: #dcdcdc;
+  --white: #fff;
+}
 
 b {
   font-weight: 700;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+}
+
+h3,
+h4 {
+  font-size: 14px;
 }
 
 .container {
@@ -69,9 +94,9 @@ body {
     'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue',
     Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol' !important;
-  font-weight: 500;
-  font-size: 16px;
-  color: $text !important;
+  font-weight: 300;
+  color: var(--text) !important;
+  font-size: 14px;
 }
 
 html {
@@ -81,12 +106,12 @@ html {
   }
 
   ::-webkit-scrollbar-track {
-    background-color: $light;
+    background-color: var(--light);
     border-radius: 10px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: $text-light;
+    background-color: var(--text-light);
     border-radius: 10px;
   }
 }

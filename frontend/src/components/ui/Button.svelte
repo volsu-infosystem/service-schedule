@@ -1,17 +1,9 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-
-  export let type = 'button';
-  export let styling = '';
-
-  const dispatch = createEventDispatcher();
-
-  const emitEvent = (type, event) => {
-    dispatch(type, event);
-  };
+  export let type = 'button'
+  export let styling = ''
 </script>
 
-<button {type} class={styling} on:click={event => emitEvent('click', event)}>
+<button {type} class={styling} on:click on:focus on:blur>
   <slot name="custom">
     <span>
       <slot />
@@ -23,12 +15,12 @@
   button {
     position: relative;
     border: none;
-    width: 100%;
-    padding: 24px 24px;
+    padding: 7px 10px;
     font-weight: bold;
     font-size: 14px;
     line-height: 17px;
-    border-radius: 30px;
+    border-radius: 5px;
+    width: 100%;
     border: none;
     background-color: transparent;
     > :global(span),
@@ -36,10 +28,9 @@
       display: block;
       position: relative;
       z-index: 5;
-      color: var(--white);
+      color: #fff;
       font-weight: 700;
       transition: transform ease 0.3s;
-      transform: translateY(-5px);
     }
     &:focus {
       outline: 0;
@@ -51,11 +42,11 @@
       height: 100%;
       left: 0;
       top: 0;
-      border-radius: 75px;
-      transition: transform ease 0.3s;
-      transform: translateY(-5px);
+      border-radius: 5px;
+      transition: opacity ease 0.3s;
+      opacity: 0;
       z-index: 1;
-      background: var(--gradient);
+      background: var(--accent-hover);
     }
     &:before {
       content: '';
@@ -64,17 +55,15 @@
       height: 100%;
       left: 0;
       top: 0;
-      border-radius: 75px;
+      border-radius: 5px;
       transition: transform ease 0.3s;
       z-index: 1;
-      background: #b32c2c;
+      background: var(--accent);
     }
 
     &:hover {
-      &:after,
-      > :global(span),
-      > :global(div) {
-        transform: translateY(0);
+      &:after {
+        opacity: 1;
       }
     }
   }

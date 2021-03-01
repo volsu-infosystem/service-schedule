@@ -1,15 +1,42 @@
 <script>
-  import Form from '../components/ui/Form';
+  import Form from '../components/ui/Form.svelte'
+  import Input from '../components/ui/Input.svelte'
+  import Button from '../components/ui/Button.svelte'
+  import FormItem from '../components/ui/FormItem.svelte'
+
+  let val = ''
+  let buttonText = 'Войти'
+  let codeSended = false
+
+  function login() {
+    codeSended = true
+  }
 </script>
 
 <div class="auth">
-  <Form >
-    asfasfas
-  </Form>
+  <div class="form">
+    <h3>Вход в систему:</h3>
+    <Form>
+      <FormItem>
+        <Input bind:value={val} placeholder="Ваш Email" />
+      </FormItem>
+      {#if codeSended}
+        <FormItem>
+          <Input bind:value={val} placeholder="Код из письма" />
+        </FormItem>
+      {/if}
+      <Button on:click={login}>{buttonText}</Button>
+    </Form>
+  </div>
 </div>
 
 <style lang="scss">
-  .auth {
-
+  .form {
+    margin: 100px auto;
+    background-color: #fff;
+    border-radius: 5px;
+    max-width: 400px;
+    width: 100%;
+    padding: 15px 20px;
   }
 </style>
