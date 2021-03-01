@@ -27,6 +27,15 @@
     }
   }
 
+  function clearEdit() {
+    document.documentElement.style.overflow = 'auto'
+    cellInEdit = {
+      cell: null,
+      time: null,
+      day: null,
+    }
+  }
+
   clearHover()
 
   /* @TODO Поменять на айдишник клетки*/
@@ -88,7 +97,9 @@
     </div>
   {/each}
   {#if cellInEdit.cell}
-    <CellEditor bind:cellInEdit />
+    <div>
+      <CellEditor bind:cellInEdit on:close={clearEdit} />
+    </div>
   {/if}
 </div>
 

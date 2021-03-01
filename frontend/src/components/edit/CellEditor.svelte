@@ -1,87 +1,172 @@
 <script>
   import ChooseForm from '../tables/ChooseTable.svelte'
+  import Icon from '../ui/Icon.svelte'
+  import { createEventDispatcher } from 'svelte'
+  import { fly } from 'svelte/transition'
+
+  const dispatch = createEventDispatcher()
 
   export let cellInEdit
 
+  const headers = [
+    { label: 'Название', type: 'name' },
+    { label: 'Кол-во часов', type: 'hours' },
+    { label: 'Свободных преподавателей', type: 'teachers' },
+  ]
   const tables = [
     {
       type: 'discipline',
       options: [
-        { value: 'Матан' },
-        {
-          value:
-            'Программиирование и программирование и информатикаи программирование и информатикаи программирование и информатикаи программирование и информатика',
-        },
-        { value: 'Клячин2' },
-        { value: 'Клячин3' },
-        { value: 'Клячин4' },
-        { value: 'Клячин5' },
-        { value: 'Клячин6' },
-        { value: 'Клячин7' },
-        { value: 'Клячин2' },
-        { value: 'Клячин3' },
-        { value: 'Клячин4' },
-        { value: 'Клячин5' },
-        { value: 'Клячин6' },
-        { value: 'Клячин7' },
-        { value: 'Клячин2' },
-        { value: 'Клячин3' },
-        { value: 'Клячин4' },
-        { value: 'Клячин5' },
-        { value: 'Клячин6' },
-        { value: 'Клячин7' },
-        { value: 'Клячин2' },
-        { value: 'Клячин3' },
-        { value: 'Клячин4' },
-        { value: 'Клячин5' },
-        { value: 'Клячин6' },
-        { value: 'Клячин7' },
-        { value: 'Клячин2' },
-        { value: 'Клячин3' },
-        { value: 'Клячин4' },
-        { value: 'Клячин5' },
-        { value: 'Клячин6' },
-        { value: 'Клячин7' },
-        { value: 'Клячин2' },
-        { value: 'Клячин3' },
-        { value: 'Клячин4' },
-        { value: 'Клячин5' },
-        { value: 'Клячин6' },
-        { value: 'Клячин7' },
-        { value: 'Клячин2' },
-        { value: 'Клячин3' },
-        { value: 'Клячин4' },
-        { value: 'Клячин5' },
-        { value: 'Клячин6' },
-        { value: 'Клячин7' },
+        [
+          { label: 'Матан программирование матан ааа', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан программирование матан ааа', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан программирование матан ааа', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
+        [
+          { label: 'Матан', type: 'name' },
+          { label: '15', type: 'hours' },
+          { label: '5', type: 'teachers' },
+        ],
       ],
     },
   ]
 </script>
 
-<div class="schedule-editor">
+<div class="cell-editor" transition:fly={{ x: 20 }}>
+  <div class="back" on:click={() => dispatch('close')}>
+    <Icon name="left-arrow" />
+    <span>Назад</span>
+  </div>
   <h3>Настройка ячейки</h3>
-  <ChooseForm name="Дисциплина" {tables} />
+  <ChooseForm name="Дисциплина" {tables} {headers} />
 </div>
 
 <style lang="scss">
-  .schedule-editor {
+  .cell-editor {
     position: fixed;
     right: 0px;
     width: 600px;
     top: 0px;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     z-index: 30;
     background-color: var(--white);
     box-shadow: -10px 0px 10px 0px rgba(0, 52, 102, 0.09);
-    &__prev {
-      color: var(--text-light);
-      cursor: pointer;
+  }
+  .back {
+    color: var(--text-light);
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px 20px;
+    span {
       display: inline-block;
-      i {
-        font-size: 12px;
-        margin-right: 5px;
-      }
+      margin-left: 10px;
     }
   }
   h3 {
