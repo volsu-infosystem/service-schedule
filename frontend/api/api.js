@@ -1,14 +1,19 @@
 import axios from 'axios';
+import { user } from '../src/store/user';
+
+let token;
+
+user.subscribe(value => {
+  token = value.token;
+});
 
 const api = axios.create({
-  baseURL: 'http://64.227.74.131/api/',
+  baseURL: '/api/',
 });
 
 api.interceptors.request.use(config => {
-  const user = {};
-
-  if (user.token) {
-    config.headers.Authorization = `Bearer 123`;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;
@@ -19,7 +24,7 @@ api.interceptors.response.use(
     const setCookies = response.headers['set-cookie'];
 
     if (setCookies) {
-      res.setHeader('Set-Cookie', setCookies);
+      response.setHeader('Set-Cookie', setCookies);
     }
 
     return {
