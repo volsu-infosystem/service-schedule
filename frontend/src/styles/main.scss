@@ -1,0 +1,118 @@
+@import 'normalize.scss/normalize';
+@import './splide';
+@import './fonts';
+@import './animation';
+
+@include font-face(
+  MuseoSansCyrl,
+  '/fonts/MuseoSansCyrl-Bold',
+  700,
+  normal,
+  woff2 woff eot ttf
+);
+
+@include font-face(
+  MuseoSansCyrl,
+  '/fonts/MuseoSansCyrl-Medium',
+  500,
+  normal,
+  woff2 woff eot ttf
+);
+
+@include font-face(
+  MuseoSansCyrl,
+  '/fonts/MuseoSansCyrl-Regular',
+  300,
+  normal,
+  woff2 woff eot ttf
+);
+
+:root {
+  --accent: #de031c;
+  --accent-light: #fc6a6a;
+
+  --gradient: linear-gradient(184.46deg, #fc6a6a 3.39%, #c93f3f 96.19%);
+
+  --white: #ffffff;
+
+  --text-dark: #292929;
+  --text-gray: #575757;
+  --text-dark-transparent: rgba(41, 41, 41, 0.5);
+
+  --container-width: 1246px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'MuseoSansCyrl', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+  color: var(--text-gray);
+  font-weight: 300;
+  font-size: 14px;
+  padding-bottom: 100px;
+  background-color: #f8f8f8;
+}
+
+b {
+  font-weight: 700;
+}
+
+.container {
+  margin: 0 auto;
+  width: calc(100% - 20px);
+  max-width: var(--container-width);
+  @media screen and (max-width: 620px) {
+    width: calc(100% - 50px);
+  }
+  @media screen and (max-width: 319px) {
+    width: calc(100% - 20px);
+  }
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+span {
+  margin: 0;
+}
+
+h1 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 59px;
+  line-height: 110%;
+  color: var(--text-gray);
+  margin: 0;
+  @media screen and (max-width: 620px) {
+    font-size: 26px;
+    line-height: 110%;
+  }
+}

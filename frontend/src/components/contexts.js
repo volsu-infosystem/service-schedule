@@ -1,0 +1,3 @@
+const loadedContext = {};
+
+export { loadedContext };

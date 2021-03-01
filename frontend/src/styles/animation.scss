@@ -1,0 +1,558 @@
+#main {
+  h1 {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity ease 0.7s 0s, transform ease 0.7s 0s;
+  }
+
+  p {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity ease 0.7s 0.2s, transform ease 0.7s 0.2s;
+  }
+
+  .quiz-lead {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity ease 0.7s 0.4s, transform ease 0.7s 0.4s;
+    .image {
+      opacity: 0;
+      transform: translate(calc(100% + 20px), -50%);
+      transition: opacity ease 0.7s 0.8s, transform ease 0.7s 0.8s;
+      @media screen and (max-width: 1080px) {
+        transform: translate(50%, calc(-50% - 20px));
+      }
+    }
+  }
+
+  .slider {
+    .splide {
+      opacity: 0;
+      transform: transformY(-20px);
+      transition: opacity ease 0.7s 0.4s, transform ease 0.7s 0.4s;
+    }
+    .pagination {
+      opacity: 0;
+      transform: transformY(-20px);
+      transition: opacity ease 0.7s 0.6s, transform ease 0.7s 0.6s;
+    }
+    &:not(.changed) {
+      .splide__slide:first-child {
+        .point {
+          &:nth-child(1) {
+            transition-delay: 1000ms;
+          }
+          &:nth-child(2) {
+            transition-delay: 1100ms;
+          }
+          &:nth-child(3) {
+            transition-delay: 1200ms;
+          }
+          &:nth-child(4) {
+            transition-delay: 1300ms;
+          }
+          &:nth-child(5) {
+            transition-delay: 1400ms;
+          }
+          &:nth-child(6) {
+            transition-delay: 1500ms;
+          }
+          &:nth-child(7) {
+            transition-delay: 1600ms;
+          }
+          &:nth-child(8) {
+            transition-delay: 1700ms;
+          }
+          &:nth-child(9) {
+            transition-delay: 1800ms;
+          }
+        }
+      }
+    }
+  }
+
+  .decor-1,
+  .decor-2 {
+    picture {
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity ease 0.7s 0.4s, transform ease 0.7s 0.4s;
+    }
+  }
+  .decor-2 {
+    picture {
+      transition-delay: 0.8s;
+    }
+  }
+
+  &.visible {
+    h1 {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    p {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .quiz-lead {
+      opacity: 1;
+      transform: translateY(0);
+      .image {
+        opacity: 1;
+        transform: translate(100%, -50%);
+        @media screen and (max-width: 1080px) {
+          transform: translate(50%, -50%);
+        }
+      }
+    }
+
+    .slider {
+      .splide {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .pagination {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .decor-1,
+    .decor-2 {
+      picture {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+#service {
+  .header {
+    span {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0.2s, transform ease 0.7s 0.2s;
+    }
+    h2 {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0s, transform ease 0.7s 0s;
+    }
+  }
+
+  .service {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity ease 0.7s 0s, transform ease 0.7s 0s;
+    &:nth-child(1) {
+      transition-delay: 0.4s;
+    }
+    &:nth-child(2) {
+      transition-delay: 0.6s;
+    }
+    &:nth-child(3) {
+      transition-delay: 0.8s;
+    }
+  }
+
+  &.visible {
+    .header {
+      span {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      h2 {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .service {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+#services {
+  .header {
+    span {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0.2s, transform ease 0.7s 0.2s;
+    }
+    h2 {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0s, transform ease 0.7s 0s;
+    }
+    p {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0.2s, transform ease 0.7s 0.2s;
+    }
+  }
+
+  .d1,
+  .d2,
+  .d3 {
+    picture {
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity ease 0.7s 0.4s, transform ease 0.7s 0.4s;
+    }
+  }
+  .d2 picture {
+    transition-delay: 0.6s;
+  }
+  .d2 picture {
+    transition-delay: 0.8s;
+  }
+  .prev,
+  .next {
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity ease 0.7s 0.6s, transform ease 0.7s 0.6s;
+  }
+  .next {
+    transition-delay: 0.8s;
+  }
+  .pagination {
+    opacity: 0;
+    transition: opacity ease 0.7s 0.6s;
+  }
+  .splide__slide {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity ease 0.7s 0.6s, transform ease 0.7s 0.6s;
+    &:nth-child(1) {
+      transition-delay: 400ms;
+    }
+    &:nth-child(2) {
+      transition-delay: 600ms;
+    }
+    &:nth-child(3) {
+      transition-delay: 800ms;
+    }
+    &:nth-child(4) {
+      transition-delay: 900ms;
+    }
+  }
+  &.visible {
+    .header {
+      span {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      h2 {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      p {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .d1,
+    .d2,
+    .d3 {
+      picture {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .pagination,
+    .prev,
+    .next,
+    .splide__slide,
+    .splide__slide {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+}
+
+#advantages {
+  .header {
+    span {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0.2s, transform ease 0.7s 0.2s;
+    }
+    h2 {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0s, transform ease 0.7s 0s;
+    }
+    p {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0.2s, transform ease 0.7s 0.2s;
+    }
+  }
+
+  .advantages-text {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity ease 0.7s 1.1s, transform ease 0.7s 1.1s;
+  }
+
+  .service {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity ease 0.7s 0s, transform ease 0.7s 0s;
+    &:nth-child(1) {
+      transition-delay: 1.2s;
+    }
+    &:nth-child(2) {
+      transition-delay: 1.4s;
+    }
+    &:nth-child(3) {
+      transition-delay: 1.6s;
+    }
+  }
+
+  .cupboard-image {
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity ease 0.7s 0.5s, transform ease 0.7s 0.5s;
+  }
+
+  .d1,
+  .d2,
+  .d3 {
+    picture {
+      opacity: 0;
+      transform: translateY(0.7);
+      transition: opacity ease 0.7s 0.7s, transform ease 0.7s 0.7s;
+    }
+  }
+  .d2 picture {
+    transition-delay: 0.9s;
+  }
+  .d2 picture {
+    transition-delay: 0.9s;
+  }
+
+  &.visible {
+    .header {
+      span {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      h2 {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      p {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .service,
+    .cupboard-image,
+    .advantages-text {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    .d1,
+    .d2,
+    .d3 {
+      picture {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+#quiz {
+  .header {
+    span {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0.2s, transform ease 0.7s 0.2s;
+    }
+    h2 {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0s, transform ease 0.7s 0s;
+    }
+    p {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0.2s, transform ease 0.7s 0.2s;
+    }
+  }
+  .quiz {
+    opacity: 0;
+    transition: opacity ease 0.7s 0.2s;
+  }
+  .info {
+    h3 {
+      opacity: 0;
+      transition: opacity ease 0.7s 0.2s;
+    }
+    p {
+      opacity: 0;
+      transition: opacity ease 0.7s 0.3s;
+    }
+    .info-image {
+      opacity: 0;
+      transition: opacity ease 0.7s 0.4s;
+    }
+  }
+  .interview {
+    opacity: 0;
+    transition: opacity ease 0.7s 0.5s;
+  }
+  .option {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity ease 0.7s 0.6s, transform ease 0.7s 0.6s;
+    &:nth-child(1) {
+      transition-delay: 600ms;
+    }
+    &:nth-child(2) {
+      transition-delay: 800ms;
+    }
+    &:nth-child(3) {
+      transition-delay: 1000ms;
+    }
+    &:nth-child(4) {
+      transition-delay: 1200ms;
+    }
+    &:nth-child(5) {
+      transition-delay: 1400ms;
+    }
+    &:nth-child(6) {
+      transition-delay: 1600ms;
+    }
+  }
+
+  &.visible {
+    .header {
+      span {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      h2 {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      p {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .info {
+      h3 {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+      p {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+      .info-image {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+    }
+    .quiz {
+      opacity: 1;
+    }
+    .interview {
+      opacity: 1;
+    }
+    .option {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+}
+
+#contacts {
+  .header {
+    span {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0.2s, transform ease 0.7s 0.2s;
+    }
+    h2 {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0s, transform ease 0.7s 0s;
+    }
+  }
+  .map-wrapper {
+    opacity: 0;
+    transition: opacity ease 0.7s 0.4s;
+  }
+  .popup {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity ease 0.7s 0.6s, transform ease 0.7s 0.6s;
+    h3 {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0.8s, transform ease 0.7s 0.8s;
+    }
+    a {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity ease 0.7s 0.9s, transform ease 0.7s 0.9s;
+      &:nth-child(2) {
+        transition-delay: 1000ms;
+      }
+      &:nth-child(3) {
+        transition-delay: 1100ms;
+      }
+    }
+  }
+  .d1 picture {
+    opacity: 0;
+    transition: opacity ease 0.7s 0s;
+  }
+
+  &.visible {
+    .d1 picture {
+      opacity: 1;
+    }
+    .header {
+      span {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      h2 {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .map-wrapper {
+      opacity: 1;
+    }
+    .popup {
+      opacity: 1;
+      transform: translateY(0px);
+      h3 {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+      a {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+    }
+  }
+}
