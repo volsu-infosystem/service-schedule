@@ -4,65 +4,35 @@
 @import './animation';
 
 @include font-face(
-  MuseoSansCyrl,
-  '/fonts/MuseoSansCyrl-Bold',
-  700,
+  Montserrat,
+  '/fonts/Montserrat-Regular',
+  400,
   normal,
-  woff2 woff eot ttf
+  eot woff ttf
 );
-
 @include font-face(
-  MuseoSansCyrl,
-  '/fonts/MuseoSansCyrl-Medium',
+  Montserrat,
+  '/fonts/Montserrat-SemiBold',
+  600,
+  normal,
+  eot woff ttf
+);
+@include font-face(
+  Montserrat,
+  '/fonts/Montserrat-Medium',
   500,
   normal,
-  woff2 woff eot ttf
+  eot woff ttf
 );
 
-@include font-face(
-  MuseoSansCyrl,
-  '/fonts/MuseoSansCyrl-Regular',
-  300,
-  normal,
-  woff2 woff eot ttf
-);
-
-:root {
-  --accent: #de031c;
-  --accent-light: #fc6a6a;
-
-  --gradient: linear-gradient(184.46deg, #fc6a6a 3.39%, #c93f3f 96.19%);
-
-  --white: #ffffff;
-
-  --text-dark: #292929;
-  --text-gray: #575757;
-  --text-dark-transparent: rgba(41, 41, 41, 0.5);
-
-  --container-width: 1246px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body,
-html {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-body {
-  font-family: 'MuseoSansCyrl', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue',
-    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol';
-  color: var(--text-gray);
-  font-weight: 300;
-  font-size: 14px;
-  padding-bottom: 100px;
-  background-color: #f8f8f8;
-}
+$accent: #2b82d8;
+$accent-hover: #3f98ef;
+$light: #ddeeff;
+$extra-light: #f6fbff;
+$text: #2f2f2f;
+$text-light: #696969;
+$gray: #dcdcdc;
+$white: #fff;
 
 b {
   font-weight: 700;
@@ -93,26 +63,30 @@ ul {
   list-style: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-p,
-span {
-  margin: 0;
+body {
+  background-color: #f3f9ff !important;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol' !important;
+  font-weight: 500;
+  font-size: 16px;
+  color: $text !important;
 }
 
-h1 {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 48px;
-  line-height: 59px;
-  line-height: 110%;
-  color: var(--text-gray);
-  margin: 0;
-  @media screen and (max-width: 620px) {
-    font-size: 26px;
-    line-height: 110%;
+html {
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: $light;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: $text-light;
+    border-radius: 10px;
   }
 }

@@ -8,21 +8,6 @@
     />
     <meta name="theme-color" content="#333333" />
 
-    <script>
-      if (
-        !window.Promise ||
-        ![].includes ||
-        !Object.assign ||
-        !window.Map ||
-        !window.fetch
-      ) {
-        var polyfills =
-          '<script crossorigin="anonymous" src="https://cdn.polyfill.io/v3/polyfill.min.js?features=default,fetch,Array.prototype.find,Object.values">';
-        var ending = '<\/script>';
-        document.write(polyfills + ending);
-      }
-    </script>
-
     %sapper.base%
 
     <link rel="manifest" href="manifest.json" crossorigin="use-credentials" />
