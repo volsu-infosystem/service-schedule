@@ -1,27 +1,34 @@
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
-import { Api } from './api';
+import { Api } from '@/api/api';
 
-export default function ({ $axios, store, error, isServer }, inject) {
-  $axios.onRequest(async (config, res) => {
-    const user = store.state.user;
-    config.headers['Authorization'] = `Bearer ${user.token}`;
-    if (isServer) {
-      res.setHeader('Set-Cookie', [`Bearer ${user.token}`]);
+export default function ({ $axios, store, res, error }, inject) {
+  $axios.onRequest(config => {
+    const user = store.state.global.user;
+
+    if (user.token) {
+      config.headers.Authorization = `Bearer ${user.token}`;
     }
+
     return config;
   });
 
   $axios.onResponse(response => {
+    const setCookies = response.headers['set-cookie'];
+
+    if (setCookies) {
+      res.setHeader('Set-Cookie', setCookies);
+    }
+
     return {
       ...response,
-      data: response.data,
+      data: response.data.success,
     };
   });
 
   const refreshAuthLogic = failedRequest =>
-    store.dispatch('global/refreshToken').then(tokenRefreshResponse => {
-      failedRequest.response.config.headers['Authorization'] =
-        'Bearer ' + tokenRefreshResponse.token;
+    store.dispatch('global/updateRefreshToken').then(({ token }) => {
+      failedRequest.response.config.headers.Authorization = 'Bearer ' + token;
+
       return Promise.resolve();
     });
 
@@ -29,9 +36,13 @@ export default function ({ $axios, store, error, isServer }, inject) {
     skipWhileRefreshing: false,
   });
 
-  $axios.onError(async errorObject => {
+  $axios.onError(errorObject => {
     const code = parseInt(errorObject.response && errorObject.response.status);
-    let message = '';
+
+    let message = null;
+    if (code === 500) {
+      message = 'Ошибка сервера';
+    }
     if (code === 404) {
       message = 'Страница не найдена';
     }
@@ -44,22 +55,15 @@ export default function ({ $axios, store, error, isServer }, inject) {
     if (code === 403) {
       message = 'Пожалуйста, авторизируйтесь для выполнения данной операции';
     }
-    if (code === 422) {
-      return Promise.reject({
-        error: errorObject,
-        data: errorObject.response.data,
-      });
-    }
     if (code === 401) {
       return Promise.reject(errorObject);
     }
 
-    error({ statusCode: code, message });
+    if (message) {
+      error({ statusCode: code, message });
+    }
 
-    return Promise.reject({
-      error: errorObject,
-      data: errorObject.response.data,
-    });
+    return errorObject.response;
   });
 
   const api = new Api($axios);
