@@ -8,6 +8,14 @@
   export let day
   export let time
 
+  export let cellInEdit
+  /* @todo Поправить на айдишники */
+  let editedLabel = `${cellInEdit.cell ? cellInEdit.cell.label : ''}:${
+    cellInEdit.day
+  }:${cellInEdit.time}`
+
+  let rowIndex = `${day}:${time.number}`
+
   let row = groups.map((group) => ({
     ...group,
     subcells: group.schedule.filter(
@@ -21,13 +29,19 @@
     })
   }
 
-  function edit(cell) {}
+  function edit(cell) {
+    dispatch('edit', {
+      row,
+      cell,
+    })
+  }
 </script>
 
 <div class="row">
   {#each row as cell}
     <div
       class="cell"
+      class:edit={`${cell.label}:${rowIndex}` === editedLabel}
       on:mouseenter={() => setHover(cell)}
       on:click={() => {
         edit(cell)
@@ -67,7 +81,8 @@
       transition: opacity ease 0.3s;
       opacity: 0;
     }
-    &:hover {
+    &:hover,
+    &.edit {
       &:after {
         opacity: 1;
       }

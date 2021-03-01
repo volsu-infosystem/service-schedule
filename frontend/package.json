@@ -14,6 +14,7 @@
     "axios-auth-refresh": "^3.1.0",
     "compression": "^1.7.1",
     "imagemin-zopfli": "^7.0.0",
+    "lodash-es": "^4.17.21",
     "normalize.scss": "^0.1.0",
     "polka": "next",
     "postcss": "^8.2.1",

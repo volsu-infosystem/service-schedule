@@ -49,17 +49,4 @@
   .ui-input {
     width: 100%;
   }
-
-  input {
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    width: 100%;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-
-  input:focus {
-    outline: 0;
-    outline: thin dotted \9;
-  }
 </style>
