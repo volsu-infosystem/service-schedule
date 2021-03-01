@@ -1,8 +1,6 @@
 <script>
-  import Icon from '../ui/Icon.svelte'
-  import { fade } from 'svelte/transition'
-
   import Search from '../ui/Search.svelte'
+  import Icon from '../ui/Icon.svelte'
   import Table from './Table.svelte'
 
   export let name
@@ -22,16 +20,22 @@
         <Search let:value placeholder="Поиск" />
       </div>
       <div class="table">
-        <Table {table} {headers} bind:active />
+        <Table {table} {headers} bind:active>
+          <tr>
+            <td colspan={headers.length}>
+              <div class="additional">
+                <div>Описание предмета и всякая инфа дополнительная</div>
+                <div class="next">
+                  <span>Дальше</span>
+                  <Icon name="left-arrow" />
+                </div>
+              </div>
+            </td>
+          </tr>
+        </Table>
       </div>
       <div class="step">
         <span>Шаг 1 из 3</span>
-
-        {#if active}
-          <div class="next" transition:fade>
-            <Icon name="left-arrow" />
-          </div>
-        {/if}
       </div>
     </div>
   {/each}
@@ -75,8 +79,8 @@
     cursor: pointer;
     background-color: var(--accent);
     height: 45px;
-    width: 45px;
     position: absolute;
+    padding: 10px 15px;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
@@ -87,7 +91,18 @@
     align-items: center;
     :global(svg) {
       transform: rotate(180deg);
-      font-size: 28px;
+      font-size: 18px;
     }
+    span {
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+  .additional {
+    position: relative;
+    padding: 10px 20px;
+    min-height: 80px;
+    bottom: 0px;
+    border-bottom: solid 1px #ddeeff;
   }
 </style>

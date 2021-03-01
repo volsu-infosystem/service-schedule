@@ -31,6 +31,9 @@
           </td>
         {/each}
       </tr>
+      {#if active === index}
+        <slot {row} />
+      {/if}
     {/each}
   </tbody>
 </table>
@@ -39,13 +42,20 @@
   table {
     width: 100%;
   }
+  h4 {
+    margin-bottom: 0;
+  }
   tr {
     width: 100%;
     border-bottom: solid 1px #ddeeff;
+    background-color: #fff;
+    transition: background-color ease 0.3s;
     position: relative;
-    &:hover,
+    &:hover {
+      background-color: rgba(221, 238, 255, 0.4);
+    }
     &.active {
-      background-color: #ddeeff;
+      background-color: rgba(221, 238, 255, 1);
     }
     div {
       padding: 10px 20px;
