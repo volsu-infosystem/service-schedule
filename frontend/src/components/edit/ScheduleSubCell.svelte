@@ -1,9 +1,9 @@
 <script>
-  export let cell
+  export let subcell
 </script>
 
-<div class="cell" on:mouseenter>
-  {#each cell.lessons as lesson}
+<div class="subcell">
+  {#each subcell.lessons as lesson}
     <div class="lesson">
       <span class="discipline">
         {lesson.discipline.name}
@@ -21,7 +21,7 @@
 </div>
 
 <style lang="scss">
-  .cell {
+  .subcell {
     display: flex;
     width: 100%;
     min-height: 100px;

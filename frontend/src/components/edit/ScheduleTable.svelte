@@ -3,6 +3,7 @@
 
   export let groups
   export let days
+  export let pinned
 
   let hovered
 
@@ -19,11 +20,12 @@
       day: null,
     }
   }
+
   clearHover()
 </script>
 
 <div class="schedule-table">
-  <div class="groups">
+  <div class="groups" class:pin={pinned.top}>
     {#each groups as group}
       <div class="group" class:hover={group.label === hovered.group}>
         <span>
@@ -44,6 +46,7 @@
               class="time"
               class:hover={time.time === hovered.time &&
                 day.day === hovered.day}
+              class:pin={pinned.left}
             >
               <div class="time-label">{time.label}</div>
               <div class="time-time">
@@ -56,7 +59,7 @@
               day={day.day}
               {time}
               on:hover={({ detail }) => {
-                setHover(detail.group, time, day)
+                setHover(detail.cell, time, day)
               }}
             />
           </div>
@@ -72,19 +75,6 @@
     margin-top: 20px;
     padding-right: 600px;
     width: max-content;
-    // .sential {
-    //   height: 5px;
-    //   width: 5px;
-    //   position: sticky;
-    //   &.top {
-    //     left: 0px;
-    //     height: 20px;
-    //   }
-    //   &.left {
-    //     width: 10px;
-    //     top: 0px;
-    //   }
-    // }
     .day {
       display: flex;
       position: relative;

@@ -1,5 +1,5 @@
 <script>
-  import ScheduleCell from './ScheduleCell.svelte'
+  import ScheduleSubCell from './ScheduleSubCell.svelte'
   import { createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()
@@ -10,23 +10,31 @@
 
   let row = groups.map((group) => ({
     ...group,
-    schedule: group.schedule.filter(
+    subcells: group.schedule.filter(
       (cell) => cell.time.number === time.number && cell.time.day === day
     ),
   }))
 
-  function setHover(group) {
+  function setHover(cell) {
     dispatch('hover', {
-      group,
+      cell,
     })
   }
+
+  function edit(cell) {}
 </script>
 
 <div class="row">
-  {#each row as group}
-    <div class="group" on:mouseenter={() => setHover(group)}>
-      {#each group.schedule as cell}
-        <ScheduleCell {cell} />
+  {#each row as cell}
+    <div
+      class="cell"
+      on:mouseenter={() => setHover(cell)}
+      on:click={() => {
+        edit(cell)
+      }}
+    >
+      {#each cell.subcells as subcell}
+        <ScheduleSubCell {subcell} />
       {/each}
     </div>
   {/each}
@@ -37,7 +45,7 @@
     display: flex;
     align-items: stretch;
   }
-  .group {
+  .cell {
     display: flex;
     align-items: stretch;
     width: 280px;
