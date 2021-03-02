@@ -18,6 +18,6 @@ import { AdmissionYearService } from './admissionYear.service';
   ],
   controllers: [ProfileController, AdmissionYearController],
   providers: [ProfileService, AdmissionYearService],
-  exports: [ProfileService],
+  exports: [ProfileService, AdmissionYearService],
 })
 export class ProfileModule {}

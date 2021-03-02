@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GroupEntity } from 'src/group/entities/group.entity';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateAdmissionYearDto } from './dto/create-admission-year.dto';
 import { UpdateAdmissionYearDto } from './dto/update-admission-year.dto';

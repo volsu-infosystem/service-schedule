@@ -19,7 +19,7 @@ export class ScheduleEntity {
   )
   lessons: LessonEntity[];
 
-  @Column('smallint', { unique: true })
+  @Column('smallint')
   semester: number;
 
   @ManyToOne(

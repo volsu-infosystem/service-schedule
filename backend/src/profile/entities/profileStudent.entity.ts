@@ -3,7 +3,6 @@ import { Length } from 'class-validator';
 import { GroupEntity } from '../../group/entities/group.entity';
 import { ProfileBaseEntity } from './profileBase.entity';
 import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
-import { SubGroupController } from 'src/group/subGroup.controller';
 
 @Entity('profile_student')
 export class ProfileStudentEntity extends ProfileBaseEntity {
@@ -20,6 +19,7 @@ export class ProfileStudentEntity extends ProfileBaseEntity {
   @ManyToMany(
     () => SubGroupEntity,
     subGroup => subGroup.students,
+    { nullable: true },
   )
-  subGroups: SubGroupController;
+  subGroups?: SubGroupEntity[];
 }

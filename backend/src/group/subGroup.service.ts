@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateSubGroupDto } from './dto/create-sub-group.dto';
 import { UpdateSubGroupDto } from './dto/update-sub-group.dto';
+import { GroupEntity } from './entities/group.entity';
 import { SubGroupEntity } from './entities/subGroup.entity';
-import { SubGroupNotFoundException } from './exceptions/subGroup.exceptions';
 
 @Injectable()
 export class SubGroupService {
@@ -13,8 +13,11 @@ export class SubGroupService {
     private readonly subgroupRepository: Repository<SubGroupEntity>,
   ) {}
 
-  async create(subgroup: CreateSubGroupDto): Promise<SubGroupEntity> {
-    const newSubGroup = this.subgroupRepository.create(subgroup);
+  async create(subGroup: CreateSubGroupDto): Promise<SubGroupEntity> {
+    const newSubGroup = this.subgroupRepository.create(subGroup);
+    newSubGroup.group = {
+      id: subGroup.groupId,
+    } as GroupEntity;
     return await this.subgroupRepository.save(newSubGroup);
   }
 
@@ -30,12 +33,18 @@ export class SubGroupService {
     subgroupId: number,
     updateSubGroup: DeepPartial<UpdateSubGroupDto>,
   ): Promise<SubGroupEntity> {
-    await this.subgroupRepository.update({ id: subgroupId }, updateSubGroup);
+    const newSubGroup = this.subgroupRepository.create(updateSubGroup);
+    if (updateSubGroup.groupId)
+      newSubGroup.group = { id: updateSubGroup.groupId } as GroupEntity;
+
+    await this.subgroupRepository.update({ id: subgroupId }, newSubGroup);
+
     const updatedSubGroup = await this.subgroupRepository.findOne(subgroupId);
+
     if (updatedSubGroup) {
       return updatedSubGroup;
     }
-    throw new SubGroupNotFoundException(subgroupId);
+    throw new HttpException('Not found', HttpStatus.NOT_FOUND);
   }
 
   async deleteOne(subgroupId: number): Promise<SubGroupEntity[]> {

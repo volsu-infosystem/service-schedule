@@ -20,6 +20,6 @@ import { GroupModule } from 'src/group/group.module';
   ],
   providers: [ScheduleService, LessonService],
   controllers: [ScheduleController],
-  exports: [],
+  exports: [ScheduleService],
 })
 export class ScheduleModule {}
