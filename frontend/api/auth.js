@@ -1,11 +1,13 @@
 import { api } from './api';
 
-function request(params) {
-  return api.post('request', params);
+function request(email) {
+  return api.post('auth/request', {
+    email,
+  });
 }
 
-function login(params) {
-  return api.post('login', params);
+function login(email, secretCode) {
+  return api.post('auth/login', { email, secretCode });
 }
 
 export default { request, login };
