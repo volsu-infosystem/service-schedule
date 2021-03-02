@@ -1,4 +1,4 @@
-import { IsNumber, IsString, Length } from 'class-validator';
+import { IsNumber, IsOptional, IsString, Length } from 'class-validator';
 
 export class CreateGroupDto {
   @IsString()
@@ -6,17 +6,15 @@ export class CreateGroupDto {
   readonly name: string;
 
   @IsNumber()
-  readonly cathedraId: number;
+  readonly cathedraId?: number;
 
   @IsNumber()
-  readonly studyDirectionId: number;
+  readonly studyDirectionId?: number;
 
   @IsNumber()
-  readonly admissionYearId: number;
+  readonly admissionYearId?: number;
 
+  @IsOptional()
   @IsNumber()
-  readonly groupLeaderId: number;
-
-  @IsNumber()
-  readonly scheduleId: number;
+  readonly groupLeaderId?: number;
 }

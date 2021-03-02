@@ -6,8 +6,10 @@ import {
   ManyToMany,
   JoinTable,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { ProfileStudentEntity } from '../../profile/entities/profileStudent.entity';
+import { GroupEntity } from './group.entity';
 
 @Entity('sub_group')
 export class SubGroupEntity {
@@ -22,8 +24,8 @@ export class SubGroupEntity {
     student => student.subGroups,
   )
   @JoinTable({
-    name: 'sub_subGroups_students',
-    joinColumn: { name: 'sub_subGroup_id', referencedColumnName: 'id' },
+    name: 'sub-groups_students',
+    joinColumn: { name: 'sub_group_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'student_id', referencedColumnName: 'id' },
   })
   students: ProfileStudentEntity[];
@@ -33,4 +35,10 @@ export class SubGroupEntity {
     lessonEntity => lessonEntity.subGroup,
   )
   lessons: LessonEntity;
+
+  @ManyToOne(
+    () => GroupEntity,
+    groupEntity => groupEntity.subGroups,
+  )
+  group: GroupEntity;
 }

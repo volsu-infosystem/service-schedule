@@ -1,13 +1,17 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RoomService } from 'src/campus/room.service';
 import { DisciplineService } from 'src/discipline/discipline.service';
+import { GroupEntity } from 'src/group/entities/group.entity';
 import { GroupService } from 'src/group/group.service';
+import { studyLevelEnum } from 'src/profile/enums/studyLevel.enum';
+import { AdmissionYearNotFoundException } from 'src/profile/exceptions/admissionYear.exceptions';
 import { ProfileService } from 'src/profile/profile.service';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { ScheduleEntity } from './entities/schedule.entity';
+import { ScheduleNotFoundException } from './exceptions/schedule.exceptions';
 import { LessonService } from './lesson.service';
 import { LessonResponse } from './schedule.interface';
 
@@ -24,9 +28,42 @@ export class ScheduleService {
   ) {}
 
   async create(schedule: CreateScheduleDto): Promise<ScheduleEntity> {
-    schedule.group = await this.groupService.findOneById(schedule.groupId);
     const newSchedule = this.scheduleRepository.create(schedule);
+    newSchedule.group = await this.groupService.findOneById(schedule.groupId);
     return await this.scheduleRepository.save(newSchedule);
+  }
+
+  async createDefault(group: GroupEntity): Promise<ScheduleEntity[]> {
+    const groupAdmissionYear = await this.groupService.getAdmissionYear(group);
+    console.log(groupAdmissionYear);
+    const createdSchedules = [];
+    let semesterCount;
+
+    switch (groupAdmissionYear.admissionYear.studyLevel) {
+      case studyLevelEnum.Bachelor: {
+        semesterCount = 8;
+        break;
+      }
+      case studyLevelEnum.Magistracy: {
+        semesterCount = 4;
+        break;
+      }
+      case studyLevelEnum.Specialty: {
+        semesterCount = 10;
+        break;
+      }
+      default:
+        throw new AdmissionYearNotFoundException(groupAdmissionYear.id);
+    }
+
+    for (let i = 1; i <= semesterCount; i++) {
+      const newSchedule = this.scheduleRepository.create({
+        semester: i,
+        group,
+      });
+      createdSchedules.push(await this.scheduleRepository.save(newSchedule));
+    }
+    return createdSchedules;
   }
 
   async findAll(): Promise<ScheduleEntity[]> {
@@ -46,7 +83,7 @@ export class ScheduleService {
     if (updatedSchedule) {
       return updatedSchedule;
     }
-    throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    throw new ScheduleNotFoundException(scheduleId);
   }
 
   async deleteOne(scheduleId: number): Promise<ScheduleEntity[]> {

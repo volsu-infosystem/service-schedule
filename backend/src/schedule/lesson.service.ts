@@ -1,18 +1,19 @@
-import {
-  Injectable,
-  HttpException,
-  HttpStatus,
-  forwardRef,
-  Inject,
-} from '@nestjs/common';
+import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RoomEntity } from 'src/campus/entities/room.entity';
 import { RoomService } from 'src/campus/room.service';
 import { DisciplineService } from 'src/discipline/discipline.service';
+import { DisciplineEntity } from 'src/discipline/entities/discipline.entity';
+import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
+import { SubGroupService } from 'src/group/subGroup.service';
+import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
 import { ProfileService } from 'src/profile/profile.service';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
 import { LessonEntity } from './entities/lesson.entity';
+import { ScheduleEntity } from './entities/schedule.entity';
+import { LessonNotFoundException } from './exceptions/lesson.exceptions';
 import { ScheduleService } from './schedule.service';
 
 @Injectable()
@@ -23,24 +24,19 @@ export class LessonService {
     private readonly disciplineService: DisciplineService,
     private readonly profileService: ProfileService,
     private readonly roomService: RoomService,
+    private readonly subGroupService: SubGroupService,
     @Inject(forwardRef(() => ScheduleService))
     private readonly scheduleService: ScheduleService,
   ) {}
 
   async create(lesson: CreateLessonDto): Promise<LessonEntity> {
-    const [schedule, discipline, professor, room] = await Promise.all([
-      this.scheduleService.findOneById(lesson.scheduleId),
-      this.disciplineService.findOneById(lesson.disciplineId),
-      this.profileService.findOneProfessorById(lesson.professorId),
-      this.roomService.findOneById(lesson.roomId),
-    ]);
-
-    lesson.schedule = schedule;
-    lesson.discipline = discipline;
-    lesson.professor = professor;
-    lesson.room = room;
-
     const newLesson = this.lessonRepository.create(lesson);
+    newLesson.schedule = { id: lesson.scheduleId } as ScheduleEntity;
+    newLesson.discipline = { id: lesson.disciplineId } as DisciplineEntity;
+    newLesson.professor = { id: lesson.professorId } as ProfileProfessorEntity;
+    newLesson.room = { id: lesson.roomId } as RoomEntity;
+    newLesson.subGroup = { id: lesson.subGroupId } as SubGroupEntity;
+
     return await this.lessonRepository.save(newLesson);
   }
 
@@ -56,32 +52,42 @@ export class LessonService {
     lessonId: number,
     updateLesson: DeepPartial<UpdateLessonDto>,
   ): Promise<LessonEntity> {
-    const [schedule, discipline, professor, room] = await Promise.all([
+    const [
+      schedule,
+      discipline,
+      professor,
+      room,
+      subGroup,
+    ] = await Promise.all([
       updateLesson.scheduleId
-        ? this.scheduleService.findOneById(updateLesson.scheduleId)
+        ? ({ id: updateLesson.scheduleId } as ScheduleEntity)
         : null,
       updateLesson.disciplineId
-        ? this.disciplineService.findOneById(updateLesson.disciplineId)
+        ? ({ id: updateLesson.disciplineId } as DisciplineEntity)
         : null,
       updateLesson.professorId
-        ? this.profileService.findOneProfessorById(updateLesson.professorId)
+        ? ({ id: updateLesson.professorId } as ProfileProfessorEntity)
         : null,
-      updateLesson.roomId
-        ? this.roomService.findOneById(updateLesson.roomId)
+      updateLesson.roomId ? ({ id: updateLesson.roomId } as RoomEntity) : null,
+      updateLesson.subGroupId
+        ? ({ id: updateLesson.subGroupId } as SubGroupEntity)
         : null,
     ]);
 
-    if (schedule) updateLesson.schedule = schedule;
-    if (discipline) updateLesson.discipline = discipline;
-    if (professor) updateLesson.professor = professor;
-    if (room) updateLesson.room = room;
+    const newLesson = this.lessonRepository.create(updateLesson);
 
-    await this.lessonRepository.update({ id: lessonId }, updateLesson);
+    if (schedule) newLesson.schedule = schedule;
+    if (discipline) newLesson.discipline = discipline;
+    if (professor) newLesson.professor = professor;
+    if (room) newLesson.room = room;
+    if (subGroup) newLesson.subGroup = subGroup;
+
+    await this.lessonRepository.update({ id: lessonId }, newLesson);
     const updatedLesson = await this.lessonRepository.findOne(lessonId);
     if (updatedLesson) {
       return updatedLesson;
     }
-    throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    throw new LessonNotFoundException(newLesson.id);
   }
 
   async deleteOne(lessonId: number): Promise<LessonEntity[]> {

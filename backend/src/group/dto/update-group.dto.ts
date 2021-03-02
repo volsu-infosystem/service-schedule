@@ -16,7 +16,4 @@ export class UpdateGroupDto {
 
   @IsNumber()
   readonly groupLeaderId: number;
-
-  @IsNumber()
-  readonly scheduleId: number;
 }
