@@ -1,7 +1,7 @@
 <script>
   import Search from '../ui/Search.svelte'
   import Icon from '../ui/Icon.svelte'
-  import Table from './Table.svelte'
+  import EntityTable from './EntityTable.svelte'
 
   export let name
   export let headers = []
@@ -20,7 +20,7 @@
         <Search let:value placeholder="Поиск" />
       </div>
       <div class="table">
-        <Table {table} {headers} bind:active>
+        <EntityTable {table} {headers} bind:active>
           <tr>
             <td colspan={headers.length}>
               <div class="additional">
@@ -32,7 +32,7 @@
               </div>
             </td>
           </tr>
-        </Table>
+        </EntityTable>
       </div>
       <div class="step">
         <span>Шаг 1 из 3</span>
