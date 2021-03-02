@@ -12,6 +12,7 @@ import {
 import { ImportanceStatusEnum } from '../enums/importanceStatus.enum';
 import { LessonTypeEnum } from '../enums/lessonType.enum';
 import { PeriodicityEnum } from '../enums/periodicity.enum';
+import { WeekDaysEnum } from '../enums/weekDays.enum';
 import { ScheduleEntity } from './schedule.entity';
 
 @Entity('lesson')
@@ -58,11 +59,11 @@ export class LessonEntity {
   @Column('enum', { enum: ImportanceStatusEnum })
   importanceStatus: ImportanceStatusEnum;
 
-  @Column('varchar', { length: 5 })
-  startTime: string;
+  @Column('varchar', { length: 11 })
+  time: string;
 
-  @Column('varchar', { length: 5 })
-  endTime: string;
+  @Column('enum', { enum: WeekDaysEnum })
+  day: WeekDaysEnum;
 
   @Column('enum', { enum: PeriodicityEnum })
   periodicity: PeriodicityEnum;
