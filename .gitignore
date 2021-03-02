@@ -2,6 +2,6 @@ chain
 
 logs
 
-.env.local
+.env
 
 logs/*

@@ -2,7 +2,7 @@ name: Deployment
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   deploy:
@@ -19,5 +19,5 @@ jobs:
           script: |
             cd /home/volsu-schedule
             git pull origin master
-            docker-compose up --build -V -d
+            docker-compose -f docker-compose.prod.yml up --build -V -d
             docker ps -a

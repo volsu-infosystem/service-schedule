@@ -30,7 +30,6 @@ export default function ({ $axios, store, error, isServer }, inject) {
   });
 
   $axios.onError(async errorObject => {
-    console.log(errorObject);
     const code = parseInt(errorObject.response && errorObject.response.status);
     let message = '';
     if (code === 404) {
