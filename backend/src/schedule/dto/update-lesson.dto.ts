@@ -1,6 +1,7 @@
 import { ImportanceStatusEnum } from '../enums/importanceStatus.enum';
 import { LessonTypeEnum } from '../enums/lessonType.enum';
 import { PeriodicityEnum } from '../enums/periodicity.enum';
+import { WeekDaysEnum } from '../enums/weekDays.enum';
 
 export class UpdateLessonDto {
   readonly scheduleId?: number;
@@ -10,7 +11,7 @@ export class UpdateLessonDto {
   readonly subGroupId?: number;
   readonly lessonType?: LessonTypeEnum;
   readonly importanceStatus?: ImportanceStatusEnum;
-  readonly startTime?: string;
-  readonly endTime?: string;
+  readonly time?: string;
+  readonly day?: WeekDaysEnum;
   readonly periodicity?: PeriodicityEnum;
 }
