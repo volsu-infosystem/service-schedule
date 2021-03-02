@@ -17,17 +17,16 @@
       return
     }
 
-    const { data } = await auth.request(email)
-    if (data.status) {
+    const { status } = await auth.request(email)
+    if (status) {
       codeSended = true
     }
   }
 
   async function sendCode() {
-    const { data } = await auth.login(email, parseInt(code))
-    const token = data.access_token
+    const { access_token } = await auth.login(email, parseInt(code))
 
-    cookies.set('token', token)
+    cookies.set('token', access_token)
   }
 </script>
 

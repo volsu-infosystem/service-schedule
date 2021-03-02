@@ -51,10 +51,10 @@
 
 <div class="schedule-table">
   <div class="groups" class:pin={pinned.top}>
-    {#each groups as group}
-      <div class="group" class:hover={group.label === hovered.group}>
+    {#each groups as { group }}
+      <div class="group" class:hover={group.id === hovered.id}>
         <span>
-          {group.label}
+          {group.name}
         </span>
       </div>
     {/each}

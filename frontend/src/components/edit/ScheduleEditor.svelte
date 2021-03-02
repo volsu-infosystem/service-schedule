@@ -1,13 +1,8 @@
-<script context="module">
-  import { schedule, days } from '../../consts/schedule-sample'
-
-  export async function preload() {
-    return { schedule, days }
-  }
-</script>
-
 <script>
+  import { days } from '../../consts/schedule-sample'
   import ScheduleTable from './ScheduleTable.svelte'
+
+  export let schedule
 
   const sentials = {
     left: null,

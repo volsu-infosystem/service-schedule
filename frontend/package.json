@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@splidejs/splide": "^2.4.21",
-    "axios": "^0.21.1",
     "axios-auth-refresh": "^3.1.0",
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.5",

@@ -1,9 +1,9 @@
 <script>
-  export let subcell
+  export let subgroup
 </script>
 
 <div class="subcell">
-  {#each subcell.lessons as lesson}
+  {#each subgroup.lessons as lesson}
     <div class="lesson">
       <span class="discipline">
         {lesson.discipline.name}

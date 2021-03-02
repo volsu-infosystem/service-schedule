@@ -21,6 +21,7 @@ polka()
           return {
             token,
             profile,
+            baseURL: process.env.BASE_URL,
           };
         },
       })(req, res, next);
