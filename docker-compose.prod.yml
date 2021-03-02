@@ -1,12 +1,12 @@
 version: '3.7'
 
 services:
-  nuxt:
+  svelte:
     build:
       context: ./frontend/
       dockerfile: Dockerfile.prod
       target: 'production'
-    container_name: nuxt-container
+    container_name: svelte-container
     ports:
       - '${FRONTEND_PORT}:${FRONTEND_PORT}'
     volumes:
@@ -40,7 +40,7 @@ services:
     volumes:
       - ./logs:/var/log/nginx/
     depends_on:
-      - nuxt
+      - svelte
       - nest
     networks:
       - webnet

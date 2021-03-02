@@ -12,7 +12,6 @@ import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
 import seqPreprocessor from 'svelte-sequential-preprocessor';
 import svgicons from 'rollup-plugin-svg-icons';
-import optimizeImages from './plugins/optimizeImages';
 
 const preprocess = seqPreprocessor([
   sveltePreprocess({
@@ -156,8 +155,6 @@ export default {
         include: './src/node_modules/*.vrtx',
         include: './src/components/background/circles/*.svg',
       }),
-
-      optimize && optimizeImages(),
     ],
     external: Object.keys(pkg.dependencies).concat(
       require('module').builtinModules,
