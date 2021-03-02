@@ -13,7 +13,6 @@ import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { ScheduleEntity } from './entities/schedule.entity';
 import { ScheduleNotFoundException } from './exceptions/schedule.exceptions';
 import { LessonService } from './lesson.service';
-import { LessonResponse } from './schedule.interface';
 
 @Injectable()
 export class ScheduleService {
@@ -35,7 +34,6 @@ export class ScheduleService {
 
   async createDefault(group: GroupEntity): Promise<ScheduleEntity[]> {
     const groupAdmissionYear = await this.groupService.getAdmissionYear(group);
-    console.log(groupAdmissionYear);
     const createdSchedules = [];
     let semesterCount;
 
@@ -93,33 +91,48 @@ export class ScheduleService {
     return await this.scheduleRepository.remove(scheduleToRemove);
   }
 
-  async getSchedule(
-    group: string,
+  /* @TODO Mock ScheduleResponse Interface */
+  async getScheduleByGroupAndSemester(
+    group: number,
     semester: number,
-  ): Promise<LessonResponse[]> {
-    const schedule = await this.scheduleRepository.findOne({
-      where: { group, semester },
-    });
+  ): Promise<any> {
+    const schedule = await this.scheduleRepository
+      .createQueryBuilder('schedule')
+      .where('schedule.group.id = :group AND schedule.semester = :semester', {
+        group,
+        semester,
+      })
+      .leftJoinAndSelect('schedule.group', 'groups')
+      .leftJoinAndSelect('groups.subGroups', 'subGroups')
+      .leftJoinAndSelect('subGroups.lessons', 'lessons')
+      .leftJoinAndSelect('lessons.professor', 'professor')
+      .leftJoinAndSelect('lessons.room', 'room')
+      .leftJoinAndSelect('lessons.discipline', 'discipline')
+      .getMany();
+    return schedule;
+  }
 
-    const lessonsList = await this.lessonService.getLessons(schedule.id);
-    const lessonsListResponse = await Promise.all(
-      lessonsList.map(async lesson => {
-        const lessonResponse: LessonResponse = {
-          id: lesson.id,
-          discipline: lesson.discipline.name,
-          professor: lesson.professor.initials,
-          room: lesson.room.name,
-          lessonType: lesson.lessonType,
-          importanceStatus: lesson.importanceStatus,
-          startTime: lesson.startTime,
-          endTime: lesson.endTime,
-          periodicity: lesson.periodicity,
-        };
-        return lessonResponse;
-      }),
-    );
-
-    return lessonsListResponse;
+  /* @TODO Mock ScheduleResponse Interface */
+  async getScheduleByInstituteAndSemester(
+    institute: number,
+    semester: number,
+  ): Promise<any> {
+    const schedule = await this.scheduleRepository
+      .createQueryBuilder('schedule')
+      .where('schedule.semester = :semester', { semester })
+      .leftJoinAndSelect('schedule.group', 'groups')
+      .leftJoinAndSelect('groups.cathedra', 'cathedra')
+      .leftJoinAndSelect('cathedra.institute', 'institute')
+      .where('cathedra.institute.id = :institute', {
+        institute,
+      })
+      .leftJoinAndSelect('groups.subGroups', 'subGroups')
+      .leftJoinAndSelect('subGroups.lessons', 'lessons')
+      .leftJoinAndSelect('lessons.professor', 'professor')
+      .leftJoinAndSelect('lessons.room', 'room')
+      .leftJoinAndSelect('lessons.discipline', 'discipline')
+      .getMany();
+    return schedule;
   }
 
   async getScheduleByGroup(group: string): Promise<ScheduleEntity[]> {

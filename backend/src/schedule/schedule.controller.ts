@@ -15,7 +15,6 @@ import { UpdateLessonDto } from './dto/update-lesson.dto';
 import { LessonEntity } from './entities/lesson.entity';
 import { ScheduleEntity } from './entities/schedule.entity';
 import { LessonService } from './lesson.service';
-import { LessonResponse } from './schedule.interface';
 import { ScheduleService } from './schedule.service';
 
 @Controller('schedule')
@@ -34,12 +33,13 @@ export class ScheduleController {
     return await this.scheduleService.create(createScheduleDto);
   }
 
-  @Get('/:group/:semester/')
-  async getSchedule(
-    @Param('group') group: string,
+  /* @TODO Mock ScheduleResponse Interface */
+  @Get(':group/:semester/')
+  async getScheduleByGroupAndSemester(
+    @Param('group') group: number,
     @Param('semester') semester: number,
-  ): Promise<LessonResponse[]> {
-    return this.scheduleService.getSchedule(group, semester);
+  ): Promise<any> {
+    return this.scheduleService.getScheduleByGroupAndSemester(group, semester);
   }
 
   @Get('/:group')
@@ -47,6 +47,18 @@ export class ScheduleController {
     @Param('group') group: string,
   ): Promise<ScheduleEntity[]> {
     return this.scheduleService.getScheduleByGroup(group);
+  }
+
+  /* @TODO Mock ScheduleResponse Interface */
+  @Get('/institute/:institute/:semester/')
+  async getScheduleByInstituteAndSemester(
+    @Param('institute') institute: number,
+    @Param('semester') semester: number,
+  ): Promise<any> {
+    return this.scheduleService.getScheduleByInstituteAndSemester(
+      institute,
+      semester,
+    );
   }
 
   @Post('/lesson')

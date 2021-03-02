@@ -1,36 +1,25 @@
-import { Injectable, forwardRef, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RoomEntity } from 'src/campus/entities/room.entity';
-import { RoomService } from 'src/campus/room.service';
-import { DisciplineService } from 'src/discipline/discipline.service';
 import { DisciplineEntity } from 'src/discipline/entities/discipline.entity';
 import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
-import { SubGroupService } from 'src/group/subGroup.service';
 import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
-import { ProfileService } from 'src/profile/profile.service';
 import { Repository, DeepPartial } from 'typeorm';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
 import { LessonEntity } from './entities/lesson.entity';
 import { ScheduleEntity } from './entities/schedule.entity';
 import { LessonNotFoundException } from './exceptions/lesson.exceptions';
-import { ScheduleService } from './schedule.service';
-
 @Injectable()
 export class LessonService {
   constructor(
     @InjectRepository(LessonEntity)
     private readonly lessonRepository: Repository<LessonEntity>,
-    private readonly disciplineService: DisciplineService,
-    private readonly profileService: ProfileService,
-    private readonly roomService: RoomService,
-    private readonly subGroupService: SubGroupService,
-    @Inject(forwardRef(() => ScheduleService))
-    private readonly scheduleService: ScheduleService,
   ) {}
 
   async create(lesson: CreateLessonDto): Promise<LessonEntity> {
     const newLesson = this.lessonRepository.create(lesson);
+
     newLesson.schedule = { id: lesson.scheduleId } as ScheduleEntity;
     newLesson.discipline = { id: lesson.disciplineId } as DisciplineEntity;
     newLesson.professor = { id: lesson.professorId } as ProfileProfessorEntity;
@@ -95,12 +84,5 @@ export class LessonService {
       id: lessonId,
     });
     return await this.lessonRepository.remove(lessonToRemove);
-  }
-
-  async getLessons(schedule: number): Promise<LessonEntity[]> {
-    return await this.lessonRepository.find({
-      where: { schedule },
-      relations: ['discipline', 'professor', 'room'],
-    });
   }
 }

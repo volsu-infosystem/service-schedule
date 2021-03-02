@@ -34,7 +34,6 @@ export class LessonEntity {
   @ManyToOne(
     () => DisciplineEntity,
     disciplineEntity => disciplineEntity.lessons,
-    { nullable: true },
   )
   @JoinColumn({ name: 'disciplineId' })
   discipline: DisciplineEntity;
@@ -42,7 +41,6 @@ export class LessonEntity {
   @ManyToOne(
     () => ProfileProfessorEntity,
     professor => professor.lessons,
-    { nullable: true },
   )
   @JoinColumn({ name: 'professorId' })
   professor: ProfileProfessorEntity;
@@ -50,7 +48,6 @@ export class LessonEntity {
   @ManyToOne(
     () => RoomEntity,
     roomEntity => roomEntity.lessons,
-    { nullable: true },
   )
   @JoinColumn({ name: 'roomId' })
   room: RoomEntity;

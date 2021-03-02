@@ -1,4 +1,3 @@
-import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
 import { ImportanceStatusEnum } from '../enums/importanceStatus.enum';
 import { LessonTypeEnum } from '../enums/lessonType.enum';
 import { PeriodicityEnum } from '../enums/periodicity.enum';
@@ -14,5 +13,4 @@ export class CreateLessonDto {
   readonly startTime: string;
   readonly endTime: string;
   readonly periodicity: PeriodicityEnum;
-  readonly subGroup: SubGroupEntity;
 }
