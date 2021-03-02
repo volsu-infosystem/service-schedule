@@ -1,5 +1,6 @@
 import { RoomEntity } from 'src/campus/entities/room.entity';
 import { DisciplineEntity } from 'src/discipline/entities/discipline.entity';
+import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
 import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
 import {
   Column,
@@ -25,9 +26,14 @@ export class LessonEntity {
   schedule: ScheduleEntity;
 
   @ManyToOne(
+    () => SubGroupEntity,
+    subGroupEntity => subGroupEntity.lessons,
+  )
+  subGroup: SubGroupEntity;
+
+  @ManyToOne(
     () => DisciplineEntity,
     disciplineEntity => disciplineEntity.lessons,
-    { nullable: true },
   )
   @JoinColumn({ name: 'disciplineId' })
   discipline: DisciplineEntity;
@@ -35,7 +41,6 @@ export class LessonEntity {
   @ManyToOne(
     () => ProfileProfessorEntity,
     professor => professor.lessons,
-    { nullable: true },
   )
   @JoinColumn({ name: 'professorId' })
   professor: ProfileProfessorEntity;
@@ -43,7 +48,6 @@ export class LessonEntity {
   @ManyToOne(
     () => RoomEntity,
     roomEntity => roomEntity.lessons,
-    { nullable: true },
   )
   @JoinColumn({ name: 'roomId' })
   room: RoomEntity;

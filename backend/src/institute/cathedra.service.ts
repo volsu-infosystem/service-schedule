@@ -5,15 +5,20 @@ import { CreateCathedraDto } from './dto/create-cathedra.dto';
 import { UpdateCathedraDto } from './dto/update-cathedra.dto';
 import { CathedraEntity } from './entities/cathedra.entity';
 import { CathedraNotFoundException } from './exceptions/cathedra.exceptions';
+import { InstituteService } from './institute.service';
 
 @Injectable()
 export class CathedraService {
   constructor(
     @InjectRepository(CathedraEntity)
     private readonly cathedraRepository: Repository<CathedraEntity>,
+    private readonly instituteService: InstituteService,
   ) {}
 
   async create(cathedra: CreateCathedraDto): Promise<CathedraEntity> {
+    cathedra.institute = await this.instituteService.findOneById(
+      cathedra.instituteId,
+    );
     const newCathedra = this.cathedraRepository.create(cathedra);
     return await this.cathedraRepository.save(newCathedra);
   }

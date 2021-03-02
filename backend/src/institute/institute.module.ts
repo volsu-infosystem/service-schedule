@@ -11,5 +11,6 @@ import { CathedraService } from './cathedra.service';
   imports: [TypeOrmModule.forFeature([InstituteEntity, CathedraEntity])],
   controllers: [InstituteController, CathedraController],
   providers: [InstituteService, CathedraService],
+  exports: [CathedraService],
 })
 export class InstituteModule {}

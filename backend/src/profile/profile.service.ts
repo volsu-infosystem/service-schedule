@@ -1,5 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GroupEntity } from 'src/group/entities/group.entity';
+import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { DeepPartial, Repository } from 'typeorm';
 import { CreateProfileProfessorDto } from './dto/create-profile-professor.dto';
@@ -28,6 +30,20 @@ export class ProfileService {
     profile: CreateProfileStudentDto,
   ): Promise<ProfileStudentEntity> {
     const newProfile = this.studentRepository.create(profile);
+
+    const [user, group, subGroups] = [
+      profile.userId ? ({ id: profile.userId } as UserEntity) : null,
+      profile.groupId ? ({ id: profile.groupId } as GroupEntity) : null,
+      profile.subGroupIds
+        ? profile.subGroupIds.map(
+            subGroupId => ({ id: subGroupId } as SubGroupEntity),
+          )
+        : null,
+    ];
+
+    newProfile.group = group;
+    if (user) newProfile.user = user;
+    if (subGroups) newProfile.subGroups = subGroups;
 
     return await this.studentRepository.save(newProfile);
   }
@@ -107,7 +123,27 @@ export class ProfileService {
     profileId: number,
     updateProfile: DeepPartial<UpdateProfileStudentDto>,
   ): Promise<ProfileStudentEntity> {
-    await this.studentRepository.update({ id: profileId }, updateProfile);
+    const [user, group, subGroups] = [
+      updateProfile.userId
+        ? ({ id: updateProfile.userId } as UserEntity)
+        : null,
+      updateProfile.groupId
+        ? ({ id: updateProfile.groupId } as GroupEntity)
+        : null,
+      updateProfile.subGroupIds
+        ? updateProfile.subGroupIds.map(
+            subGroupId => ({ id: subGroupId } as SubGroupEntity),
+          )
+        : null,
+    ];
+
+    const newStudentProfile = this.studentRepository.create(updateProfile);
+
+    newStudentProfile.user = user;
+    newStudentProfile.group = group;
+    newStudentProfile.subGroups = subGroups;
+
+    await this.studentRepository.update({ id: profileId }, newStudentProfile);
 
     const updatedProfile = await this.findOneStudentById(profileId);
     if (updatedProfile) {
@@ -160,7 +196,7 @@ export class ProfileService {
       return await this.updateOneProfessor(profileProfessor.id, user);
     }
 
-    throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    throw new ProfileNotFoundException(profileStudent.id);
   }
 
   async linkProfessorToUser(
@@ -168,7 +204,7 @@ export class ProfileService {
     profileId: number,
   ): Promise<ProfileProfessorEntity> {
     const updateData = {
-      user: user,
+      userId: user.id,
     };
 
     return await this.updateOneProfessor(profileId, updateData);

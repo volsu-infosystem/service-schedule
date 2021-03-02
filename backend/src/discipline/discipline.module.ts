@@ -28,6 +28,6 @@ import { StudyDirectionService } from './studyDirection.service';
     DisciplineHouredService,
     StudyDirectionService,
   ],
-  exports: [DisciplineService],
+  exports: [DisciplineService, StudyDirectionService],
 })
 export class DisciplineModule {}
