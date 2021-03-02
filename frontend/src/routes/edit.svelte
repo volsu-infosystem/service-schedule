@@ -4,7 +4,9 @@
     const editor = new Editor(this.fetch, session)
 
     const schedule = await editor.get(1, 1)
-    // console.log(schedule)
+
+    console.log(schedule)
+
     return {
       schedule,
     }

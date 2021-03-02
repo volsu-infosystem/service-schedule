@@ -6,8 +6,9 @@ class Api {
   }
 
   get(url, body) {
-    console.log(`${this.baseURL}${url}`);
-    return this.fetch(`${this.baseURL}${url}`, {
+    const isBrowser = process.browser;
+    let apiUrl = isBrowser ? `${this.baseURL}${url}` : `http://nest:3005${url}`;
+    return this.fetch(apiUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -20,7 +21,9 @@ class Api {
   }
 
   post(url, body) {
-    return this.fetch(`${this.baseURL}${url}`, {
+    const isBrowser = process.browser;
+    let apiUrl = isBrowser ? `${this.baseURL}${url}` : `http://nest:3005${url}`;
+    return this.fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
