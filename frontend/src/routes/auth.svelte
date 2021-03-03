@@ -32,6 +32,7 @@
 
     if (access_token) {
       cookies.set('token', access_token)
+      $session.token = access_token
       goto('/')
     }
   }

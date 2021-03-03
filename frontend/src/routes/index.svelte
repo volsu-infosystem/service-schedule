@@ -1,4 +1,12 @@
-<script>
+<script context="module">
+  export async function preload(page, session) {
+    if (!session.token) {
+      this.redirect(302, '/auth')
+      return {}
+    }
+
+    return {}
+  }
 </script>
 
 <div class="index">
