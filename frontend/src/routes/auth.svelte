@@ -3,8 +3,10 @@
   import Input from '../components/ui/Input.svelte'
   import Button from '../components/ui/Button.svelte'
   import FormItem from '../components/ui/FormItem.svelte'
-  import auth from '../../api/auth'
+  import Auth from '../../api/auth'
   import cookies from 'js-cookie'
+  import { goto, stores } from '@sapper/app'
+  const { session } = stores()
 
   let email = ''
   let code = ''
@@ -12,6 +14,7 @@
   let codeSended = false
 
   async function login() {
+    const auth = new Auth(fetch, $session)
     if (codeSended) {
       sendCode()
       return
@@ -24,9 +27,13 @@
   }
 
   async function sendCode() {
+    const auth = new Auth(fetch, $session)
     const { access_token } = await auth.login(email, parseInt(code))
 
-    cookies.set('token', access_token)
+    if (access_token) {
+      cookies.set('token', access_token)
+      goto('/')
+    }
   }
 </script>
 
@@ -35,11 +42,11 @@
     <h3>Вход в систему:</h3>
     <Form>
       <FormItem>
-        <Input bind:value={email} placeholder="Ваш Email" />
+        <Input bind:value={email} placeholder="Ваш Email" name="email" />
       </FormItem>
       {#if codeSended}
         <FormItem>
-          <Input bind:value={code} placeholder="Код из письма" />
+          <Input bind:value={code} placeholder="Код из письма" name="code" />
         </FormItem>
       {/if}
       <Button on:click={login}>{buttonText}</Button>

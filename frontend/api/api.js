@@ -2,13 +2,16 @@ class Api {
   constructor(fetch, session) {
     this.fetch = fetch;
     this.session = session;
-    this.baseURL = `${session.baseURL}/api`;
+    this.baseURL = `/api/`;
   }
 
   get(url, body) {
     const isBrowser = process.browser;
-    let apiUrl = isBrowser ? `${this.baseURL}${url}` : `http://nest:3005${url}`;
-    return this.fetch(apiUrl, {
+    const apiUrl = isBrowser
+      ? `${this.baseURL}${url}`
+      : `http://nest:3005${url}`;
+    const fetch = isBrowser ? window.fetch.bind(window) : this.fetch;
+    return fetch(apiUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -22,14 +25,17 @@ class Api {
 
   post(url, body) {
     const isBrowser = process.browser;
-    let apiUrl = isBrowser ? `${this.baseURL}${url}` : `http://nest:3005${url}`;
-    return this.fetch(apiUrl, {
+    const apiUrl = isBrowser
+      ? `${this.baseURL}${url}`
+      : `http://nest:3005${url}`;
+    const fetch = isBrowser ? window.fetch.bind(window) : this.fetch;
+    return fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${this.session.token}`,
       },
-      body,
+      body: JSON.stringify(body),
     }).then(response => {
       return response.json();
     });

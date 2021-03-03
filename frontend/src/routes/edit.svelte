@@ -5,8 +5,6 @@
 
     const schedule = await editor.get(1, 1)
 
-    console.log(schedule)
-
     return {
       schedule,
     }
@@ -15,6 +13,8 @@
 
 <script>
   import ScheduleEditor from '../components/edit/ScheduleEditor.svelte'
+
+  export let schedule
 </script>
 
-<!-- <ScheduleEditor {schedule} /> -->
+<ScheduleEditor {schedule} />
