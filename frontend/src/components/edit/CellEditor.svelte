@@ -147,7 +147,7 @@
     canAddTab = false
   }
 
-  const subgroups = [
+  let subgroups = [
     { name: 'Штельмах', id: 1 },
     { name: 'Чувашин', id: 2 },
   ]
@@ -172,9 +172,10 @@
 
   <div class="tabs subgroups">
     <Tabs
-      tabs={subgroups}
+      bind:tabs={subgroups}
       bind:value={activeSubgroup}
       canAddTab={false}
+      canSetNew={true}
       on:new={addZnam}
     />
   </div>

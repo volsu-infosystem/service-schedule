@@ -7,6 +7,20 @@
   export let tabs
   export let value
   export let canAddTab = true
+  export let canSetNew = false
+
+  let newText = ''
+
+  function setNewItem() {
+    tabs = [
+      ...tabs,
+      {
+        name: newText,
+        id: tabs[tabs.length - 1].id + 1,
+      },
+    ]
+    newText = ''
+  }
 </script>
 
 <div class="tabs">
@@ -21,6 +35,14 @@
       {tab.name}
     </div>
   {/each}
+  {#if canSetNew}
+    <div class="tab new">
+      <input type="text" bind:value={newText} />
+      <div class="add" on:click={setNewItem}>
+        <Icon name="mark" />
+      </div>
+    </div>
+  {/if}
   {#if canAddTab}
     <div
       class="tab"
@@ -63,6 +85,32 @@
     :global(svg) {
       fill: #858585;
       font-size: 11px;
+    }
+  }
+  .new {
+    cursor: auto;
+    :global(input) {
+      width: 100px;
+      border: none;
+      border-bottom: solid 2px #fff;
+    }
+  }
+  .add {
+    width: 25px;
+    height: 25px;
+    border-radius: 3px;
+    background-color: var(--accent);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    :global(svg) {
+      fill: #fff;
+      font-size: 10px;
     }
   }
 </style>

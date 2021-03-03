@@ -10,7 +10,6 @@
   export let disabled
   export let headers = []
   export let table = []
-  console.log(table)
   export let opened = true
 
   let active = null

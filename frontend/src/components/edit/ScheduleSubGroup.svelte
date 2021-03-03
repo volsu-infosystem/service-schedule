@@ -1,6 +1,5 @@
 <script>
   export let subgroup
-  console.log(subgroup)
 </script>
 
 <div class="subgroup">
