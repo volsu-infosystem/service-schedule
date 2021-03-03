@@ -31,11 +31,13 @@
       right: 10px;
       top: 50%;
       transform: translateY(-50%);
+      font-size: 12px;
     }
   }
   input {
     border: 1px solid #ddeeff;
     border-radius: 0px;
-    padding: 15px 20px;
+    padding: 8px 20px;
+    font-size: 12px;
   }
 </style>

@@ -16,7 +16,7 @@
   </thead>
   <tbody>
     <!-- @TODO Убрать это говно -->
-    {#each table.options as row, index}
+    {#each table as row, index}
       <tr
         on:click={() => {
           active = index
@@ -51,6 +51,7 @@
     background-color: #fff;
     transition: background-color ease 0.3s;
     position: relative;
+    font-size: 12px;
     &:hover {
       background-color: rgba(221, 238, 255, 0.4);
     }
@@ -58,7 +59,7 @@
       background-color: rgba(221, 238, 255, 1);
     }
     div {
-      padding: 10px 20px;
+      padding: 5px 20px;
       z-index: 10;
       position: relative;
       cursor: pointer;
@@ -90,7 +91,7 @@
     background-color: #fbfdff;
     border-bottom: solid 1px #ddeeff;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 17px;
     color: #2f2f2f;
     &:first-child {
@@ -100,7 +101,7 @@
       text-align: right;
     }
     div {
-      padding: 10px 20px;
+      padding: 5px 20px;
     }
   }
 </style>
