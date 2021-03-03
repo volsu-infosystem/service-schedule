@@ -1,8 +1,9 @@
 <script>
   export let subgroup
+  console.log(subgroup)
 </script>
 
-<div class="subcell">
+<div class="subgroup">
   {#each subgroup.lessons as lesson}
     <div class="lesson">
       <span class="discipline">
@@ -10,7 +11,7 @@
       </span>
       <div class="footer">
         <span class="teacher">
-          {lesson.teacher.name}
+          {lesson.professor.initials}
         </span>
         <span class="room">
           {lesson.room.name}
@@ -21,15 +22,18 @@
 </div>
 
 <style lang="scss">
-  .subcell {
+  .subgroup {
     display: flex;
     width: 100%;
     min-height: 100px;
     background-color: var(--extra-light);
-    padding: 12px 9px;
     position: relative;
+    &:nth-child(2n) {
+      border-left: solid 1px var(--gray);
+    }
   }
   .lesson {
+    padding: 12px 9px;
     display: flex;
     flex-direction: column;
     width: 100%;

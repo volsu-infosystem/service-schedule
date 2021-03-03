@@ -5,7 +5,7 @@
   export let groups
   export let days
   export let pinned
-
+  console.log(groups)
   let hovered
   let cellInEdit = {
     cell: null,
