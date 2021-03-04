@@ -1,4 +1,4 @@
-import { LessonEntity } from 'src/schedule/entities/lesson.entity';
+import { SubCellEntity } from 'src/schedule/entities/sub-cell.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -31,10 +31,11 @@ export class SubGroupEntity {
   students: ProfileStudentEntity[];
 
   @OneToMany(
-    () => LessonEntity,
-    lessonEntity => lessonEntity.subGroup,
+    () => SubCellEntity,
+    subCellEntity => subCellEntity.subGroup,
+    { cascade: true },
   )
-  lessons: LessonEntity;
+  subCell: SubCellEntity;
 
   @ManyToOne(
     () => GroupEntity,

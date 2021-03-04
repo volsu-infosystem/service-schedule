@@ -1,29 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RoomService } from 'src/campus/room.service';
-import { DisciplineService } from 'src/discipline/discipline.service';
 import { GroupEntity } from 'src/group/entities/group.entity';
 import { GroupService } from 'src/group/group.service';
 import { studyLevelEnum } from 'src/profile/enums/studyLevel.enum';
 import { AdmissionYearNotFoundException } from 'src/profile/exceptions/admissionYear.exceptions';
-import { ProfileService } from 'src/profile/profile.service';
 import { Repository, DeepPartial } from 'typeorm';
+import { CellService } from './cell.service';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { ScheduleEntity } from './entities/schedule.entity';
 import { ScheduleNotFoundException } from './exceptions/schedule.exceptions';
-import { LessonService } from './lesson.service';
 
 @Injectable()
 export class ScheduleService {
   constructor(
     @InjectRepository(ScheduleEntity)
     private readonly scheduleRepository: Repository<ScheduleEntity>,
-    private readonly lessonService: LessonService,
-    private readonly disciplineService: DisciplineService,
-    private readonly roomService: RoomService,
-    private readonly profileService: ProfileService,
     private readonly groupService: GroupService,
+    private readonly cellService: CellService,
   ) {}
 
   async create(schedule: CreateScheduleDto): Promise<ScheduleEntity> {
@@ -55,12 +49,16 @@ export class ScheduleService {
     }
 
     for (let i = 1; i <= semesterCount; i++) {
-      const newSchedule = this.scheduleRepository.create({
+      const newSchedule = await this.scheduleRepository.create({
         semester: i,
         group,
       });
       createdSchedules.push(await this.scheduleRepository.save(newSchedule));
     }
+
+    await this.cellService.createCellsDefault(createdSchedules);
+
+    console.log('ДАНИЛ ДАНИЛ ДАНИЛ');
     return createdSchedules;
   }
 

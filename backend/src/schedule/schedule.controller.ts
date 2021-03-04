@@ -1,21 +1,12 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { CreateLessonDto } from './dto/create-lesson.dto';
+import { InsertCellDto } from './dto/insert-cell.dto';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
-import { UpdateLessonDto } from './dto/update-lesson.dto';
-import { LessonEntity } from './entities/lesson.entity';
+import { CellEntity } from './entities/cell.entity';
 import { ScheduleEntity } from './entities/schedule.entity';
-import { LessonService } from './lesson.service';
 import { ScheduleService } from './schedule.service';
+import { CellService } from './cell.service';
 
 @Controller('schedule')
 @ApiTags('schedule')
@@ -23,7 +14,7 @@ import { ScheduleService } from './schedule.service';
 export class ScheduleController {
   constructor(
     private readonly scheduleService: ScheduleService,
-    private readonly lessonService: LessonService,
+    private readonly cellService: CellService,
   ) {}
 
   @Post()
@@ -61,18 +52,11 @@ export class ScheduleController {
     );
   }
 
-  @Post('/lesson')
-  async createLesson(
-    @Body() createLessonDto: CreateLessonDto,
-  ): Promise<LessonEntity> {
-    return this.lessonService.create(createLessonDto);
-  }
-
-  @Put('/lesson/:id')
-  async updateLesson(
-    @Param('id') lessonId: number,
-    @Body() updateLessonDto: UpdateLessonDto,
-  ): Promise<LessonEntity> {
-    return this.lessonService.updateOne(lessonId, updateLessonDto);
+  @Post('/cell/:id/')
+  async insertCell(
+    @Body() insertCellDto: InsertCellDto,
+    @Param('id') cellId: number,
+  ): Promise<CellEntity> {
+    return this.cellService.insertCell(cellId, insertCellDto);
   }
 }

@@ -13,6 +13,7 @@ export class InstituteEntity {
   @OneToMany(
     () => CathedraEntity,
     cathedra => cathedra.institute,
+    { cascade: true },
   )
   cathedras: CathedraEntity[];
 
