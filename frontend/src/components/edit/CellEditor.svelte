@@ -163,15 +163,6 @@
 
   <div class="tabs">
     <Tabs
-      tabs={period}
-      bind:value={activePeriod}
-      {canAddTab}
-      on:new={addZnam}
-    />
-  </div>
-
-  <div class="tabs subgroups">
-    <Tabs
       bind:tabs={subgroups}
       bind:value={activeSubgroup}
       canAddTab={false}
@@ -179,6 +170,16 @@
       on:new={addZnam}
     />
   </div>
+
+  <div class="tabs periods">
+    <Tabs
+      tabs={period}
+      bind:value={activePeriod}
+      {canAddTab}
+      on:new={addZnam}
+    />
+  </div>
+
   <div class="forms">
     {#each tablesHeaders as header, index}
       <ChooseForm
@@ -231,7 +232,7 @@
   .tabs {
     padding: 0 5px;
     border-bottom: solid 1px #ddeeff;
-    &.subgroups {
+    &.periods {
       padding-top: 10px;
       background-color: #fff;
       z-index: 5;
