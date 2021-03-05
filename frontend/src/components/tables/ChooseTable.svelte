@@ -16,7 +16,11 @@
 </script>
 
 <div class="choose-form">
-  <div class="header" class:disabled on:click={() => (opened = !opened)}>
+  <div
+    class="header"
+    class:disabled
+    on:click={() => (disabled ? null : (opened = !opened))}
+  >
     <h3>{name}</h3>
     <div class="active">
       {table[active] ? table[active][0].label : ''}

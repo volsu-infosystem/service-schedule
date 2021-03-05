@@ -51,7 +51,9 @@
     background-color: #fff;
     transition: background-color ease 0.3s;
     position: relative;
-    font-size: 12px;
+    h4 {
+      font-size: 13px;
+    }
     &:hover {
       background-color: rgba(221, 238, 255, 0.4);
     }
