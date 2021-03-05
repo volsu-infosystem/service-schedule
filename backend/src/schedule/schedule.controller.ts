@@ -1,7 +1,15 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { InsertCellDto } from './dto/insert-cell.dto';
+import { InsertLessonsToCellDto } from './dto/insert-lessons-to-cell.dto';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { CellEntity } from './entities/cell.entity';
 import { ScheduleEntity } from './entities/schedule.entity';
@@ -16,13 +24,6 @@ export class ScheduleController {
     private readonly scheduleService: ScheduleService,
     private readonly cellService: CellService,
   ) {}
-
-  @Post()
-  async create(
-    @Body() createScheduleDto: CreateScheduleDto,
-  ): Promise<ScheduleEntity> {
-    return await this.scheduleService.create(createScheduleDto);
-  }
 
   /* @TODO Mock ScheduleResponse Interface */
   @Get(':group/:semester/')
@@ -52,11 +53,11 @@ export class ScheduleController {
     );
   }
 
-  @Post('/cell/:id/')
-  async insertCell(
-    @Body() insertCellDto: InsertCellDto,
-    @Param('id') cellId: number,
+  @Post(':scheduleId/lesson/')
+  async insertLesson(
+    @Body() createLessonDto: InsertLessonsToCellDto,
+    @Param('scheduleId') scheduleId: number,
   ): Promise<CellEntity> {
-    return this.cellService.insertCell(cellId, insertCellDto);
+    return this.cellService.insertToCell(scheduleId, createLessonDto);
   }
 }

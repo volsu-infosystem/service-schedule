@@ -56,9 +56,6 @@ export class ScheduleService {
       createdSchedules.push(await this.scheduleRepository.save(newSchedule));
     }
 
-    await this.cellService.createCellsDefault(createdSchedules);
-
-    console.log('ДАНИЛ ДАНИЛ ДАНИЛ');
     return createdSchedules;
   }
 
@@ -119,13 +116,14 @@ export class ScheduleService {
       .createQueryBuilder('schedule')
       .where('schedule.semester = :semester', { semester })
       .leftJoinAndSelect('schedule.group', 'groups')
-      .leftJoinAndSelect('groups.cathedra', 'cathedra')
-      .leftJoinAndSelect('cathedra.institute', 'institute')
-      .where('cathedra.institute.id = :institute', {
+      .innerJoin('groups.cathedra', 'cathedra')
+      .innerJoin('cathedra.institute', 'institute')
+      .andWhere('cathedra.institute.id = :institute', {
         institute,
       })
-      .leftJoinAndSelect('groups.subGroups', 'subGroups')
-      .leftJoinAndSelect('subGroups.lessons', 'lessons')
+      .leftJoinAndSelect('schedule.cells', 'cells')
+      .leftJoinAndSelect('cells.subCells', 'subCells')
+      .leftJoinAndSelect('subCells.lessons', 'lessons')
       .leftJoinAndSelect('lessons.professor', 'professor')
       .leftJoinAndSelect('lessons.room', 'room')
       .leftJoinAndSelect('lessons.discipline', 'discipline')

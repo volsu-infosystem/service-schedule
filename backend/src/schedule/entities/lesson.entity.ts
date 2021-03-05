@@ -53,7 +53,4 @@ export class LessonEntity {
 
   @Column('enum', { enum: ImportanceStatusEnum })
   importanceStatus: ImportanceStatusEnum;
-
-  @Column('varchar', { length: 11 })
-  time: string;
 }

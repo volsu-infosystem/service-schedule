@@ -1,61 +1,76 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { InsertCellDto } from './dto/insert-cell.dto';
+import { CreateCellDto } from './dto/create-cell.dto';
+import { InsertLessonsToCellDto } from './dto/insert-lessons-to-cell.dto';
 import { CellEntity } from './entities/cell.entity';
 import { ScheduleEntity } from './entities/schedule.entity';
-import { LessonService } from './lesson.service';
+import { SubCellService } from './sub-cell.service';
 
 @Injectable()
 export class CellService {
   constructor(
     @InjectRepository(CellEntity)
     private readonly cellRepository: Repository<CellEntity>,
-    private readonly lessonService: LessonService,
+    private readonly subCellService: SubCellService,
   ) {}
+
+  async create(cell: CreateCellDto): Promise<CellEntity> {
+    const newCell = await this.cellRepository.create(cell);
+    newCell.schedule = { id: cell.scheduleId } as ScheduleEntity;
+
+    return await this.cellRepository.save(newCell);
+  }
 
   async findOneCellById(id: number): Promise<CellEntity> {
     return await this.cellRepository.findOne(id);
   }
 
-  async createCellsDefault(schedules: ScheduleEntity[]): Promise<CellEntity[]> {
-    const newCellPromises = [];
-    const createdCells = [];
-
-    for (const schedule of schedules) {
-      for (let i = 0; i < 7; i++) {
-        for (let j = 0; j < 8; j++) {
-          newCellPromises.push(
-            (async () => {
-              const newCell = await this.cellRepository.create(schedule);
-              newCell.schedule = { id: schedule.id } as ScheduleEntity;
-              newCell.day = i;
-              newCell.order = j;
-              createdCells.push(newCell);
-            })(),
-          );
-        }
-      }
-    }
-
-    await Promise.all(newCellPromises);
-    console.log(createdCells);
-    await this.cellRepository.save(createdCells);
-
-    return createdCells;
+  async findOneByDayAndOrder(
+    scheduleId: number,
+    day: number,
+    order: number,
+  ): Promise<CellEntity> {
+    return await this.cellRepository
+      .createQueryBuilder('cell')
+      .leftJoinAndSelect('cell.schedule', 'schedule')
+      .where('cell.schedule.id = :scheduleId', { scheduleId })
+      .andWhere('cell.day = :day AND cell.order = :order', { day, order })
+      .getOne();
   }
 
-  async insertCell(
-    cellId: number,
-    insertCellDto: InsertCellDto,
+  async provideCell(
+    scheduleId: number,
+    day: number,
+    order: number,
   ): Promise<CellEntity> {
-    console.log(insertCellDto);
-    insertCellDto.lessons.forEach(async lesson => {
-      return await this.lessonService.insertLesson(cellId, lesson);
+    const cell = await this.findOneByDayAndOrder(scheduleId, day, order);
+
+    if (cell) return cell;
+
+    const schedule = { id: scheduleId } as ScheduleEntity;
+    const newCell = await this.cellRepository.create({
+      schedule,
+      day,
+      order,
     });
+    return await this.cellRepository.save(newCell);
+  }
 
-    const updatedCell = await this.findOneCellById(cellId);
+  async insertToCell(
+    scheduleId: number,
+    insertLessonsToCellDto: InsertLessonsToCellDto,
+  ): Promise<CellEntity> {
+    const cell = await this.provideCell(
+      scheduleId,
+      insertLessonsToCellDto.day,
+      insertLessonsToCellDto.order,
+    );
 
-    return updatedCell;
+    cell.subCells = await this.subCellService.createSubCells(
+      cell.id,
+      insertLessonsToCellDto,
+    );
+    return cell;
   }
 }
