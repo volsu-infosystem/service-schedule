@@ -1,9 +1,9 @@
 <script>
-  import Form from '../components/ui/Form.svelte'
-  import Input from '../components/ui/Input.svelte'
-  import Button from '../components/ui/Button.svelte'
-  import FormItem from '../components/ui/FormItem.svelte'
-  import Auth from '../../api/auth'
+  import Form from '@ui/Form.svelte'
+  import Input from '@ui/Input.svelte'
+  import Button from '@ui/Button.svelte'
+  import FormItem from '@ui/FormItem.svelte'
+  import Auth from '@api/auth'
   import cookies from 'js-cookie'
   import { goto, stores } from '@sapper/app'
   const { session } = stores()

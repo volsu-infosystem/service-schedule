@@ -1,8 +1,8 @@
 <script>
   import ChooseForm from '../tables/ChooseTable.svelte'
-  import Icon from '../ui/Icon.svelte'
-  import Button from '../ui/Button.svelte'
-  import Tabs from '../ui/Tabs.svelte'
+  import Icon from '@ui/Icon.svelte'
+  import Button from '@ui/Button.svelte'
+  import Tabs from '@ui/Tabs.svelte'
   import { createEventDispatcher } from 'svelte'
   import { fly } from 'svelte/transition'
 

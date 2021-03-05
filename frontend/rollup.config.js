@@ -12,6 +12,7 @@ import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
 import seqPreprocessor from 'svelte-sequential-preprocessor';
 import svgicons from 'rollup-plugin-svg-icons';
+import alias from '@rollup/plugin-alias';
 
 const preprocess = seqPreprocessor([
   sveltePreprocess({
@@ -22,8 +23,30 @@ const preprocess = seqPreprocessor([
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
-const optimize = process.env.OPTIMIZE == 'true';
+const projectRootDir = path.resolve(__dirname);
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
+
+const aliases = alias({
+  entries: [
+    {
+      find: '@',
+      replacement: path.resolve(projectRootDir, 'src'),
+    },
+    {
+      find: '@ui',
+      replacement: path.resolve(projectRootDir, 'src/components/ui'),
+    },
+    { find: '@api', replacement: path.resolve(projectRootDir, 'api') },
+    {
+      find: '@consts',
+      replacement: path.resolve(projectRootDir, 'src/consts'),
+    },
+    {
+      find: '@styles',
+      replacement: path.resolve(projectRootDir, 'src/styles'),
+    },
+  ],
+});
 
 const onwarn = (warning, onwarn) => {
   if (warning.message.includes('swiper')) return;
@@ -41,6 +64,8 @@ export default {
     input: config.client.input(),
     output: config.client.output(),
     plugins: [
+      aliases,
+
       replace({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode),
@@ -123,6 +148,8 @@ export default {
     input: config.server.input(),
     output: config.server.output(),
     plugins: [
+      aliases,
+
       replace({
         'process.browser': false,
         'process.env.NODE_ENV': JSON.stringify(mode),

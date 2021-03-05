@@ -1,6 +1,6 @@
 <script>
-  import Search from '../ui/Search.svelte'
-  import Icon from '../ui/Icon.svelte'
+  import Search from '@ui/Search.svelte'
+  import Icon from '@ui/Icon.svelte'
   import EntityTable from './EntityTable.svelte'
   import { createEventDispatcher } from 'svelte'
 

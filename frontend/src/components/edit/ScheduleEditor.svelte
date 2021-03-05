@@ -1,5 +1,5 @@
 <script>
-  import { days } from '../../consts/schedule-sample'
+  import { days } from '@consts/schedule-sample'
   import ScheduleTable from './ScheduleTable.svelte'
 
   export let schedule

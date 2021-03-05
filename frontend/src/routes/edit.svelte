@@ -1,5 +1,5 @@
 <script context="module">
-  import Editor from '../../api/editor'
+  import Editor from '@api/editor'
 
   export async function preload(page, session) {
     if (!session.token) {
