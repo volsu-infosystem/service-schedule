@@ -11,6 +11,8 @@
 
     const schedule = await editor.get(1, 1)
 
+    console.log(schedule)
+
     return {
       schedule,
     }

@@ -5,13 +5,25 @@ class Api {
     this.baseURL = `/api/`;
   }
 
-  get(url, body) {
+  getApiUrl(url) {
     const isBrowser = process.browser;
-    const apiUrl = isBrowser
+    const apiUrl = `http://64.227.74.131/api/${url}`;
+    /* @TODO Не забыть убрать!  
+    isBrowser
       ? `${this.baseURL}${url}`
-      : `http://nest:3005${url}`;
-    const fetch = isBrowser ? window.fetch.bind(window) : this.fetch;
-    return fetch(apiUrl, {
+      : `http://nest:3005${url}`;*/
+
+    return apiUrl;
+  }
+
+  getFetchMethod() {
+    const isBrowser = process.browser;
+    return isBrowser ? window.fetch.bind(window) : this.fetch;
+  }
+
+  get(url, body) {
+    const fetch = this.getFetchMethod();
+    return fetch(this.getApiUrl(url), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -24,12 +36,8 @@ class Api {
   }
 
   post(url, body) {
-    const isBrowser = process.browser;
-    const apiUrl = isBrowser
-      ? `${this.baseURL}${url}`
-      : `http://nest:3005${url}`;
-    const fetch = isBrowser ? window.fetch.bind(window) : this.fetch;
-    return fetch(apiUrl, {
+    const fetch = this.getFetchMethod();
+    return fetch(this.getApiUrl(url), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
