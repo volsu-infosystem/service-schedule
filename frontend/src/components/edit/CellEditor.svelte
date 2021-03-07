@@ -5,10 +5,20 @@
   import Tabs from '@ui/Tabs.svelte'
   import { createEventDispatcher } from 'svelte'
   import { fly } from 'svelte/transition'
+  import Schedule from '@api/schedule'
+
+  import { stores } from '@sapper/app'
+  const { session } = stores()
+
+  const schedule = new Schedule(fetch, $session)
 
   const dispatch = createEventDispatcher()
 
-  export let cellInEdit
+  export let cell
+
+  $: {
+    console.log(cell)
+  }
 
   let activeTable = 0
 
@@ -153,6 +163,28 @@
   ]
 
   let activeSubgroup = 1
+
+  function save() {
+    schedule.insertLessons(cell.schedule.id, {
+      day: cell.day.day,
+      order: cell.time.number,
+      subCells: [
+        {
+          subGroupId: 1,
+          lessons: [
+            {
+              periodicity: 'num',
+              disciplineId: 1,
+              professorId: 1,
+              roomId: 1,
+              lessonType: 'lec',
+              importanceStatus: 'low',
+            },
+          ],
+        },
+      ],
+    })
+  }
 </script>
 
 <div class="cell-editor" transition:fly={{ x: 20 }}>
@@ -193,7 +225,7 @@
     {/each}
   </div>
   <div class="save">
-    <Button>Сохранить</Button>
+    <Button on:click={save}>Сохранить</Button>
   </div>
 </div>
 

@@ -1,10 +1,10 @@
 <script>
-  import ScheduleSubGroup from './ScheduleSubGroup.svelte'
+  import ScheduleSubCell from './ScheduleSubCell.svelte'
   import { createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()
 
-  export let groups
+  export let schedules
   export let day
   export let time
 
@@ -16,42 +16,42 @@
 
   let rowIndex = `${day}:${time.number}`
 
-  let row = groups.map(({ group }) => ({
-    ...group,
-    subGroups: group.subGroups.filter(
-      (cell) =>
-        cell.lessons.filter(
-          (lesson) => lesson.time === time.number && lesson.day === day
-        ).length > 0
-    ),
-  }))
+  let rowCells = []
 
-  function setHover(cell) {
+  schedules.map((schedule) => {
+    const cells = schedule.cells ? schedule.cells : []
+    rowCells.push(
+      cells
+        .filter((cell) => cell.order == time.number && cell.day == day)
+        .pop() || { subCells: [] }
+    )
+  })
+  console.log(rowCells)
+  function setHover(schedule) {
     dispatch('hover', {
-      cell,
+      schedule,
     })
   }
 
   function edit(cell) {
     dispatch('edit', {
-      row,
-      cell,
+      schedule,
     })
   }
 </script>
 
 <div class="row">
-  {#each row as cell}
+  {#each rowCells as cell}
     <div
       class="cell"
-      class:edit={`${cell.label}:${rowIndex}` === editedLabel}
+      class:edit={`${cell.id}:${rowIndex}` === editedLabel}
       on:mouseenter={() => setHover(cell)}
       on:click={() => {
         edit(cell)
       }}
     >
-      {#each cell.subGroups as subgroup}
-        <ScheduleSubGroup {subgroup} />
+      {#each cell.subCells as subcell}
+        <ScheduleSubCell {subcell} />
       {/each}
     </div>
   {/each}

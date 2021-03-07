@@ -9,12 +9,10 @@
 
     const editor = new Editor(this.fetch, session)
 
-    const schedule = await editor.get(1, 1)
-
-    console.log(schedule)
+    const schedules = await editor.get(1, 1)
 
     return {
-      schedule,
+      schedules,
     }
   }
 </script>
@@ -22,7 +20,7 @@
 <script>
   import ScheduleEditor from '../components/edit/ScheduleEditor.svelte'
 
-  export let schedule = []
+  export let schedules = []
 </script>
 
-<ScheduleEditor {schedule} />
+<ScheduleEditor {schedules} />

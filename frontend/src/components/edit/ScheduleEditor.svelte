@@ -2,7 +2,7 @@
   import { days } from '@consts/schedule-sample'
   import ScheduleTable from './ScheduleTable.svelte'
 
-  export let schedule
+  export let schedules
 
   const sentials = {
     left: null,
@@ -28,7 +28,7 @@
 <div class="schedule-table">
   <div bind:this={sentials.left} class="sential left" />
   <div bind:this={sentials.top} class="sential top" />
-  <ScheduleTable groups={schedule} {days} {pinned} />
+  <ScheduleTable {schedules} {days} {pinned} />
 </div>
 
 <style lang="scss">

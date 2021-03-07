@@ -2,10 +2,13 @@
   import ScheduleRow from './ScheduleRow.svelte'
   import CellEditor from './CellEditor.svelte'
 
-  export let groups
+  export let schedules = []
   export let days
   export let pinned
-  
+
+  $: {
+    console.log(schedules)
+  }
   let hovered
   let cellInEdit = {
     cell: null,
@@ -13,10 +16,11 @@
     day: null,
   }
 
-  function setHover({ label }, { time }, { day }) {
-    hovered.time = time
-    hovered.group = label
-    hovered.day = day
+  function setHover() {
+    // { label }, { time }, { day }
+    // hovered.time = time
+    // hovered.group = label
+    // hovered.day = day
   }
 
   function clearHover() {
@@ -39,11 +43,12 @@
   clearHover()
 
   /* @TODO Поменять на айдишник клетки*/
-  function editCell(cell, { number }, { day }) {
+  function editCell({ schedule }, time, day) {
+    console.log(schedule)
     document.documentElement.style.overflow = 'hidden'
     cellInEdit = {
-      cell,
-      time: number,
+      schedule,
+      time,
       day,
     }
   }
@@ -51,7 +56,7 @@
 
 <div class="schedule-table">
   <div class="groups" class:pin={pinned.top}>
-    {#each groups as { group }}
+    {#each schedules as { group }}
       <div class="group" class:hover={group.id === hovered.id}>
         <span>
           {group.name}
@@ -80,7 +85,7 @@
             </div>
 
             <ScheduleRow
-              {groups}
+              {schedules}
               {time}
               day={day.day}
               bind:cellInEdit
@@ -88,7 +93,7 @@
                 setHover(detail.cell, time, day)
               }}
               on:edit={({ detail }) => {
-                editCell(detail.cell, time, day)
+                editCell(detail, time, day)
               }}
             />
           </div>
@@ -96,9 +101,9 @@
       </div>
     </div>
   {/each}
-  {#if cellInEdit.cell}
+  {#if cellInEdit.schedule}
     <div>
-      <CellEditor bind:cellInEdit on:close={clearEdit} />
+      <CellEditor bind:cell={cellInEdit} on:close={clearEdit} />
     </div>
   {/if}
 </div>
