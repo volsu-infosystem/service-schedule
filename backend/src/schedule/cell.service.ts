@@ -68,7 +68,7 @@ export class CellService {
     );
 
     cell.subCells = await this.subCellService.createSubCells(
-      cell.id,
+      cell,
       insertLessonsToCellDto,
     );
     return cell;
