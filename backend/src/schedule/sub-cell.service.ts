@@ -25,13 +25,17 @@ export class SubCellService {
   }
 
   async findOneWithLessonsByCellAndSubGroup(
-    cellId: number,
+    cell: CellEntity,
     subGroupId: number,
   ): Promise<SubCellEntity> {
     return await this.subCellRepository
       .createQueryBuilder('subCell')
       .innerJoinAndSelect('subCell.cell', 'cell')
-      .where('cell.id = :cellId', { cellId })
+      .where('cell.id = :cellId AND cell.day = :day AND cell.order = :order', {
+        cellId: cell.id,
+        day: cell.day,
+        order: cell.order,
+      })
       .innerJoinAndSelect('subCell.subGroup', 'subGroup')
       .where('subGroup.id = :subGroupId', { subGroupId })
       .leftJoinAndSelect('subCell.lessons', 'lessons')
@@ -39,30 +43,27 @@ export class SubCellService {
   }
 
   async provideSubCell(
-    cellId: number,
+    cell: CellEntity,
     subGroupId: number,
   ): Promise<SubCellEntity> {
     /* @TODO fix findOneWithLessonsByCellAndSubGroup method */
-    // const subCell = await this.findOneWithLessonsByCellAndSubGroup(
-    //   cellId,
-    //   subGroupId,
-    // );
+    const subCell = await this.findOneWithLessonsByCellAndSubGroup(
+      cell,
+      subGroupId,
+    );
 
-    // if (subCell) return subCell;
+    if (subCell) return subCell;
 
-    return await this.create({ cellId, subGroupId });
+    return await this.create({ cellId: cell.id, subGroupId });
   }
 
   async createSubCells(
-    cellId: number,
+    cell: CellEntity,
     cells: InsertLessonsToCellDto,
   ): Promise<SubCellEntity[]> {
     const subCells = await Promise.all(
       cells.subCells.map(async subCell => {
-        const currSubCell = await this.provideSubCell(
-          cellId,
-          subCell.subGroupId,
-        );
+        const currSubCell = await this.provideSubCell(cell, subCell.subGroupId);
         currSubCell.lessons = await this.lessonService.createLessons(
           currSubCell.id,
           subCell.lessons,

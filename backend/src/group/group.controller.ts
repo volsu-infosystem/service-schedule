@@ -13,6 +13,7 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { GroupEntity } from './entities/group.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { SubGroupEntity } from './entities/subGroup.entity';
 
 @Controller('group')
 @UseGuards(JwtAuthGuard)
@@ -32,6 +33,13 @@ export class GroupController {
   @Get(':id')
   async findOneById(@Param('id') groupId: number): Promise<GroupEntity> {
     return await this.groupService.findOneById(groupId);
+  }
+
+  @Get(':id/subGroups')
+  async getSubGroupsById(
+    @Param('id') groupId: number,
+  ): Promise<SubGroupEntity[]> {
+    return await this.groupService.getSubGroupsByGroupId(groupId);
   }
 
   @Put(':id')
