@@ -2,7 +2,7 @@
   export let subcell
 </script>
 
-<div class="subgroup">
+<div class="subcell">
   {#each subcell.lessons as lesson}
     <div class="lesson">
       <span class="discipline">
@@ -21,9 +21,10 @@
 </div>
 
 <style lang="scss">
-  .subgroup {
+  .subcell {
     display: flex;
     width: 100%;
+    height: 100%;
     min-height: 100px;
     background-color: var(--extra-light);
     position: relative;

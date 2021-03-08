@@ -16,24 +16,24 @@
 
   let rowIndex = `${day}:${time.number}`
 
-  let rowCells = []
-
-  schedules.map((schedule) => {
+  let row
+  $: row = schedules.map((schedule) => {
     const cells = schedule.cells ? schedule.cells : []
-    rowCells.push(
-      cells
-        .filter((cell) => cell.order == time.number && cell.day == day)
-        .pop() || { subCells: [] }
-    )
+    return {
+      ...schedule,
+      cells: cells.filter(
+        (cell) => cell.order == time.number && cell.day == day
+      ),
+    }
   })
-  console.log(rowCells)
+
   function setHover(schedule) {
     dispatch('hover', {
       schedule,
     })
   }
 
-  function edit(cell) {
+  function edit(schedule) {
     dispatch('edit', {
       schedule,
     })
@@ -41,17 +41,21 @@
 </script>
 
 <div class="row">
-  {#each rowCells as cell}
+  {#each row as schedule}
     <div
-      class="cell"
-      class:edit={`${cell.id}:${rowIndex}` === editedLabel}
-      on:mouseenter={() => setHover(cell)}
+      class="schedule"
+      class:edit={`${schedule.id}:${rowIndex}` === editedLabel}
+      on:mouseenter={() => setHover(schedule)}
       on:click={() => {
-        edit(cell)
+        edit(schedule)
       }}
     >
-      {#each cell.subCells as subcell}
-        <ScheduleSubCell {subcell} />
+      {#each schedule.cells as cell}
+        <div class="cell">
+          {#each cell.subCells as subcell}
+            <ScheduleSubCell {subcell} />
+          {/each}
+        </div>
       {/each}
     </div>
   {/each}
@@ -62,12 +66,12 @@
     display: flex;
     align-items: stretch;
   }
-  .cell {
-    display: flex;
-    align-items: stretch;
+  .schedule {
     width: 280px;
     border-left: solid 1px var(--gray);
     position: relative;
+    display: flex;
+    align-items: stretch;
     cursor: pointer;
     &:first-child {
       border-left: none;
@@ -90,5 +94,12 @@
         opacity: 1;
       }
     }
+  }
+  .cell {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
 </style>

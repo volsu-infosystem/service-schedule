@@ -16,10 +16,6 @@
 
   export let cell
 
-  $: {
-    console.log(cell)
-  }
-
   let activeTable = 0
 
   let tablesHeaders = ['Дисциплина', 'Преподаватель', 'Аудитория']
@@ -164,8 +160,8 @@
 
   let activeSubgroup = 1
 
-  function save() {
-    schedule.insertLessons(cell.schedule.id, {
+  async function save() {
+    await schedule.insertLessons(cell.schedule.id, {
       day: cell.day.day,
       order: cell.time.number,
       subCells: [
@@ -184,6 +180,7 @@
         },
       ],
     })
+    dispatch('update')
   }
 </script>
 

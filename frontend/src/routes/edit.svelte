@@ -20,7 +20,17 @@
 <script>
   import ScheduleEditor from '../components/edit/ScheduleEditor.svelte'
 
+  import { stores } from '@sapper/app'
+  const { session } = stores()
+
+  const editor = new Editor(fetch, $session)
+
   export let schedules = []
+
+  async function updateSchedule() {
+    schedules = await editor.get(1, 1)
+    console.log('updated')
+  }
 </script>
 
-<ScheduleEditor {schedules} />
+<ScheduleEditor {schedules} on:update={updateSchedule} />

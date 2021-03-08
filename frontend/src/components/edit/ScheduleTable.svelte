@@ -2,13 +2,10 @@
   import ScheduleRow from './ScheduleRow.svelte'
   import CellEditor from './CellEditor.svelte'
 
-  export let schedules = []
+  export let schedules
   export let days
   export let pinned
 
-  $: {
-    console.log(schedules)
-  }
   let hovered
   let cellInEdit = {
     cell: null,
@@ -103,7 +100,7 @@
   {/each}
   {#if cellInEdit.schedule}
     <div>
-      <CellEditor bind:cell={cellInEdit} on:close={clearEdit} />
+      <CellEditor bind:cell={cellInEdit} on:close={clearEdit} on:update />
     </div>
   {/if}
 </div>

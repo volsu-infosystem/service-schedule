@@ -28,7 +28,7 @@
 <div class="schedule-table">
   <div bind:this={sentials.left} class="sential left" />
   <div bind:this={sentials.top} class="sential top" />
-  <ScheduleTable {schedules} {days} {pinned} />
+  <ScheduleTable {schedules} {days} {pinned} on:update />
 </div>
 
 <style lang="scss">
