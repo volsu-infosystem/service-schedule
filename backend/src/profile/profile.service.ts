@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GroupEntity } from 'src/group/entities/group.entity';
+import { GroupService } from 'src/group/group.service';
 import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { DeepPartial, Repository } from 'typeorm';
@@ -21,7 +22,7 @@ export class ProfileService {
   constructor(
     @InjectRepository(ProfileStudentEntity)
     private readonly studentRepository: Repository<ProfileStudentEntity>,
-
+    private readonly groupService: GroupService, //не знал куда впихнуть
     @InjectRepository(ProfileProfessorEntity)
     private readonly professorRepository: Repository<ProfileProfessorEntity>,
   ) {}
@@ -118,6 +119,33 @@ export class ProfileService {
       return result;
     } else throw new ProfileByEmailNotFoundException(userEmail);
   }
+
+  //________________my code begins here
+  async provideProfile(userEmail: string){
+
+    const profile = await this.findOneByEmail(userEmail)
+    if (profile) return profile
+
+    const profileDataByEmail = await this.getDateByEmail(userEmail)
+    const newProfile = await this.createStudent(profileDataByEmail)
+
+    return newProfile
+  }
+
+  async getDateByEmail(userEmail: string): Promise<any>{
+    const profileData = userEmail.split('_');
+
+    const [groupName, ticketNumber] = [
+      profileData[0],
+      profileData[1].replace('@volsu.ru', ''),
+    ]
+
+    const responseData ={
+      ticketNumber,
+      groupId: this.groupService.getGroupByName(groupName)
+    };
+  }
+
 
   async updateOneStudent(
     profileId: number,

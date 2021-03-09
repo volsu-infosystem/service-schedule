@@ -31,7 +31,7 @@ export class AuthService {
       const newUserDto: CreateUserDto = {
         email: user.email,
         secretCode: await this.secretCodeService.generateSecretCode(),
-        profile: await this.profileService.findOneByEmail(user.email),
+        profile: await this.profileService.provideProfile(user.email),
         role: await this.roleService.getRoleByName('user'),
       };
       currUser = await this.userService.create(newUserDto);

@@ -23,6 +23,7 @@ export class GroupService {
     private readonly groupRepository: Repository<GroupEntity>,
     @Inject(forwardRef(() => ScheduleService))
     private readonly scheduleService: ScheduleService,
+
   ) {}
 
   async create(group: CreateGroupDto): Promise<GroupEntity> {
@@ -52,6 +53,10 @@ export class GroupService {
 
   async findOneById(groupId: number): Promise<GroupEntity> {
     return await this.groupRepository.findOne({ id: groupId });
+  }
+//i
+  async getGroupByName(groupName: string): Promise<GroupEntity> {
+    return await this.groupRepository.findOne({ name: groupName });
   }
 
   async getAdmissionYear(group: GroupEntity): Promise<GroupEntity> {
