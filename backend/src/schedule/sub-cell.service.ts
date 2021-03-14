@@ -31,13 +31,13 @@ export class SubCellService {
     return await this.subCellRepository
       .createQueryBuilder('subCell')
       .innerJoinAndSelect('subCell.cell', 'cell')
+      .innerJoinAndSelect('subCell.subGroup', 'subGroup')
       .where('cell.id = :cellId AND cell.day = :day AND cell.order = :order', {
         cellId: cell.id,
         day: cell.day,
         order: cell.order,
       })
-      .innerJoinAndSelect('subCell.subGroup', 'subGroup')
-      .where('subGroup.id = :subGroupId', { subGroupId })
+      .andWhere('subGroup.id = :subGroupId', { subGroupId })
       .leftJoinAndSelect('subCell.lessons', 'lessons')
       .getOne();
   }
