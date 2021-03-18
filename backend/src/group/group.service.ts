@@ -15,6 +15,7 @@ import { Repository, DeepPartial } from 'typeorm';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { GroupEntity } from './entities/group.entity';
+import { SubGroupEntity } from './entities/subGroup.entity';
 
 @Injectable()
 export class GroupService {
@@ -51,7 +52,17 @@ export class GroupService {
   }
 
   async findOneById(groupId: number): Promise<GroupEntity> {
-    return await this.groupRepository.findOne({ id: groupId });
+    return await this.groupRepository
+      .createQueryBuilder('group')
+      .where('group.id = :groupId', { groupId })
+      .leftJoinAndSelect('group.subGroups', 'subGroups')
+      .getOne();
+  }
+
+  async getSubGroupsByGroupId(groupId: number): Promise<SubGroupEntity[]> {
+    const group = await this.findOneById(groupId);
+
+    return group.subGroups;
   }
 
   async getAdmissionYear(group: GroupEntity): Promise<GroupEntity> {

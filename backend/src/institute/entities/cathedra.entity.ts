@@ -20,6 +20,7 @@ export class CathedraEntity {
   @ManyToOne(
     () => GroupEntity,
     group => group.cathedra,
+    { cascade: true },
   )
   groups: GroupEntity[];
 

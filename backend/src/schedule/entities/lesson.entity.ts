@@ -1,6 +1,5 @@
 import { RoomEntity } from 'src/campus/entities/room.entity';
 import { DisciplineEntity } from 'src/discipline/entities/discipline.entity';
-import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
 import { ProfileProfessorEntity } from 'src/profile/entities/profileProfessor.entity';
 import {
   Column,
@@ -12,8 +11,7 @@ import {
 import { ImportanceStatusEnum } from '../enums/importanceStatus.enum';
 import { LessonTypeEnum } from '../enums/lessonType.enum';
 import { PeriodicityEnum } from '../enums/periodicity.enum';
-import { WeekDaysEnum } from '../enums/weekDays.enum';
-import { ScheduleEntity } from './schedule.entity';
+import { SubCellEntity } from './sub-cell.entity';
 
 @Entity('lesson')
 export class LessonEntity {
@@ -21,16 +19,13 @@ export class LessonEntity {
   id: number;
 
   @ManyToOne(
-    () => ScheduleEntity,
-    scheduleEntity => scheduleEntity.lessons,
+    () => SubCellEntity,
+    subCellEntity => subCellEntity.lessons,
   )
-  schedule: ScheduleEntity;
+  subCell: SubCellEntity;
 
-  @ManyToOne(
-    () => SubGroupEntity,
-    subGroupEntity => subGroupEntity.lessons,
-  )
-  subGroup: SubGroupEntity;
+  @Column('enum', { enum: PeriodicityEnum })
+  periodicity: PeriodicityEnum;
 
   @ManyToOne(
     () => DisciplineEntity,
@@ -58,13 +53,4 @@ export class LessonEntity {
 
   @Column('enum', { enum: ImportanceStatusEnum })
   importanceStatus: ImportanceStatusEnum;
-
-  @Column('varchar', { length: 11 })
-  time: string;
-
-  @Column('enum', { enum: WeekDaysEnum })
-  day: WeekDaysEnum;
-
-  @Column('enum', { enum: PeriodicityEnum })
-  periodicity: PeriodicityEnum;
 }

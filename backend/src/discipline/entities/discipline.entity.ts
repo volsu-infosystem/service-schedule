@@ -45,7 +45,7 @@ export class DisciplineEntity {
   )
   lessons: LessonEntity[];
 
-  // To Do: Add Equipments Logic
+  /* @ToDo: Add Equipments Logic */
   @Column('varchar', { nullable: true })
   needEquipments: string;
 }

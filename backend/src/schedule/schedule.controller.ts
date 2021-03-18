@@ -9,13 +9,12 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { CreateLessonDto } from './dto/create-lesson.dto';
+import { InsertLessonsToCellDto } from './dto/insert-lessons-to-cell.dto';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
-import { UpdateLessonDto } from './dto/update-lesson.dto';
-import { LessonEntity } from './entities/lesson.entity';
+import { CellEntity } from './entities/cell.entity';
 import { ScheduleEntity } from './entities/schedule.entity';
-import { LessonService } from './lesson.service';
 import { ScheduleService } from './schedule.service';
+import { CellService } from './cell.service';
 
 @Controller('schedule')
 @ApiTags('schedule')
@@ -23,15 +22,8 @@ import { ScheduleService } from './schedule.service';
 export class ScheduleController {
   constructor(
     private readonly scheduleService: ScheduleService,
-    private readonly lessonService: LessonService,
+    private readonly cellService: CellService,
   ) {}
-
-  @Post()
-  async create(
-    @Body() createScheduleDto: CreateScheduleDto,
-  ): Promise<ScheduleEntity> {
-    return await this.scheduleService.create(createScheduleDto);
-  }
 
   /* @TODO Mock ScheduleResponse Interface */
   @Get(':group/:semester/')
@@ -61,18 +53,11 @@ export class ScheduleController {
     );
   }
 
-  @Post('/lesson')
-  async createLesson(
-    @Body() createLessonDto: CreateLessonDto,
-  ): Promise<LessonEntity> {
-    return this.lessonService.create(createLessonDto);
-  }
-
-  @Put('/lesson/:id')
-  async updateLesson(
-    @Param('id') lessonId: number,
-    @Body() updateLessonDto: UpdateLessonDto,
-  ): Promise<LessonEntity> {
-    return this.lessonService.updateOne(lessonId, updateLessonDto);
+  @Post(':scheduleId/lesson/')
+  async insertLesson(
+    @Body() createLessonDto: InsertLessonsToCellDto,
+    @Param('scheduleId') scheduleId: number,
+  ): Promise<CellEntity> {
+    return this.cellService.insertToCell(scheduleId, createLessonDto);
   }
 }

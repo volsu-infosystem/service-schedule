@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { LessonEntity } from './lesson.entity';
+import { CellEntity } from './cell.entity';
 
 @Entity('schedule')
 export class ScheduleEntity {
@@ -14,10 +14,11 @@ export class ScheduleEntity {
   id: number;
 
   @OneToMany(
-    () => LessonEntity,
-    lessonEntity => lessonEntity.schedule,
+    () => CellEntity,
+    cellEntity => cellEntity.schedule,
+    { cascade: true },
   )
-  lessons: LessonEntity[];
+  cells: CellEntity[];
 
   @Column('smallint')
   semester: number;
