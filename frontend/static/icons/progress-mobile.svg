@@ -1,0 +1,23 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<g>
+<rect opacity="0.1" x="-38.625" y="-8" width="5" height="57" transform="skewX(-20)" fill="white"/> 
+<rect opacity="0.1" x="-25.75" y="-8" width="5" height="57" transform="skewX(-20)" fill="white"/> 
+<rect opacity="0.1" x="-12.875" y="-8" width="5" height="57" transform="skewX(-20)" fill="white"/> 
+<rect opacity="0.1" x="0" y="-8" width="5" height="57" transform="skewX(-20)" fill="white"/> 
+<rect opacity="0.1" x="12.875" y="-8" width="5" height="57" transform="skewX(-20)" fill="white"/> 
+<rect opacity="0.1" x="25.75" y="-8" width="5" height="57" transform="skewX(-20)" fill="white"/> 
+<rect opacity="0.1" x="38.625" y="-8" width="5" height="57" transform="skewX(-20)" fill="white"/> 
+<rect opacity="0.1" x="51.5" y="-8" width="5" height="57" transform="skewX(-20)" fill="white"/> 
+<rect opacity="0.1" x="64.375" y="-8" width="5" height="57" transform="skewX(-20)" fill="white"/>
+
+<animateTransform  accumulate="none" additive="replace" attributeName="transform" calcMode="linear" dur="900ms" fill="remove" from="0 0" repeatCount="indefinite" restart="always" to="25.75 0" type="translate">
+</animateTransform>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x1="75.5662" y1="0" x2="75.5662" y2="40" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F67272"/>
+<stop offset="1" stop-color="#DE031C"/>
+</linearGradient>
+</defs>
+</svg>
