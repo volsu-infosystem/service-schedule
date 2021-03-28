@@ -9,11 +9,12 @@
   export let placeholder = ''
   export let value
   export let opened = false
+  export let displayKey = 'label'
 
   const dispatch = createEventDispatcher()
 
   function setActive(option) {
-    this.value = option
+    value = option
     dispatch('update', option)
   }
   let selected
@@ -23,7 +24,7 @@
 
   let activeText
   $: {
-    activeText = (selected ? value.label : value) || placeholder
+    activeText = (selected ? value[displayKey] : value) || placeholder
   }
 
   function toggle() {
@@ -52,7 +53,7 @@
           }}
         >
           <span>
-            {(option ? option.label : option) || option}
+            {(option ? option[displayKey] : option) || option}
           </span>
         </div>
       {/each}
@@ -67,6 +68,7 @@
     border: solid 1px #ddeeff;
     background-color: #fff;
     padding: 5px 15px;
+    font-size: 12px;
   }
   .active {
     opacity: 0.6;

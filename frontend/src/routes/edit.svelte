@@ -29,7 +29,6 @@
 
   async function updateSchedule() {
     schedules = await editor.get(1, 1)
-    console.log('updated')
   }
 </script>
 

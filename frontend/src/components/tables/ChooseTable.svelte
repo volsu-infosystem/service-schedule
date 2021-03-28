@@ -23,7 +23,7 @@
   >
     <h3>{name}</h3>
     <div class="active">
-      {table[active] ? table[active][0].label : ''}
+      {table[active] ? table[active].name : ''}
     </div>
     <div class="arrow" class:active={opened}>
       <Icon name="arrow-down" />
@@ -39,7 +39,9 @@
           <tr>
             <td colspan={headers.length}>
               <div class="additional">
-                <div>Описание предмета и всякая инфа дополнительная</div>
+                <div>
+                  {table[active].desc}
+                </div>
                 <div class="next" on:click={() => dispatch('next')}>
                   <span>Дальше</span>
                   <Icon name="left-arrow" />

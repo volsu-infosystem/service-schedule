@@ -8,6 +8,7 @@
   export let value
   export let canAddTab = true
   export let canSetNew = false
+  export let displayKey = 'label'
 
   let newText = ''
 
@@ -17,7 +18,7 @@
     tabs = [
       ...tabs,
       {
-        name: newText,
+        [displayKey]: newText,
         id: tabs[tabs.length - 1].id + 1,
       },
     ]
@@ -35,7 +36,7 @@
         value = tab.id
       }}
     >
-      <span>{tab.name}</span>
+      <span>{tab[displayKey]}</span>
     </div>
   {/each}
   {#if canSetNew}
