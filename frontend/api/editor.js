@@ -17,5 +17,10 @@ class Editor {
     /* TODO Потом получать по айдишники группы */
     return this.api.get(`/discipline`);
   }
+
+  teachers(teacherId) {
+    /* TODO Потом получать по айдишники группы */
+    return this.api.get(`/professor/discipline/${teacherId}`);
+  }
 }
 export default Editor;

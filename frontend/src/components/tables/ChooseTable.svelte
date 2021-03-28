@@ -11,8 +11,7 @@
   export let headers = []
   export let table = []
   export let opened = true
-
-  let active = null
+  export let value
 </script>
 
 <div class="choose-form">
@@ -23,7 +22,7 @@
   >
     <h3>{name}</h3>
     <div class="active">
-      {table[active] ? table[active].name : ''}
+      {value ? value.name : ''}
     </div>
     <div class="arrow" class:active={opened}>
       <Icon name="arrow-down" />
@@ -35,12 +34,12 @@
         <Search let:value placeholder="Поиск" />
       </div>
       <div class="table">
-        <EntityTable {table} {headers} bind:active>
+        <EntityTable {table} {headers} bind:value>
           <tr>
             <td colspan={headers.length}>
               <div class="additional">
                 <div>
-                  {table[active].desc}
+                  {value.desc}
                 </div>
                 <div class="next" on:click={() => dispatch('next')}>
                   <span>Дальше</span>

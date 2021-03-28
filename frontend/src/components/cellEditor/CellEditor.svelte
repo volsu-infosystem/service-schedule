@@ -16,17 +16,50 @@
 
   export let cell
 
+  let tables = [
+    {
+      label: 'Дисциплина',
+      selected: null,
+      type: 'discipline',
+      headers: [
+        { label: 'Название', key: 'name' },
+        { label: 'Экипировка', key: 'needEquipment' },
+      ],
+      data: [],
+    },
+    {
+      label: 'Преподаватель',
+      selected: null,
+      type: 'teacher',
+      headers: [{ label: 'Название', key: 'name' }],
+      data: [],
+    },
+    {
+      label: 'Аудитория',
+      selected: null,
+      type: 'room',
+      headers: [{ label: 'Название', key: 'name' }],
+      data: [],
+    },
+  ]
+
+  const parseDataMethods = {
+    discipline: async (selected) => {
+      console.log(selected)
+      tables[1].data = await editor.teachers(selected.id)
+    },
+  }
+
   let activeSubgroups = []
   let addedSubgroup
   let subGroups
-  let disciplines
   async function fetchCellData(groupId) {
     const [subGroupsData, disciplinesData] = await Promise.all([
       editor.subgroups(groupId),
       editor.disciplines(),
     ])
 
-    disciplines = disciplinesData
+    tables[0].data = disciplinesData
     subGroups = subGroupsData
   }
   $: {
@@ -37,12 +70,6 @@
   }
 
   let activeTable = 0
-
-  let tablesHeaders = ['Дисциплина', 'Преподаватель', 'Аудитория']
-  const headers = [
-    { label: 'Название', key: 'name' },
-    { label: 'Экипировка', key: 'needEquipment' },
-  ]
 
   let period = [{ label: 'Еженедельно', id: 1 }]
   let activePeriod = 1
@@ -55,7 +82,7 @@
     canAddTab = false
   }
 
-  let activeSubgroup = 1
+  let activeSubgroup = null
 
   async function save() {
     await schedule.insertLessons(cell.schedule.id, {
@@ -121,14 +148,18 @@
   </div>
 
   <div class="forms">
-    {#each tablesHeaders as header, index}
+    {#each tables as { type, data, label, headers, selected }, index}
       <ChooseForm
-        name={header}
-        table={disciplines}
         {headers}
+        name={label}
+        table={data}
         opened={activeTable === index}
         disabled={activeTable < index}
-        on:next={() => activeTable++}
+        on:next={() => {
+          activeTable = index + 1
+          parseDataMethods[type](selected)
+        }}
+        bind:value={selected}
       />
     {/each}
   </div>

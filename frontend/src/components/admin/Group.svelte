@@ -28,6 +28,8 @@
 </script>
 
 <div>
+  <h2>Создание группы</h2>
+
   <Input bind:value={name} placeholder="Название группы" />
   <Input bind:value={cathedraId} placeholder="Кафедра" />
   <Input bind:value={studyDirectionId} placeholder="Направление обучения" />
