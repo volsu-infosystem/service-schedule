@@ -19,7 +19,7 @@ import { UpdateProfileProfessorDto } from './dto/update-profile-professor.dto';
 import { ProfileProfessorEntity } from './entities/profileProfessor.entity';
 
 @Controller('profile')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
