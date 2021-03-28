@@ -8,6 +8,7 @@ import { AdmissionYearEntity } from './entities/admissionYear.entity';
 import { AdmissionYearController } from './admissionYear.controller';
 import { AdmissionYearService } from './admissionYear.service';
 import { GroupModule } from 'src/group/group.module';
+import { DisciplineModule } from 'src/discipline/discipline.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { GroupModule } from 'src/group/group.module';
       AdmissionYearEntity,
     ]),
     forwardRef(() => GroupModule),
+    DisciplineModule,
   ],
   controllers: [ProfileController, AdmissionYearController],
   providers: [ProfileService, AdmissionYearService],

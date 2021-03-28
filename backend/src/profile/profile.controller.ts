@@ -19,7 +19,7 @@ import { UpdateProfileProfessorDto } from './dto/update-profile-professor.dto';
 import { ProfileProfessorEntity } from './entities/profileProfessor.entity';
 
 @Controller('profile')
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
@@ -77,6 +77,13 @@ export class ProfileController {
     @Param('id') profileId: number,
   ): Promise<ProfileProfessorEntity> {
     return await this.profileService.findOneProfessorById(profileId);
+  }
+
+  @Get('professor/discipline/:id')
+  async findProfessorsByDiscipline(
+    @Param('id') disciplineId: number,
+  ): Promise<ProfileProfessorEntity[]> {
+    return await this.profileService.findProfessorsByDiscipline(disciplineId);
   }
 
   @Put('professor/:id')
