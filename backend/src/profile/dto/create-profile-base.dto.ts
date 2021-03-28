@@ -10,11 +10,11 @@ import {
 export class CreateProfileBaseDto {
   @IsString()
   @Length(2, 64)
-  readonly firstName: string;
+  readonly firstName?: string;
 
   @IsString()
   @Length(2, 64)
-  readonly lastName: string;
+  readonly lastName?: string;
 
   @IsOptional()
   @IsString()

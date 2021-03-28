@@ -21,5 +21,5 @@ export class ProfileStudentEntity extends ProfileBaseEntity {
     subGroup => subGroup.students,
     { nullable: true },
   )
-  subGroups?: SubGroupEntity[];
+  subGroups: SubGroupEntity[];
 }

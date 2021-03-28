@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EmailObject } from 'src/auth/interfaces/authEmail.interface';
 import { GroupEntity } from 'src/group/entities/group.entity';
 import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
+import { GroupService } from 'src/group/group.service';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { DeepPartial, Repository } from 'typeorm';
 import { CreateProfileProfessorDto } from './dto/create-profile-professor.dto';
@@ -10,10 +12,7 @@ import { UpdateProfileProfessorDto } from './dto/update-profile-professor.dto';
 import { UpdateProfileStudentDto } from './dto/update-profile-student.dto';
 import { ProfileProfessorEntity } from './entities/profileProfessor.entity';
 import { ProfileStudentEntity } from './entities/profileStudent.entity';
-import {
-  ProfileByEmailNotFoundException,
-  ProfileNotFoundException,
-} from './exceptions/profile.exceptions';
+import { ProfileNotFoundException } from './exceptions/profile.exceptions';
 import { ProfileEntity } from './interfaces/profile.interface';
 
 @Injectable()
@@ -24,6 +23,8 @@ export class ProfileService {
 
     @InjectRepository(ProfileProfessorEntity)
     private readonly professorRepository: Repository<ProfileProfessorEntity>,
+
+    private readonly groupService: GroupService,
   ) {}
 
   async createStudent(
@@ -54,6 +55,31 @@ export class ProfileService {
     const newProfile = this.professorRepository.create(profile);
 
     return await this.professorRepository.save(newProfile);
+  }
+
+  async provideProfile(
+    emailObject: EmailObject,
+    email: string,
+  ): Promise<ProfileEntity> {
+    const profile = await this.findOneByEmail(email);
+
+    if (profile) {
+      return profile;
+    }
+
+    const group = await this.groupService.findOneByName(emailObject.group);
+
+    const groupId = group.id;
+
+    const studentTicketNumber = Number(emailObject.ticketNumber);
+
+    const newStudentProfile: CreateProfileStudentDto = {
+      email,
+      groupId,
+      studentTicketNumber,
+    };
+
+    return await this.createStudent(newStudentProfile);
   }
 
   async findAllStudents(): Promise<ProfileStudentEntity[]> {
@@ -90,33 +116,23 @@ export class ProfileService {
       result = findByProfessors;
     }
 
-    if (result) {
-      return result;
-    } else throw new ProfileByEmailNotFoundException(userEmail);
+    return result;
   }
 
   async findOneStudentByEmail(
     userEmail: string,
   ): Promise<ProfileStudentEntity> {
-    const result = await this.studentRepository.findOne({
+    return await this.studentRepository.findOne({
       where: { email: userEmail },
     });
-
-    if (result) {
-      return result;
-    } else throw new ProfileByEmailNotFoundException(userEmail);
   }
 
   async findOneProfessorByEmail(
     userEmail: string,
   ): Promise<ProfileProfessorEntity> {
-    const result = await this.professorRepository.findOne({
+    return await this.professorRepository.findOne({
       where: { email: userEmail },
     });
-
-    if (result) {
-      return result;
-    } else throw new ProfileByEmailNotFoundException(userEmail);
   }
 
   async updateOneStudent(
@@ -139,13 +155,14 @@ export class ProfileService {
 
     const newStudentProfile = this.studentRepository.create(updateProfile);
 
-    newStudentProfile.user = user;
-    newStudentProfile.group = group;
-    newStudentProfile.subGroups = subGroups;
+    if (user) newStudentProfile.user = user;
+    if (group) newStudentProfile.group = group;
+    if (subGroups) newStudentProfile.subGroups = subGroups;
 
     await this.studentRepository.update({ id: profileId }, newStudentProfile);
 
     const updatedProfile = await this.findOneStudentById(profileId);
+
     if (updatedProfile) {
       return updatedProfile;
     }

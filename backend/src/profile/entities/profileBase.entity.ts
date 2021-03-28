@@ -12,13 +12,13 @@ export class ProfileBaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { length: 128 })
+  @Column('varchar', { length: 128, nullable: true })
   initials: string;
 
-  @Column('varchar', { length: 64 })
+  @Column('varchar', { length: 64, nullable: true })
   firstName: string;
 
-  @Column('varchar', { length: 64 })
+  @Column('varchar', { length: 64, nullable: true })
   lastName: string;
 
   @Column('varchar', { length: 64, nullable: true })

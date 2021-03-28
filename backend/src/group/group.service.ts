@@ -1,7 +1,7 @@
 import {
+  forwardRef,
   HttpException,
   HttpStatus,
-  forwardRef,
   Inject,
   Injectable,
 } from '@nestjs/common';
@@ -16,6 +16,7 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { GroupEntity } from './entities/group.entity';
 import { SubGroupEntity } from './entities/subGroup.entity';
+import { GroupByNameNotExistException } from './exceptions/group.exceptions';
 
 @Injectable()
 export class GroupService {
@@ -57,6 +58,16 @@ export class GroupService {
       .where('group.id = :groupId', { groupId })
       .leftJoinAndSelect('group.subGroups', 'subGroups')
       .getOne();
+  }
+
+  async findOneByName(name: string): Promise<GroupEntity> {
+    const group = await this.groupRepository.findOne({ where: { name } });
+
+    if (group) {
+      return group;
+    }
+
+    throw new GroupByNameNotExistException(name);
   }
 
   async getSubGroupsByGroupId(groupId: number): Promise<SubGroupEntity[]> {
