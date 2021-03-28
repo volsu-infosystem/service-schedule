@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GroupEntity } from 'src/group/entities/group.entity';
 import { GroupService } from 'src/group/group.service';
 import { studyLevelEnum } from 'src/profile/enums/studyLevel.enum';
 import { AdmissionYearNotFoundException } from 'src/profile/exceptions/admissionYear.exceptions';
 import { Repository, DeepPartial } from 'typeorm';
-import { CellService } from './cell.service';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { ScheduleEntity } from './entities/schedule.entity';
@@ -16,8 +15,9 @@ export class ScheduleService {
   constructor(
     @InjectRepository(ScheduleEntity)
     private readonly scheduleRepository: Repository<ScheduleEntity>,
+
+    @Inject(forwardRef(() => GroupService))
     private readonly groupService: GroupService,
-    private readonly cellService: CellService,
   ) {}
 
   async create(schedule: CreateScheduleDto): Promise<ScheduleEntity> {
