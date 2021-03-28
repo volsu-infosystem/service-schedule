@@ -45,6 +45,10 @@ const aliases = alias({
       find: '@styles',
       replacement: path.resolve(projectRootDir, 'src/styles'),
     },
+    {
+      find: '@directives',
+      replacement: path.resolve(projectRootDir, 'src/directives'),
+    },
   ],
 });
 

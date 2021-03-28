@@ -1,6 +1,7 @@
 <script>
   import ChooseForm from '../tables/ChooseTable.svelte'
   import Icon from '@ui/Icon.svelte'
+  import Dropdown from '@ui/Dropdown.svelte'
   import Button from '@ui/Button.svelte'
   import Tabs from '@ui/Tabs.svelte'
   import { createEventDispatcher } from 'svelte'
@@ -153,9 +154,10 @@
     canAddTab = false
   }
 
-  let subgroups = [
-    { name: 'Штельмах', id: 1 },
-    { name: 'Чувашин', id: 2 },
+  let activeSubgroups = []
+  let subGroups = [
+    { label: 'Штельмах', id: 1 },
+    { label: 'Чувашин', id: 2 },
   ]
 
   let activeSubgroup = 1
@@ -182,6 +184,11 @@
     })
     dispatch('update')
   }
+
+  function addSubgroup({ option }) {
+    console.log(option)
+    activeSubgroups = [...activeSubgroups]
+  }
 </script>
 
 <div class="cell-editor" transition:fly={{ x: 20 }}>
@@ -192,12 +199,17 @@
 
   <div class="tabs">
     <Tabs
-      bind:tabs={subgroups}
+      bind:tabs={activeSubgroups}
       bind:value={activeSubgroup}
-      canAddTab={false}
-      canSetNew={true}
       on:new={addZnam}
     />
+    <div class="add">
+      <Dropdown
+        options={subGroups}
+        on:update={addSubgroup}
+        placeholder="Выберите подгруппу"
+      />
+    </div>
   </div>
 
   <div class="tabs periods">
@@ -259,12 +271,18 @@
     padding-top: 5px;
   }
   .tabs {
+    display: flex;
+    align-items: flex-end;
     padding: 0 5px;
     border-bottom: solid 1px #ddeeff;
     &.periods {
       padding-top: 10px;
       background-color: #fff;
       z-index: 5;
+    }
+    .add {
+      width: 220px;
+      margin-left: 3px;
     }
   }
   .save {
