@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EmailObject } from 'src/auth/interfaces/authEmail.interface';
+import { DisciplineService } from 'src/discipline/discipline.service';
+import { DisciplineEntity } from 'src/discipline/entities/discipline.entity';
 import { GroupEntity } from 'src/group/entities/group.entity';
 import { SubGroupEntity } from 'src/group/entities/subGroup.entity';
 import { GroupService } from 'src/group/group.service';
+import { CathedraEntity } from 'src/institute/entities/cathedra.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { DeepPartial, Repository } from 'typeorm';
 import { CreateProfileProfessorDto } from './dto/create-profile-professor.dto';
@@ -25,6 +28,7 @@ export class ProfileService {
     private readonly professorRepository: Repository<ProfileProfessorEntity>,
 
     private readonly groupService: GroupService,
+    private readonly disciplineService: DisciplineService,
   ) {}
 
   async createStudent(
@@ -53,6 +57,21 @@ export class ProfileService {
     profile: CreateProfileProfessorDto,
   ): Promise<ProfileProfessorEntity> {
     const newProfile = this.professorRepository.create(profile);
+
+    const [cathedra, teachedDisciplines] = [
+      profile.cathedraId
+        ? ({ id: profile.cathedraId } as CathedraEntity)
+        : null,
+      profile.teachedDisciplinesIds
+        ? profile.teachedDisciplinesIds.map(
+            teachedDisciplineId =>
+              ({ id: teachedDisciplineId } as DisciplineEntity),
+          )
+        : null,
+    ];
+
+    if (cathedra) newProfile.cathedra = cathedra;
+    if (teachedDisciplines) newProfile.teachedDisciplines = teachedDisciplines;
 
     return await this.professorRepository.save(newProfile);
   }
@@ -88,6 +107,16 @@ export class ProfileService {
 
   async findAllProfessors(): Promise<ProfileProfessorEntity[]> {
     return await this.professorRepository.find();
+  }
+
+  async findProfessorsByDiscipline(
+    disciplineId: number,
+  ): Promise<ProfileProfessorEntity[]> {
+    return this.professorRepository
+      .createQueryBuilder('professor')
+      .innerJoin('professor.teachedDisciplines', 'teachedDisciplines')
+      .where('teachedDisciplines.id = :disciplineId', { disciplineId })
+      .getMany();
   }
 
   async findOneStudentById(profileId: number): Promise<ProfileStudentEntity> {
@@ -173,7 +202,28 @@ export class ProfileService {
     profileId: number,
     updateProfile: DeepPartial<UpdateProfileProfessorDto>,
   ): Promise<ProfileProfessorEntity> {
-    await this.professorRepository.update({ id: profileId }, updateProfile);
+    const [cathedra, teachedDisciplines] = [
+      updateProfile.cathedraId
+        ? ({ id: updateProfile.cathedraId } as CathedraEntity)
+        : null,
+      updateProfile.teachedDisciplinesIds
+        ? updateProfile.teachedDisciplinesIds.map(
+            teachedDisciplineId =>
+              ({ id: teachedDisciplineId } as DisciplineEntity),
+          )
+        : null,
+    ];
+
+    const newProfessorProfile = this.professorRepository.create(updateProfile);
+
+    if (cathedra) newProfessorProfile.cathedra = cathedra;
+    if (teachedDisciplines)
+      newProfessorProfile.teachedDisciplines = teachedDisciplines;
+
+    await this.professorRepository.update(
+      { id: profileId },
+      newProfessorProfile,
+    );
 
     const updatedProfile = await this.findOneProfessorById(profileId);
     if (updatedProfile) {
