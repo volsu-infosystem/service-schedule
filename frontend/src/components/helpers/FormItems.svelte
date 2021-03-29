@@ -2,8 +2,18 @@
   import { fly } from 'svelte/transition'
 
   import Input from '@ui/Input.svelte'
+  import Select from '@ui/Select.svelte'
 
   export let items = []
+
+  function getComponent({ type }) {
+    return (
+      {
+        input: Input,
+        select: Select,
+      }[type] || Input
+    )
+  }
 </script>
 
 {#each items as item}
@@ -12,10 +22,12 @@
       <div class="label" transition:fly={{ y: 15 }}>{item.placeholder}</div>
     {/if}
     <div class="input">
-      <Input
+      <svelte:component
+        this={getComponent(item)}
         bind:value={item.value}
-        type={item.type}
         placeholder={item.placeholder}
+        type={item.type}
+        {...item.data || []}
       />
     </div>
   </div>

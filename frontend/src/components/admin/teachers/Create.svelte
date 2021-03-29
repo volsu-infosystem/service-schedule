@@ -1,6 +1,6 @@
 <script>
-  import FormItems from '../helpers/FormItems.svelte'
-  import Form from '../ui/Form.svelte'
+  import FormItems from '@/components/helpers/FormItems.svelte'
+  import Form from '@ui/Form.svelte'
   import Button from '@ui/Button.svelte'
 
   import { stores } from '@sapper/app'

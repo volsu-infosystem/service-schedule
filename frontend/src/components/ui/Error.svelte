@@ -1,5 +1,5 @@
 <script>
-  import { fade } from 'svelte/transition'
+  import { fade, slide } from 'svelte/transition'
 
   export let response
 </script>
@@ -13,7 +13,7 @@
   </div>
   <ul class="messages">
     {#each response.message as msg}
-      <li class="message">
+      <li class="message" transition:slide>
         {msg}
       </li>
     {/each}

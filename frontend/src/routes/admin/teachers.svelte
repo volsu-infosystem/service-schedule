@@ -1,5 +1,7 @@
 <script>
-  import Teachers from '@/components/admin/Teachers.svelte'
+  import Create from '@/components/admin/teachers/Create.svelte'
+  import Attach from '@/components/admin/teachers/Attach.svelte'
 </script>
 
-<Teachers />
+<Create />
+<Attach />
