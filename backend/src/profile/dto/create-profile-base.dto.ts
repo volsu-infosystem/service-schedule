@@ -1,6 +1,5 @@
 import {
   IsEmail,
-  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -23,7 +22,6 @@ export class CreateProfileBaseDto {
   @Length(2, 64)
   readonly middleName?: string;
 
-  @IsOptional()
   @IsEmail()
   @Length(0, 256)
   readonly email: string;
