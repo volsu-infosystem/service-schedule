@@ -10,5 +10,5 @@
       "@styles/*": ["./src/styles/*"]
     }
   },
-  "exclude": ["node_modules", ".nuxt", "dist"]
+  "exclude": ["node_modules", "__sapper__"]
 }

@@ -8,5 +8,9 @@ class Profile {
   createProfessor(body) {
     return this.api.post(`/profile/professor`, body);
   }
+
+  updateProfessor(id, body) {
+    return this.api.put(`/profile/professor/${id}`, body);
+  }
 }
 export default Profile;

@@ -48,6 +48,20 @@ class Api {
       return response.json();
     });
   }
+
+  put(url, body) {
+    const fetch = this.getFetchMethod();
+    return fetch(this.getApiUrl(url), {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.session.token}`,
+      },
+      body: JSON.stringify(body),
+    }).then(response => {
+      return response.json();
+    });
+  }
 }
 
 export default Api;

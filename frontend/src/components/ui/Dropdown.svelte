@@ -7,14 +7,13 @@
 
   export let options = []
   export let placeholder = ''
-  export let value
+  export let value = {}
   export let opened = false
   export let displayKey = 'label'
 
   const dispatch = createEventDispatcher()
 
   function setActive(option) {
-    value = option
     dispatch('update', option)
   }
   let selected
@@ -38,7 +37,9 @@
 
 <div class="dropdown" on:click={toggle} use:clickOutside={close}>
   <div class="active" class:selected>
-    {activeText}
+    <slot>
+      <span>{activeText}</span>
+    </slot>
     <div class="arrow" class:opened>
       <Icon name="arrow-down" />
     </div>
@@ -73,6 +74,7 @@
   .active {
     opacity: 0.6;
     display: flex;
+    align-items: center;
     &.selected {
       opacity: 1;
     }
@@ -82,12 +84,14 @@
     top: 100%;
     left: 0;
     width: 100%;
-    z-index: 6;
+    z-index: 15;
     border-radius: 3px;
     overflow: hidden;
     border: solid 1px #ddeeff;
     background-color: #fff;
     padding: 2px 2px;
+    max-height: 250px;
+    overflow: hidden auto;
   }
   .option {
     width: 100%;
@@ -119,13 +123,15 @@
   }
   .arrow {
     margin-left: auto;
-    transform: rotate(0deg);
-    transition: transform ease 0.3s;
     :global(svg) {
       font-size: 12px;
+      transform: rotate(0deg);
+      transition: transform ease 0.3s;
     }
     &.opened {
-      transform: rotate(180deg);
+      :global(svg) {
+        transform: rotate(180deg);
+      }
     }
   }
 </style>

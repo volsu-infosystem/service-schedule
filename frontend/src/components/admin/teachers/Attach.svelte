@@ -3,23 +3,37 @@
   import Form from '@ui/Form.svelte'
   import Button from '@ui/Button.svelte'
 
+  import { convertFields } from '@/helpers/formFields'
   import { stores } from '@sapper/app'
-  import { onMount } from 'svelte'
   import Profile from '@api/profile'
-  import Editor from '@api/editor'
 
   const { session } = stores()
 
+  export let disciplines;
+
   const fields = [
-    { placeholder: 'Айди учителя', value: '', key: 'lastName', type: 'number' },
+    { placeholder: 'Айди учителя', value: '', key: 'profileId', type: 'number', ignore: true },
+    { placeholder: 'Фамилия', value: '', key: 'lastName' },
+    { placeholder: 'Имя', value: '', key: 'firstName' },
+    { placeholder: 'Отчество ', value: '', key: 'middleName' },
+    { placeholder: 'Емаил', value: '', key: 'email' },
+    { placeholder: 'Айди юзера', value: '', key: 'userId', type: 'number' },
+    {
+      placeholder: 'Айди кафедры',
+      value: '',
+      key: 'cathedraId',
+      type: 'number',
+    },
     {
       placeholder: 'Дисциплины',
       value: [],
       key: 'teachedDisciplinesIds',
       type: 'select',
+      reducer: (value) => value.map(v=>v.id),
       data: {
-        options: [],
+        options: disciplines,
         multiple: true,
+        displayKey: 'name',
       },
     },
   ]
@@ -28,22 +42,16 @@
 
   async function submit() {
     const profile = new Profile(fetch, $session)
-    response = await profile.createProfessor(
-      fields.reduce((p, c) => {
-        p[c.key] = c.value
-        return p
-      }, {})
+    response = await profile.updateProfessor(
+      fields[0].value,
+      convertFields(fields)
     )
   }
 
-  onMount(async () => {
-    const editor = new Editor(fetch, $session)
-    fields[1].data.options = await editor.disciplines()
-  })
 </script>
 
 <div>
-  <h2>Прикрепить к преподавателю дисциплину</h2>
+  <h2>Обновить преподавателя</h2>
 
   <Form {response} on:submit={submit}>
     <FormItems items={fields} />

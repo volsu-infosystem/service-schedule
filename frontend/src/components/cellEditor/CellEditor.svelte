@@ -109,7 +109,6 @@
 
   function addSubgroup({ detail }) {
     activeSubgroups = [...activeSubgroups, detail]
-    addedSubgroup = null
   }
 </script>
 
@@ -131,7 +130,6 @@
       <Dropdown
         options={subGroups}
         on:update={addSubgroup}
-        bind:value={addedSubgroup}
         placeholder="Добавить подгруппу"
         displayKey="name"
       />

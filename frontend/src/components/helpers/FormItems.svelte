@@ -14,11 +14,17 @@
       }[type] || Input
     )
   }
+
+  function isLabelVisible({ value }) {
+    if (Array.isArray(value)) return !!value.length
+
+    return !!value
+  }
 </script>
 
 {#each items as item}
   <div class="form-item">
-    {#if !!item.value}
+    {#if isLabelVisible(item)}
       <div class="label" transition:fly={{ y: 15 }}>{item.placeholder}</div>
     {/if}
     <div class="input">
@@ -42,7 +48,7 @@
     z-index: 4;
   }
   .input {
-    z-index: 5;
+    z-index: 15;
     position: relative;
   }
 </style>

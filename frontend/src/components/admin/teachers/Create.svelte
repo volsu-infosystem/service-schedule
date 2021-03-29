@@ -3,9 +3,12 @@
   import Form from '@ui/Form.svelte'
   import Button from '@ui/Button.svelte'
 
+  import { convertFields } from '@/helpers/formFields'
   import { stores } from '@sapper/app'
   import Profile from '@api/profile'
   const { session } = stores()
+
+  export let disciplines
 
   const profile = new Profile(fetch, $session)
 
@@ -21,16 +24,25 @@
       key: 'cathedraId',
       type: 'number',
     },
+    {
+      placeholder: 'Дисциплины',
+      value: [],
+      key: 'teachedDisciplinesIds',
+      type: 'select',
+      reducer: (value) => value.map(v=>v.id),
+      data: {
+        options: disciplines,
+        multiple: true,
+        displayKey: 'name',
+      },
+    },
   ]
 
   let response
 
   async function submit() {
     response = await profile.createProfessor(
-      fields.reduce((p, c) => {
-        p[c.key] = c.value
-        return p
-      }, {})
+      convertFields(fields)
     )
   }
 </script>
