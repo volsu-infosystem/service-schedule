@@ -1,4 +1,6 @@
 <script>
+  import { parse } from 'autoprefixer/lib/brackets'
+
   /**
    * Specify the input value
    * @type {number | string}
@@ -37,6 +39,10 @@
     on:change
     on:input
     on:input={({ target }) => {
+      if (type === 'number') {
+        value = parseInt(target.value)
+        return
+      }
       value = target.value
     }}
     on:keydown
