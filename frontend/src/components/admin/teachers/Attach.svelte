@@ -9,10 +9,17 @@
 
   const { session } = stores()
 
-  export let disciplines;
+  export let disciplines
+  export let selected = {}
 
   const fields = [
-    { placeholder: 'Айди учителя', value: '', key: 'profileId', type: 'number', ignore: true },
+    {
+      placeholder: 'Айди учителя',
+      value: '',
+      key: 'id',
+      type: 'number',
+      ignore: true,
+    },
     { placeholder: 'Фамилия', value: '', key: 'lastName' },
     { placeholder: 'Имя', value: '', key: 'firstName' },
     { placeholder: 'Отчество ', value: '', key: 'middleName' },
@@ -29,7 +36,7 @@
       value: [],
       key: 'teachedDisciplinesIds',
       type: 'select',
-      reducer: (value) => value.map(v=>v.id),
+      reducer: (value) => value.map((v) => v.id),
       data: {
         options: disciplines,
         multiple: true,
@@ -37,6 +44,14 @@
       },
     },
   ]
+
+  $: {
+    Object.entries(selected).forEach(([key, value]) => {
+      const index = fields.findIndex((f) => f.key === key)
+      if (index === -1) return
+      fields[index].value = value
+    })
+  }
 
   let response
 
@@ -47,7 +62,6 @@
       convertFields(fields)
     )
   }
-
 </script>
 
 <div>

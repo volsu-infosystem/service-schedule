@@ -5,6 +5,10 @@ class Profile {
     this.api = new Api(fetch, session);
   }
 
+  teacherList(body) {
+    return this.api.get(`/profile/professor`, body);
+  }
+
   createProfessor(body) {
     return this.api.post(`/profile/professor`, body);
   }
