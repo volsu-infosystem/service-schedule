@@ -13,7 +13,6 @@ import { StudyDirectionEntity } from '../../discipline/entities/studyDirection.e
 import { CathedraEntity } from '../../institute/entities/cathedra.entity';
 import { ScheduleEntity } from 'src/schedule/entities/schedule.entity';
 import { SubGroupEntity } from './subGroup.entity';
-import { truncate } from 'fs';
 
 @Entity('group')
 export class GroupEntity {
@@ -54,7 +53,7 @@ export class GroupEntity {
   @OneToMany(
     () => ScheduleEntity,
     scheduleEntity => scheduleEntity.group,
-    { cascade: true }
+    { cascade: true },
   )
   schedules: ScheduleEntity[];
 

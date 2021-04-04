@@ -29,7 +29,6 @@ export class SubGroupService {
     return await this.subgroupRepository.findOne({ id: subgroupId });
   }
 
-  /* ToDo Fix updating with .save() instead .update() */
   async updateOne(
     subgroupId: number,
     updateSubGroup: DeepPartial<UpdateSubGroupDto>,
