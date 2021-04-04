@@ -99,7 +99,7 @@
   {/each}
   {#if cellInEdit.schedule}
     <div>
-      <CellEditor bind:cell={cellInEdit} on:close={clearEdit} on:update />
+      <CellEditor bind:edit={cellInEdit} on:close={clearEdit} on:update />
     </div>
   {/if}
 </div>

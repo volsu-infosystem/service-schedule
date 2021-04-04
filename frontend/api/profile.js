@@ -5,7 +5,7 @@ class Profile {
     this.api = new Api(fetch, session);
   }
 
-  teacherList(body) {
+  professorList(body) {
     return this.api.get(`/profile/professor`, body);
   }
 

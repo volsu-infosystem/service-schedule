@@ -7,11 +7,13 @@
   const dispatch = createEventDispatcher()
 
   export let name
+  export let activeKey = 'name'
   export let disabled
   export let headers = []
   export let table = []
   export let opened = true
   export let value
+  export let description = (v) => v.desc
 </script>
 
 <div class="choose-form">
@@ -22,7 +24,7 @@
   >
     <h3>{name}</h3>
     <div class="active">
-      {value ? value.name : ''}
+      {value[activeKey] || ''}
     </div>
     <div class="arrow" class:active={opened}>
       <Icon name="arrow-down" />
@@ -31,7 +33,7 @@
   {#if opened}
     <div class="section">
       <div class="search">
-        <Search let:value placeholder="Поиск" />
+        <Search placeholder="Поиск" />
       </div>
       <div class="table">
         <EntityTable {table} {headers} bind:value>
@@ -39,7 +41,7 @@
             <td colspan={headers.length}>
               <div class="additional">
                 <div>
-                  {value.desc}
+                  {description(value)}
                 </div>
                 <div class="next" on:click={() => dispatch('next')}>
                   <span>Дальше</span>

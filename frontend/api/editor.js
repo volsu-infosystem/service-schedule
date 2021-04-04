@@ -18,9 +18,12 @@ class Editor {
     return this.api.get(`/discipline`);
   }
 
-  teachers(teacherId) {
-    /* TODO Потом получать по айдишники группы */
-    return this.api.get(`/professor/discipline/${teacherId}`);
+  professors(professorId) {
+    return this.api.get(`/profile/professor/discipline/${professorId}`);
+  }
+
+  rooms() {
+    return this.api.get(`/room`);
   }
 }
 export default Editor;

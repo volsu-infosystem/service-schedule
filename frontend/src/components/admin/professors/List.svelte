@@ -1,6 +1,6 @@
 <script>
   import EntityTable from '@/components/tables/EntityTable.svelte'
-  export let teachers
+  export let professors
   export let selected
 
   let headers = [
@@ -23,13 +23,13 @@
   ]
 </script>
 
-<div class="teachers-list">
+<div class="professors-list">
   <h2>Список преподавателей:</h2>
-  <EntityTable table={teachers} {headers} bind:value={selected} />
+  <EntityTable table={professors} {headers} bind:value={selected} />
 </div>
 
 <style lang="scss">
-  .teachers-list {
+  .professors-list {
     width: 400px;
   }
 </style>

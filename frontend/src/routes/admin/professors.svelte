@@ -7,22 +7,22 @@
     const profile = new Profile(this.fetch, session)
 
     const disciplines = await editor.disciplines()
-    const teachers = await profile.teacherList()
+    const professors = await profile.professorList()
 
     return {
       disciplines,
-      teachers,
+      professors,
     }
   }
 </script>
 
 <script>
-  import Create from '@/components/admin/teachers/Create.svelte'
-  import Attach from '@/components/admin/teachers/Attach.svelte'
-  import List from '@/components/admin/teachers/List.svelte'
+  import Create from '@/components/admin/professors/Create.svelte'
+  import Attach from '@/components/admin/professors/Attach.svelte'
+  import List from '@/components/admin/professors/List.svelte'
 
   export let disciplines
-  export let teachers
+  export let professors
 
   let selected = {}
 </script>
@@ -30,7 +30,7 @@
 <div class="forms">
   <Create {disciplines} />
   <Attach {disciplines} {selected} />
-  <List bind:selected {teachers} />
+  <List bind:selected {professors} />
 </div>
 
 <style lang="scss">

@@ -9,7 +9,7 @@
         {lesson.discipline.name}
       </span>
       <div class="footer">
-        <span class="teacher">
+        <span class="professor">
           {lesson.professor.initials}
         </span>
         <span class="room">

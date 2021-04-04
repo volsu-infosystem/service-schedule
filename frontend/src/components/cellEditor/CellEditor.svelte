@@ -1,5 +1,4 @@
 <script>
-  import ChooseForm from '../tables/ChooseTable.svelte'
   import Icon from '@ui/Icon.svelte'
   import Dropdown from '@ui/Dropdown.svelte'
   import Button from '@ui/Button.svelte'
@@ -8,107 +7,82 @@
   import { fly } from 'svelte/transition'
   import Editor from '@api/editor'
   import { stores } from '@sapper/app'
+  import { sampleCell } from '@/consts/schedule-sample'
+  import CellSubgroup from './CellSubgroup.svelte'
+
   const { session } = stores()
 
   const dispatch = createEventDispatcher()
 
   const editor = new Editor(fetch, $session)
 
-  export let cell
-
-  let tables = [
-    {
-      label: 'Дисциплина',
-      selected: null,
-      type: 'discipline',
-      headers: [
-        { label: 'Название', key: 'name' },
-        { label: 'Экипировка', key: 'needEquipment' },
-      ],
-      data: [],
-    },
-    {
-      label: 'Преподаватель',
-      selected: null,
-      type: 'teacher',
-      headers: [{ label: 'Название', key: 'name' }],
-      data: [],
-    },
-    {
-      label: 'Аудитория',
-      selected: null,
-      type: 'room',
-      headers: [{ label: 'Название', key: 'name' }],
-      data: [],
-    },
-  ]
-
-  const parseDataMethods = {
-    discipline: async (selected) => {
-      console.log(selected)
-      tables[1].data = await editor.teachers(selected.id)
-    },
-  }
-
-  let activeSubgroups = []
-  let addedSubgroup
-  let subGroups
-  async function fetchCellData(groupId) {
-    const [subGroupsData, disciplinesData] = await Promise.all([
-      editor.subgroups(groupId),
-      editor.disciplines(),
-    ])
-
-    tables[0].data = disciplinesData
-    subGroups = subGroupsData
-  }
+  export let edit
+  let cell
   $: {
-    if (cell && cell.schedule) {
-      const id = cell.schedule.group.id
-      fetchCellData(id)
-    }
-  }
-
-  let activeTable = 0
-
-  let period = [{ label: 'Еженедельно', id: 1 }]
-  let activePeriod = 1
-  let canAddTab = true
-  function addZnam() {
-    period = [
-      { label: 'Числитель', id: 1 },
-      { label: 'Знаменатель', id: 2 },
-    ]
-    canAddTab = false
-  }
-
-  let activeSubgroup = null
-
-  async function save() {
-    await schedule.insertLessons(cell.schedule.id, {
-      day: cell.day.day,
-      order: cell.time.number,
-      subCells: [
-        {
-          subGroupId: 1,
-          lessons: [
-            {
-              periodicity: 'num',
-              disciplineId: 1,
-              professorId: 1,
-              roomId: 1,
-              lessonType: 'lec',
-              importanceStatus: 'low',
-            },
-          ],
-        },
-      ],
-    })
-    dispatch('update')
+    cell = edit.schedule.cells[0] || sampleCell
+    console.log(cell)
   }
 
   function addSubgroup({ detail }) {
-    activeSubgroups = [...activeSubgroups, detail]
+    cell.subCells = [...cell.subCells, detail]
+  }
+
+  let activeSubgroups
+  $: {
+    activeSubgroups =
+      cell &&
+      cell.subCells.map((s) => ({
+        name: s.name,
+        id: s.id,
+      }))
+  }
+
+  let subGroups
+  async function fetchCellData(groupId) {
+    const [subGroupsData] = await Promise.all([editor.subgroups(groupId)])
+    subGroups = subGroupsData
+  }
+
+  $: {
+    fetchCellData(edit.schedule.group.id)
+  }
+
+  let activeSubgroup = 0
+
+  let subCell = {
+    set(val) {
+      cell.subCells[activeSubgroup] = val
+    },
+    get() {
+      return cell.subCells[activeSubgroup]
+    },
+  }
+  async function save() {
+    // await schedule.insertLessons(cell.schedule.id, {
+    //   day: cell.day.day,
+    //   order: cell.time.number,
+    //   subCells: [
+    //     {
+    //       subGroupId: 1,
+    //       lessons: [
+    //         {
+    //           periodicity: 'num',
+    //           disciplineId: 1,
+    //           professorId: 1,
+    //           roomId: 1,
+    //           lessonType: 'lec',
+    //           importanceStatus: 'low',
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // })
+    dispatch('update')
+  }
+
+  function next(index, selected, type) {
+    activeTable = index + 1
+    parseDataMethods[type](selected)
   }
 </script>
 
@@ -123,7 +97,6 @@
       canAddTab={false}
       bind:tabs={activeSubgroups}
       bind:value={activeSubgroup}
-      on:new={addZnam}
       displayKey="name"
     />
     <div class="add">
@@ -136,31 +109,10 @@
     </div>
   </div>
 
-  <div class="tabs periods">
-    <Tabs
-      tabs={period}
-      bind:value={activePeriod}
-      {canAddTab}
-      on:new={addZnam}
-    />
-  </div>
+  {#if subCell}
+    <CellSubgroup bind:subCell id={edit.schedule.group.id} />
+  {/if}
 
-  <div class="forms">
-    {#each tables as { type, data, label, headers, selected }, index}
-      <ChooseForm
-        {headers}
-        name={label}
-        table={data}
-        opened={activeTable === index}
-        disabled={activeTable < index}
-        on:next={() => {
-          activeTable = index + 1
-          parseDataMethods[type](selected)
-        }}
-        bind:value={selected}
-      />
-    {/each}
-  </div>
   <div class="save">
     <Button on:click={save}>Сохранить</Button>
   </div>
@@ -188,15 +140,6 @@
       display: inline-block;
       margin-left: 10px;
     }
-  }
-  .forms {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    min-height: 0px;
-    z-index: 5;
-    background-color: #fff;
-    padding-top: 5px;
   }
   .tabs {
     display: flex;

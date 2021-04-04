@@ -16,4 +16,18 @@ const days = [
   { day: 5, label: 'Суббота', times: [...times] },
 ];
 
-export { days };
+const sampleLesson = {
+  discipline: {},
+  professor: {},
+  room: {},
+};
+
+const sampleCell = {
+  subCells: [
+    {
+      subGroupId: 1,
+      lessons: [sampleLesson],
+    },
+  ],
+};
+export { days, sampleLesson, sampleCell };
