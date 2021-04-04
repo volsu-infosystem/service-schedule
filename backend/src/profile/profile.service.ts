@@ -216,16 +216,17 @@ export class ProfileService {
         : null,
     ];
 
-    const newProfessorProfile = this.professorRepository.create(updateProfile);
+    const professorProfile = await this.findOneProfessorById(profileId);
 
-    if (cathedra) newProfessorProfile.cathedra = cathedra;
+    if (!professorProfile) {
+      throw new ProfileNotFoundException(profileId);
+    }
+
+    if (cathedra) professorProfile.cathedra = cathedra;
     if (teachedDisciplines)
-      newProfessorProfile.teachedDisciplines = teachedDisciplines;
+      professorProfile.teachedDisciplines = teachedDisciplines;
 
-    await this.professorRepository.update(
-      { id: profileId },
-      newProfessorProfile,
-    );
+    await this.professorRepository.save(professorProfile);
 
     const updatedProfile = await this.findOneProfessorById(profileId);
     if (updatedProfile) {
