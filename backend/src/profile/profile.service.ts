@@ -58,7 +58,7 @@ export class ProfileService {
   ): Promise<ProfileProfessorEntity> {
     const newProfile = this.professorRepository.create(profile);
 
-    const [cathedra, teachedDisciplines] = [
+    const [cathedra, teachedDisciplines, user] = [
       profile.cathedraId
         ? ({ id: profile.cathedraId } as CathedraEntity)
         : null,
@@ -68,10 +68,12 @@ export class ProfileService {
               ({ id: teachedDisciplineId } as DisciplineEntity),
           )
         : null,
+      profile.userId ? ({ id: profile.userId } as UserEntity) : null,
     ];
 
     if (cathedra) newProfile.cathedra = cathedra;
     if (teachedDisciplines) newProfile.teachedDisciplines = teachedDisciplines;
+    if (user) newProfile.user = user;
 
     return await this.professorRepository.save(newProfile);
   }
