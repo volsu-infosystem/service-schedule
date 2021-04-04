@@ -22,6 +22,7 @@ export class ProfileProfessorEntity extends ProfileBaseEntity {
   @OneToMany(
     () => LessonEntity,
     lesson => lesson.professor,
+    { nullable: true },
   )
   lessons: LessonEntity[];
 }
