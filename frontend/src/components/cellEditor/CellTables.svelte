@@ -5,7 +5,7 @@
   export let data = {}
   export let values = {}
 
-  let activeTable = 0
+  let step = 0
 
   const dispatch = createEventDispatcher()
 
@@ -45,6 +45,11 @@
       description: (v) => `${v.name}`,
     },
   ]
+
+  function next(index, type) {
+    step = index + 1
+    dispatch('next', type)
+  }
 </script>
 
 <div class="forms">
@@ -55,11 +60,10 @@
       {activeKey}
       name={label}
       table={data[type] || []}
-      opened={activeTable === index}
-      disabled={activeTable < index}
+      opened={step === index}
       bind:value={values[type]}
+      on:next={() => next(index, type)}
     />
-    <!-- on:next={() => next(index, selected, type)} -->
   {/each}
 </div>
 

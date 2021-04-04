@@ -6,8 +6,9 @@
   import { createEventDispatcher } from 'svelte'
   import { fly } from 'svelte/transition'
   import Editor from '@api/editor'
+  import Schedule from '@api/schedule'
   import { stores } from '@sapper/app'
-  import { sampleCell } from '@/consts/schedule-sample'
+  import { sampleLesson } from '@/consts/schedule-sample'
   import CellSubgroup from './CellSubgroup.svelte'
 
   const { session } = stores()
@@ -15,31 +16,47 @@
   const dispatch = createEventDispatcher()
 
   const editor = new Editor(fetch, $session)
+  const schedule = new Schedule(fetch, $session)
 
   export let edit
+
+  let activeSubgroup
   let cell
+
   $: {
-    cell = edit.schedule.cells[0] || sampleCell
-    console.log(cell)
+    if (edit.schedule.cells[0]) {
+      cell = edit.schedule.cells[0]
+    }
+  }
+  $: {
+    if (cell && cell.subCells.length === 1) {
+      activeSubgroup = cell.subCells[0].id
+    }
   }
 
   function addSubgroup({ detail }) {
-    cell.subCells = [...cell.subCells, detail]
+    if (!cell) {
+      cell = {
+        subCells: [],
+      }
+    }
+    cell.subCells = [...cell.subCells, { ...detail, lessons: [sampleLesson] }]
   }
 
   let activeSubgroups
   $: {
-    activeSubgroups =
-      cell &&
-      cell.subCells.map((s) => ({
-        name: s.name,
-        id: s.id,
-      }))
+    activeSubgroups = cell
+      ? cell.subCells.map((s) => ({
+          name: s.name,
+          id: s.id,
+        }))
+      : []
   }
 
-  let subGroups
+  let subGroups = []
   async function fetchCellData(groupId) {
     const [subGroupsData] = await Promise.all([editor.subgroups(groupId)])
+    if (!subGroupsData) return
     subGroups = subGroupsData
   }
 
@@ -47,42 +64,39 @@
     fetchCellData(edit.schedule.group.id)
   }
 
-  let activeSubgroup = 0
-
   let subCell = {
-    set(val) {
-      cell.subCells[activeSubgroup] = val
+    set value(val) {
+      const index = cell.subCells.findIndex((s) => s.id === activeSubgroup)
+      cell.subCells[index] = val
     },
-    get() {
-      return cell.subCells[activeSubgroup]
+    get value() {
+      if (!cell || !cell.subCells) return
+      return cell.subCells.find((s) => s.id === activeSubgroup)
     },
   }
   async function save() {
-    // await schedule.insertLessons(cell.schedule.id, {
-    //   day: cell.day.day,
-    //   order: cell.time.number,
-    //   subCells: [
-    //     {
-    //       subGroupId: 1,
-    //       lessons: [
-    //         {
-    //           periodicity: 'num',
-    //           disciplineId: 1,
-    //           professorId: 1,
-    //           roomId: 1,
-    //           lessonType: 'lec',
-    //           importanceStatus: 'low',
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // })
+    const data = {
+      day: edit.day.day,
+      order: edit.time.order,
+      subCells: cell.subCells.map((sub) => ({
+        subGroupId: sub.id,
+        lessons: sub.lessons
+          .map((lesson) => {
+            if (!lesson.discipline.id) return null
+            return {
+              periodicity: lesson.periodicity,
+              disciplineId: lesson.discipline.id,
+              professorId: lesson.professor.id,
+              roomId: lesson.room.id,
+              lessonType: 'lec',
+              importanceStatus: 'low',
+            }
+          })
+          .filter((s) => s !== null),
+      })),
+    }
+    await schedule.insertLessons(edit.schedule.id, data)
     dispatch('update')
-  }
-
-  function next(index, selected, type) {
-    activeTable = index + 1
-    parseDataMethods[type](selected)
   }
 </script>
 
@@ -109,8 +123,14 @@
     </div>
   </div>
 
-  {#if subCell}
-    <CellSubgroup bind:subCell id={edit.schedule.group.id} />
+  {#if subCell.value}
+    {#key activeSubgroup}
+      <CellSubgroup
+        bind:subCell={subCell.value}
+        id={edit.schedule.group.id}
+        on:save={save}
+      />
+    {/key}
   {/if}
 
   <div class="save">
@@ -146,17 +166,13 @@
     align-items: flex-end;
     padding: 0 5px;
     border-bottom: solid 1px #ddeeff;
-    &.periods {
-      padding-top: 10px;
-      background-color: #fff;
-      z-index: 5;
-    }
     .add {
       width: 220px;
       margin-left: 3px;
     }
   }
   .save {
+    margin-top: auto;
     padding: 5px 20px;
   }
 </style>

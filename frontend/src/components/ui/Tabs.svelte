@@ -9,6 +9,7 @@
   export let canAddTab = true
   export let canSetNew = false
   export let displayKey = 'label'
+  export let canClose = false
 
   let newText = ''
 
@@ -37,6 +38,9 @@
       }}
     >
       <span>{tab[displayKey]}</span>
+      {#if canClose}
+        <Icon name="close" />
+      {/if}
     </div>
   {/each}
   {#if canSetNew}

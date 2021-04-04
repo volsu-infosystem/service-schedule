@@ -3,24 +3,33 @@
   import Tabs from '@ui/Tabs.svelte'
   import Editor from '@api/editor'
   import { stores } from '@sapper/app'
+  import { sampleLesson } from '@/consts/schedule-sample'
+  import { createEventDispatcher } from 'svelte'
 
   export let subCell
   export let id
 
+  const dispatch = createEventDispatcher()
   const { session } = stores()
 
   const editor = new Editor(fetch, $session)
 
-  const tablesData = {
+  let tablesData = {
     discipline: [],
     professor: [],
     room: [],
   }
 
+  let steps = {
+    discipline: 0,
+    professor: 0,
+    room: 0,
+  }
+
   const parseDataMethods = {
-    discipline: async (selected) => {
+    discipline: async () => {
       const [professors, rooms] = await Promise.all([
-        editor.professors(selected.id),
+        editor.professors(tablesValues.discipline.id),
         editor.rooms(),
       ])
       tablesData = {
@@ -31,7 +40,7 @@
     },
     professor: () => {},
     room: () => {
-      save()
+      dispatch('save')
     },
   }
 
@@ -45,9 +54,13 @@
   }
 
   let period
+  let activePeriod = 0
+  let canAddTab = true
+
   $: {
     if (subCell.lessons && subCell.lessons.length > 1) {
-      peroid = [
+      canAddTab = false
+      period = [
         { label: 'Числитель', id: 0 },
         { label: 'Знаменатель', id: 1 },
       ]
@@ -55,12 +68,11 @@
       period = [{ label: 'Еженедельно', id: 0 }]
     }
   }
-  let activePeriod = 0
-  let canAddTab = true
+
   function addZnam() {
-    period = [
-      { label: 'Числитель', id: 0 },
-      { label: 'Знаменатель', id: 1 },
+    subCell.lessons = [
+      { ...subCell.lessons[0], periodicity: 'num' },
+      { ...sampleLesson, periodicity: 'den' },
     ]
     canAddTab = false
   }
@@ -109,4 +121,23 @@
   <Tabs tabs={period} bind:value={activePeriod} {canAddTab} on:new={addZnam} />
 </div>
 
-<CellTables data={tablesData} values={tablesValues} />
+{#key activePeriod}
+  <CellTables
+    data={tablesData}
+    values={tablesValues}
+    on:next={({ detail }) => parseDataMethods[detail]()}
+    bind:steps
+  />
+{/key}
+
+<style lang="scss">
+  .periods {
+    display: flex;
+    align-items: flex-end;
+    padding: 0 5px;
+    border-bottom: solid 1px #ddeeff;
+    padding-top: 10px;
+    background-color: #fff;
+    z-index: 5;
+  }
+</style>
