@@ -22,6 +22,7 @@ export class SubGroupEntity {
   @ManyToMany(
     () => ProfileStudentEntity,
     student => student.subGroups,
+    { nullable: true },
   )
   @JoinTable({
     name: 'sub-groups_students',

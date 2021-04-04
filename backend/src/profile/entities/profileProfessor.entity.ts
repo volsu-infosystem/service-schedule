@@ -1,5 +1,5 @@
 import { LessonEntity } from 'src/schedule/entities/lesson.entity';
-import { Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { DisciplineEntity } from '../../discipline/entities/discipline.entity';
 import { CathedraEntity } from '../../institute/entities/cathedra.entity';
 import { ProfileBaseEntity } from './profileBase.entity';
@@ -17,6 +17,11 @@ export class ProfileProfessorEntity extends ProfileBaseEntity {
     discipline => discipline.professors,
     { nullable: true },
   )
+  @JoinTable({
+    name: 'professor_discipline',
+    joinColumn: { name: 'professor_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'discipline_id', referencedColumnName: 'id' },
+  })
   teachedDisciplines: DisciplineEntity[];
 
   @OneToMany(
