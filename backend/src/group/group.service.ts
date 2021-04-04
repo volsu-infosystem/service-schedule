@@ -70,6 +70,18 @@ export class GroupService {
     throw new GroupByNameNotExistException(name);
   }
 
+  async findOneByProfileId(profileId: number): Promise<GroupEntity> {
+    const group = await this.groupRepository
+      .createQueryBuilder('group')
+      .leftJoinAndSelect('group.students', 'students')
+      .where(':profileStudent IN students ', {
+        profileStudent: { id: profileId } as ProfileStudentEntity,
+      })
+      .getOne();
+    console.log(group);
+    return group;
+  }
+
   async getSubGroupsByGroupId(groupId: number): Promise<SubGroupEntity[]> {
     const group = await this.findOneById(groupId);
 

@@ -61,6 +61,7 @@ export class SubCellService {
     cell: CellEntity,
     cells: InsertLessonsToCellDto,
   ): Promise<SubCellEntity[]> {
+    console.log(cells);
     const subCells = await Promise.all(
       cells.subCells.map(async subCell => {
         const currSubCell = await this.provideSubCell(cell, subCell.subGroupId);

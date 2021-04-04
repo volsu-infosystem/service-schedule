@@ -86,6 +86,15 @@ export class ScheduleService {
     return await this.scheduleRepository.remove(scheduleToRemove);
   }
 
+  async getScheduleByProfileIdAndSemester(
+    profileId: number,
+    semester: number,
+  ): Promise<any> {
+    const group = await this.groupService.findOneByProfileId(profileId);
+    console.log(group);
+    return await this.getScheduleByGroupAndSemester(group.id, semester);
+  }
+
   /* @TODO Mock ScheduleResponse Interface */
   async getScheduleByGroupAndSemester(
     group: number,
@@ -98,8 +107,9 @@ export class ScheduleService {
         semester,
       })
       .leftJoinAndSelect('schedule.group', 'groups')
-      .leftJoinAndSelect('groups.subGroups', 'subGroups')
-      .leftJoinAndSelect('subGroups.lessons', 'lessons')
+      .leftJoinAndSelect('schedule.cells', 'cells')
+      .leftJoinAndSelect('cells.subCells', 'subCells')
+      .leftJoinAndSelect('subCells.lessons', 'lessons')
       .leftJoinAndSelect('lessons.professor', 'professor')
       .leftJoinAndSelect('lessons.room', 'room')
       .leftJoinAndSelect('lessons.discipline', 'discipline')
