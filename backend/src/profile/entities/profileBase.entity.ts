@@ -24,7 +24,7 @@ export class ProfileBaseEntity {
   @Column('varchar', { length: 64, nullable: true })
   middleName: string;
 
-  @Column('varchar', { length: 256, unique: true })
+  @Column('varchar', { length: 256, unique: true, nullable: true })
   email: string;
 
   @OneToOne(() => UserEntity, { nullable: true })
