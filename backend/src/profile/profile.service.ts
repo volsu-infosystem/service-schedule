@@ -46,7 +46,7 @@ export class ProfileService {
         : null,
     ];
 
-    newProfile.group = group;
+    if (group) newProfile.group = group;
     if (user) newProfile.user = user;
     if (subGroups) newProfile.subGroups = subGroups;
 
@@ -94,13 +94,13 @@ export class ProfileService {
 
     const studentTicketNumber = Number(emailObject.ticketNumber);
 
-    const newStudentProfile: CreateProfileStudentDto = {
+    const studentProfile: CreateProfileStudentDto = {
       email,
       groupId,
       studentTicketNumber,
     };
 
-    return await this.createStudent(newStudentProfile);
+    return await this.createStudent(studentProfile);
   }
 
   async findAllStudents(): Promise<ProfileStudentEntity[]> {
@@ -184,13 +184,21 @@ export class ProfileService {
         : null,
     ];
 
-    const newStudentProfile = this.studentRepository.create(updateProfile);
+    const studentProfile = await this.findOneStudentById(profileId);
 
-    if (user) newStudentProfile.user = user;
-    if (group) newStudentProfile.group = group;
-    if (subGroups) newStudentProfile.subGroups = subGroups;
+    if (!studentProfile) {
+      throw new ProfileNotFoundException(profileId);
+    }
 
-    await this.studentRepository.update({ id: profileId }, newStudentProfile);
+    Object.keys(updateProfile).forEach(key => {
+      studentProfile[key] = updateProfile[key];
+    });
+
+    if (user) studentProfile.user = user;
+    if (group) studentProfile.group = group;
+    if (subGroups) studentProfile.subGroups = subGroups;
+
+    await this.studentRepository.save(studentProfile);
 
     const updatedProfile = await this.findOneStudentById(profileId);
 
@@ -221,6 +229,10 @@ export class ProfileService {
     if (!professorProfile) {
       throw new ProfileNotFoundException(profileId);
     }
+
+    Object.keys(updateProfile).forEach(key => {
+      professorProfile[key] = updateProfile[key];
+    });
 
     if (cathedra) professorProfile.cathedra = cathedra;
     if (teachedDisciplines)

@@ -18,7 +18,7 @@ export class ProfileProfessorEntity extends ProfileBaseEntity {
     { nullable: true },
   )
   @JoinTable({
-    name: 'professor_discipline',
+    name: 'professors_disciplines',
     joinColumn: { name: 'professor_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'discipline_id', referencedColumnName: 'id' },
   })
