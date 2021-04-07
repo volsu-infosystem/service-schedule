@@ -1,7 +1,9 @@
 # Volsu-schedule
 
 Для развертки
+
 `cp .env.example .env`
+
 Далее:
 
 - Для развертки проекта для разработки:
@@ -12,6 +14,9 @@
 
 - Для бекенда:
   `docker-compose -f docker-compose.backend.yml up --build -V -d`
+
+- Для разработки рейтинга:
+  `docker-compose -f docker-compose.dev.yml up rating`
 
 Установятся все сервисы, базы данных, зависимости и nginx прокси. Дальнейшее взаимодействие осуществляется по адресам
 

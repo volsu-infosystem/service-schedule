@@ -38,6 +38,21 @@ services:
       - webnet
     depends_on:
       - postgresdb
+  
+  rating:
+    container_name: rating-container
+    build: 
+      context: ./rating/
+      target: 'development'
+    volumes:
+      - ./rating:/root
+    ports:
+      - "5000:5000"
+    env_file: .env
+    networks:
+      - webnet
+    depends_on:
+      - postgresdb
 
   nginx:
     container_name: nginx-container
