@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ProfileController } from './profile.controller';
 import { ProfileService } from './profile.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,6 +7,8 @@ import { ProfileProfessorEntity } from './entities/profileProfessor.entity';
 import { AdmissionYearEntity } from './entities/admissionYear.entity';
 import { AdmissionYearController } from './admissionYear.controller';
 import { AdmissionYearService } from './admissionYear.service';
+import { GroupModule } from 'src/group/group.module';
+import { DisciplineModule } from 'src/discipline/discipline.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { AdmissionYearService } from './admissionYear.service';
       ProfileProfessorEntity,
       AdmissionYearEntity,
     ]),
+    forwardRef(() => GroupModule),
+    DisciplineModule,
   ],
   controllers: [ProfileController, AdmissionYearController],
   providers: [ProfileService, AdmissionYearService],

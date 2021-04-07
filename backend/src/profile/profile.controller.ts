@@ -79,6 +79,13 @@ export class ProfileController {
     return await this.profileService.findOneProfessorById(profileId);
   }
 
+  @Get('professor/discipline/:id')
+  async findProfessorsByDiscipline(
+    @Param('id') disciplineId: number,
+  ): Promise<ProfileProfessorEntity[]> {
+    return await this.profileService.findProfessorsByDiscipline(disciplineId);
+  }
+
   @Put('professor/:id')
   async updateProfessor(
     @Param('id') profileId: number,
