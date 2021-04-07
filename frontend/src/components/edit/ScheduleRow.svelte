@@ -14,7 +14,7 @@
     cellInEdit.day
   }:${cellInEdit.time}`
 
-  let rowIndex = `${day}:${time.number}`
+  let rowIndex = `${day}:${time.order}`
 
   let row
   $: row = schedules.map((schedule) => {
@@ -22,7 +22,7 @@
     return {
       ...schedule,
       cells: cells.filter(
-        (cell) => cell.order == time.number && cell.day == day
+        (cell) => cell.order == time.order && cell.day == day
       ),
     }
   })
@@ -99,7 +99,7 @@
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
     align-items: stretch;
+    position: relative;
   }
 </style>

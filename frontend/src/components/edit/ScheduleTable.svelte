@@ -1,6 +1,6 @@
 <script>
   import ScheduleRow from './ScheduleRow.svelte'
-  import CellEditor from './CellEditor.svelte'
+  import CellEditor from '@/components/cellEditor/CellEditor.svelte'
 
   export let schedules
   export let days
@@ -41,7 +41,6 @@
 
   /* @TODO Поменять на айдишник клетки*/
   function editCell({ schedule }, time, day) {
-    console.log(schedule)
     document.documentElement.style.overflow = 'hidden'
     cellInEdit = {
       schedule,
@@ -100,7 +99,7 @@
   {/each}
   {#if cellInEdit.schedule}
     <div>
-      <CellEditor bind:cell={cellInEdit} on:close={clearEdit} on:update />
+      <CellEditor bind:edit={cellInEdit} on:close={clearEdit} on:update />
     </div>
   {/if}
 </div>

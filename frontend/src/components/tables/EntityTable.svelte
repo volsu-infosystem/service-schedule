@@ -2,6 +2,27 @@
   export let table
   export let headers
   export let active
+  export let value
+
+  let mappedTable
+  $: {
+    mappedTable = table.map((row) => {
+      const parsedCells = []
+      headers.forEach((header) => {
+        parsedCells.push({ label: row[header.key] || 'Не задано', ...row })
+      })
+      return parsedCells
+    })
+  }
+
+  function setActiveRow(index) {
+    if (active === index) {
+      active = null
+      return
+    }
+    active = index
+    value = table[index]
+  }
 </script>
 
 <table class="table">
@@ -16,13 +37,8 @@
   </thead>
   <tbody>
     <!-- @TODO Убрать это говно -->
-    {#each table as row, index}
-      <tr
-        on:click={() => {
-          active = index
-        }}
-        class:active={active === index}
-      >
+    {#each mappedTable as row, index}
+      <tr on:click={() => setActiveRow(index)} class:active={active === index}>
         {#each row as option}
           <td>
             <div>

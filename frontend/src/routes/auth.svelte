@@ -41,7 +41,7 @@
 <div class="auth">
   <div class="form">
     <h3>Вход в систему:</h3>
-    <Form>
+    <Form on:submit={login}>
       <FormItem>
         <Input bind:value={email} placeholder="Ваш Email" name="email" />
       </FormItem>
@@ -50,7 +50,7 @@
           <Input bind:value={code} placeholder="Код из письма" name="code" />
         </FormItem>
       {/if}
-      <Button on:click={login}>{buttonText}</Button>
+      <Button type="submit">{buttonText}</Button>
     </Form>
   </div>
 </div>
