@@ -23,6 +23,7 @@
     { placeholder: 'Фамилия', value: '', key: 'lastName' },
     { placeholder: 'Имя', value: '', key: 'firstName' },
     { placeholder: 'Отчество ', value: '', key: 'middleName' },
+    { placeholder: 'Инициалы', value: '', key: 'initials' },
     { placeholder: 'Емаил', value: '', key: 'email' },
     { placeholder: 'Айди юзера', value: '', key: 'userId', type: 'number' },
     {

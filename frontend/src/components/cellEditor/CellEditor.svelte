@@ -30,6 +30,7 @@
   }
   $: {
     if (cell && cell.subCells.length === 1) {
+      console.log(edit)
       activeSubgroup = cell.subCells[0].id
     }
   }
