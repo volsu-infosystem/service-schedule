@@ -123,6 +123,7 @@ export class ScheduleService {
       })
       .leftJoinAndSelect('schedule.cells', 'cells')
       .leftJoinAndSelect('cells.subCells', 'subCells')
+      .leftJoinAndSelect('subCells.subGroup', 'subGroup')
       .leftJoinAndSelect('subCells.lessons', 'lessons')
       .leftJoinAndSelect('lessons.professor', 'professor')
       .leftJoinAndSelect('lessons.room', 'room')

@@ -46,7 +46,7 @@ export class ProfileService {
         : null,
     ];
 
-    newProfile.group = group;
+    if (group) newProfile.group = group;
     if (user) newProfile.user = user;
     if (subGroups) newProfile.subGroups = subGroups;
 
@@ -58,7 +58,7 @@ export class ProfileService {
   ): Promise<ProfileProfessorEntity> {
     const newProfile = this.professorRepository.create(profile);
 
-    const [cathedra, teachedDisciplines] = [
+    const [cathedra, teachedDisciplines, user] = [
       profile.cathedraId
         ? ({ id: profile.cathedraId } as CathedraEntity)
         : null,
@@ -68,10 +68,12 @@ export class ProfileService {
               ({ id: teachedDisciplineId } as DisciplineEntity),
           )
         : null,
+      profile.userId ? ({ id: profile.userId } as UserEntity) : null,
     ];
 
     if (cathedra) newProfile.cathedra = cathedra;
     if (teachedDisciplines) newProfile.teachedDisciplines = teachedDisciplines;
+    if (user) newProfile.user = user;
 
     return await this.professorRepository.save(newProfile);
   }
@@ -92,13 +94,13 @@ export class ProfileService {
 
     const studentTicketNumber = Number(emailObject.ticketNumber);
 
-    const newStudentProfile: CreateProfileStudentDto = {
+    const studentProfile: CreateProfileStudentDto = {
       email,
       groupId,
       studentTicketNumber,
     };
 
-    return await this.createStudent(newStudentProfile);
+    return await this.createStudent(studentProfile);
   }
 
   async findAllStudents(): Promise<ProfileStudentEntity[]> {
@@ -182,13 +184,21 @@ export class ProfileService {
         : null,
     ];
 
-    const newStudentProfile = this.studentRepository.create(updateProfile);
+    const studentProfile = await this.findOneStudentById(profileId);
 
-    if (user) newStudentProfile.user = user;
-    if (group) newStudentProfile.group = group;
-    if (subGroups) newStudentProfile.subGroups = subGroups;
+    if (!studentProfile) {
+      throw new ProfileNotFoundException(profileId);
+    }
 
-    await this.studentRepository.update({ id: profileId }, newStudentProfile);
+    Object.keys(updateProfile).forEach(key => {
+      studentProfile[key] = updateProfile[key];
+    });
+
+    if (user) studentProfile.user = user;
+    if (group) studentProfile.group = group;
+    if (subGroups) studentProfile.subGroups = subGroups;
+
+    await this.studentRepository.save(studentProfile);
 
     const updatedProfile = await this.findOneStudentById(profileId);
 
@@ -214,16 +224,21 @@ export class ProfileService {
         : null,
     ];
 
-    const newProfessorProfile = this.professorRepository.create(updateProfile);
+    const professorProfile = await this.findOneProfessorById(profileId);
 
-    if (cathedra) newProfessorProfile.cathedra = cathedra;
+    if (!professorProfile) {
+      throw new ProfileNotFoundException(profileId);
+    }
+
+    Object.keys(updateProfile).forEach(key => {
+      professorProfile[key] = updateProfile[key];
+    });
+
+    if (cathedra) professorProfile.cathedra = cathedra;
     if (teachedDisciplines)
-      newProfessorProfile.teachedDisciplines = teachedDisciplines;
+      professorProfile.teachedDisciplines = teachedDisciplines;
 
-    await this.professorRepository.update(
-      { id: profileId },
-      newProfessorProfile,
-    );
+    await this.professorRepository.save(professorProfile);
 
     const updatedProfile = await this.findOneProfessorById(profileId);
     if (updatedProfile) {

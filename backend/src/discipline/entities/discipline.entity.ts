@@ -32,11 +32,6 @@ export class DisciplineEntity {
     profileProfessor => profileProfessor.teachedDisciplines,
     { cascade: true },
   )
-  @JoinTable({
-    name: 'professors_disciplines',
-    joinColumn: { name: 'professor_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'discipline_id', referencedColumnName: 'id' },
-  })
   professors: ProfileProfessorEntity[];
 
   @OneToMany(

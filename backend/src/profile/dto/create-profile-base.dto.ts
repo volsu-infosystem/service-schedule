@@ -1,6 +1,5 @@
 import {
   IsEmail,
-  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -8,10 +7,12 @@ import {
 } from 'class-validator';
 
 export class CreateProfileBaseDto {
+  @IsOptional()
   @IsString()
   @Length(2, 64)
   readonly firstName?: string;
 
+  @IsOptional()
   @IsString()
   @Length(2, 64)
   readonly lastName?: string;
@@ -21,12 +22,12 @@ export class CreateProfileBaseDto {
   @Length(2, 64)
   readonly middleName?: string;
 
+  @IsOptional()
   @IsEmail()
   @Length(0, 256)
   readonly email: string;
 
   @IsOptional()
   @IsNumber()
-  @Length(6, 8)
   readonly userId?: number;
 }
