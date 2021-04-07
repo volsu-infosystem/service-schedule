@@ -7,8 +7,6 @@ class Api {
 
   getApiUrl(url) {
     const isBrowser = process.browser;
-    // const apiUrl = `http://64.227.74.131/api/${url}`;
-    /* TODO убрать */
     const apiUrl = isBrowser
       ? `${this.baseURL}${url}`
       : `http://nest:3005${url}`;
