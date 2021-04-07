@@ -1,0 +1,8 @@
+FROM golang:1.14 as build
+WORKDIR /root
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o app .
+
+FROM gcr.io/distroless/static as production
+COPY --from=build /root/app /app
+CMD ["/app"]
