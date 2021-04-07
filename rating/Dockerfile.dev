@@ -1,0 +1,5 @@
+FROM golang:1.14 as development
+WORKDIR /root
+RUN GO111MODULE=on go get github.com/cortesi/modd/cmd/modd
+COPY . .
+CMD modd
