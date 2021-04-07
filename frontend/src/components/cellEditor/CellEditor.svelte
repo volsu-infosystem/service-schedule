@@ -24,14 +24,13 @@
   let cell
 
   $: {
-    if (edit.schedule.cells[0]) {
+    if (edit) {
       cell = edit.schedule.cells[0]
     }
   }
   $: {
     if (cell && cell.subCells.length === 1) {
-      console.log(edit)
-      activeSubgroup = cell.subCells[0].id
+      activeSubgroup = cell.subCells[0].subGroup.id
     }
   }
 
@@ -41,15 +40,18 @@
         subCells: [],
       }
     }
-    cell.subCells = [...cell.subCells, { ...detail, lessons: [sampleLesson] }]
+    cell.subCells = [
+      ...cell.subCells,
+      { subGroup: detail, lessons: [sampleLesson] },
+    ]
   }
 
   let activeSubgroups
   $: {
     activeSubgroups = cell
       ? cell.subCells.map((s) => ({
-          name: s.name,
-          id: s.id,
+          name: s.subGroup.name,
+          id: s.subGroup.id,
         }))
       : []
   }
@@ -72,7 +74,7 @@
     },
     get value() {
       if (!cell || !cell.subCells) return
-      return cell.subCells.find((s) => s.id === activeSubgroup)
+      return cell.subCells.find((s) => s.subGroup.id === activeSubgroup)
     },
   }
   async function save() {
@@ -80,7 +82,7 @@
       day: edit.day.day,
       order: edit.time.order,
       subCells: cell.subCells.map((sub) => ({
-        subGroupId: sub.id,
+        subGroupId: sub.subGroup.id,
         lessons: sub.lessons
           .map((lesson) => {
             if (!lesson.discipline.id) return null
