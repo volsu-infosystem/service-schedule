@@ -4,8 +4,8 @@
 
   const dispatch = createEventDispatcher()
 
-  export let tabs
-  export let value
+  export let tabs = []
+  export let value = null
   export let canAddTab = true
   export let canSetNew = false
   export let displayKey = 'label'

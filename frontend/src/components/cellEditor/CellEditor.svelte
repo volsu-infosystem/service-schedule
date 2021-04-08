@@ -50,8 +50,8 @@
   $: {
     activeSubgroups = cell
       ? cell.subCells.map((s) => ({
-          name: s.subGroup.name,
-          id: s.subGroup.id,
+          name: s.subGroup && s.subGroup.name,
+          id: s.subGroup && s.subGroup.id,
         }))
       : []
   }

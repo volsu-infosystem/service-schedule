@@ -5,8 +5,8 @@
 
   const dispatch = createEventDispatcher()
 
-  export let placeholder
-  export let value
+  export let placeholder = 'Поиск'
+  export let value = ''
 
   function search() {
     dispatch('search', { value })

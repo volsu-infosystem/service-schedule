@@ -20,12 +20,6 @@
     room: [],
   }
 
-  let steps = {
-    discipline: 0,
-    professor: 0,
-    room: 0,
-  }
-
   const parseDataMethods = {
     discipline: async () => {
       const [professors, rooms] = await Promise.all([
@@ -58,7 +52,11 @@
   let canAddTab = true
 
   $: {
-    if (subCell.lessons && subCell.lessons.length > 1) {
+    if (
+      subCell.lessons &&
+      (subCell.lessons.length > 1 ||
+        (subCell.lessons[0] && subCell.lessons[0].periodicity !== 'alw'))
+    ) {
       canAddTab = false
       period = [
         { label: 'Числитель', id: 0 },
@@ -79,10 +77,10 @@
 
   const tablesValues = {
     get lesson() {
-      if (!subCell) {
+      if (!subCell || !subCell.lessons.length) {
         subCell = { lessons: [sampleLesson] }
       }
-      return subCell.lessons[activePeriod]
+      return subCell.lessons[activePeriod] || sampleLesson
     },
     set lesson(val) {
       subCell.lessons[activePeriod] = val
@@ -126,7 +124,6 @@
     data={tablesData}
     values={tablesValues}
     on:next={({ detail }) => parseDataMethods[detail]()}
-    bind:steps
   />
 {/key}
 

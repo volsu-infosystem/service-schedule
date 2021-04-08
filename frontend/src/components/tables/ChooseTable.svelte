@@ -8,7 +8,7 @@
 
   export let name
   export let activeKey = 'name'
-  export let disabled
+  export let disabled = false
   export let headers = []
   export let table = []
   export let opened = true
