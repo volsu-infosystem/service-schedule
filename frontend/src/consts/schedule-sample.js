@@ -26,7 +26,9 @@ const sampleLesson = {
 const sampleCell = {
   subCells: [
     {
-      subGroupId: 1,
+      subGroup: {
+        id: 1,
+      },
       lessons: [sampleLesson],
     },
   ],

@@ -1,8 +1,8 @@
 <script>
   export let table
   export let headers
-  export let active
   export let value
+  export let active = null
 
   let mappedTable
   $: {

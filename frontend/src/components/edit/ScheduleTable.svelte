@@ -6,32 +6,38 @@
   export let days
   export let pinned
 
-  let hovered
+  let hovered = {
+    group: null,
+    day: null,
+    order: null,
+  }
   let cellInEdit = {
     cell: null,
-    time: null,
+    group: null,
     day: null,
+    order: null,
   }
 
-  function setHover() {
-    // { label }, { time }, { day }
-    // hovered.time = time
-    // hovered.group = label
-    // hovered.day = day
+  function setHover({ schedule }, time, day) {
+    hovered = {
+      group: schedule.group.id,
+      order: time.order,
+      day: day.day,
+    }
   }
 
   function clearHover() {
     hovered = {
-      time: null,
+      order: null,
       group: null,
       day: null,
     }
   }
 
   function clearEdit() {
-    document.documentElement.style.overflow = 'auto'
     cellInEdit = {
       cell: null,
+      group: null,
       time: null,
       day: null,
     }
@@ -39,11 +45,10 @@
 
   clearHover()
 
-  /* @TODO Поменять на айдишник клетки*/
   function editCell({ schedule }, time, day) {
-    document.documentElement.style.overflow = 'hidden'
     cellInEdit = {
       schedule,
+      group: schedule.group.id,
       time,
       day,
     }
@@ -53,7 +58,7 @@
 <div class="schedule-table">
   <div class="groups" class:pin={pinned.top}>
     {#each schedules as { group }}
-      <div class="group" class:hover={group.id === hovered.id}>
+      <div class="group" class:hover={group.id === hovered.group}>
         <span>
           {group.name}
         </span>
@@ -70,7 +75,7 @@
           <div class="row" on:mouseleave={clearHover}>
             <div
               class="time"
-              class:hover={time.time === hovered.time &&
+              class:hover={time.order === hovered.order &&
                 day.day === hovered.day}
               class:pin={pinned.left}
             >
@@ -86,7 +91,7 @@
               day={day.day}
               bind:cellInEdit
               on:hover={({ detail }) => {
-                setHover(detail.cell, time, day)
+                setHover(detail, time, day)
               }}
               on:edit={({ detail }) => {
                 editCell(detail, time, day)
@@ -97,10 +102,8 @@
       </div>
     </div>
   {/each}
-  {#if cellInEdit.schedule}
-    <div>
-      <CellEditor bind:edit={cellInEdit} on:close={clearEdit} on:update />
-    </div>
+  {#if cellInEdit.group && cellInEdit.day && cellInEdit.time}
+    <CellEditor bind:edit={cellInEdit} on:close={clearEdit} on:update />
   {/if}
 </div>
 
