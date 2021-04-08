@@ -20,17 +20,44 @@
 
   export let edit
 
+  let currentEdit
   let activeSubgroup
+  let activeSubgroups
   let cell
+
+  function updateSubgroups() {
+    activeSubgroups = cell
+      ? cell.subCells.map((s) => ({
+          name: s.subGroup && s.subGroup.name,
+          id: s.subGroup && s.subGroup.id,
+        }))
+      : []
+  }
+  function updateCell() {
+    if (edit === currentEdit) return
+
+    currentEdit = edit
+    cell = edit.schedule.cells[0]
+
+    updateSubgroups()
+
+    if (!cell || cell.subCells.length === 0) return
+
+    activeSubgroup = activeSubgroups[0].id
+
+    cell.subCells = cell.subCells.map((subCell) => {
+      if (subCell.lessons && subCell.lessons.length) return subCell
+
+      return {
+        ...subCell,
+        lessons: [sampleLesson],
+      }
+    })
+  }
 
   $: {
     if (edit) {
-      cell = edit.schedule.cells[0]
-    }
-  }
-  $: {
-    if (cell && cell.subCells.length === 1) {
-      activeSubgroup = cell.subCells[0].subGroup.id
+      updateCell()
     }
   }
 
@@ -40,20 +67,15 @@
         subCells: [],
       }
     }
+
     cell.subCells = [
       ...cell.subCells,
       { subGroup: detail, lessons: [sampleLesson] },
     ]
-  }
 
-  let activeSubgroups
-  $: {
-    activeSubgroups = cell
-      ? cell.subCells.map((s) => ({
-          name: s.subGroup && s.subGroup.name,
-          id: s.subGroup && s.subGroup.id,
-        }))
-      : []
+    activeSubgroup = detail.id
+
+    updateSubgroups()
   }
 
   let subGroups = []
@@ -64,13 +86,13 @@
   }
 
   $: {
-    fetchCellData(edit.schedule.group.id)
+    fetchCellData(edit.group)
   }
 
   let subCell = {
     set value(val) {
-      const index = cell.subCells.findIndex((s) => s.id === activeSubgroup)
-      cell.subCells[index] = val
+      let active = cell.subCells.find((s) => s.id === activeSubgroup)
+      active = val
     },
     get value() {
       if (!cell || !cell.subCells) return
