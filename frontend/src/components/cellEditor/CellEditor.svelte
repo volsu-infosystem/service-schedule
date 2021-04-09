@@ -136,14 +136,15 @@
       canAddTab={false}
       bind:tabs={activeSubgroups}
       bind:value={activeSubgroup}
+      canClose={true}
       displayKey="name"
     />
     <div class="add">
       <Dropdown
         options={subGroups}
-        on:update={addSubgroup}
         placeholder="Добавить подгруппу"
         displayKey="name"
+        on:update={addSubgroup}
       />
     </div>
   </div>

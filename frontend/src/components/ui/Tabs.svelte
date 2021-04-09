@@ -7,6 +7,7 @@
   export let tabs = []
   export let value = null
   export let canAddTab = true
+  export let canRemoveTab = false
   export let canSetNew = false
   export let displayKey = 'label'
   export let canClose = false
@@ -26,6 +27,14 @@
 
     newText = ''
   }
+
+  function remove(tab) {
+    const index = tabs.findIndex((t) => t.id === tab.id)
+    let stashTabs = [...tabs]
+    stashTabs.splice(index, 1)
+    tabs = stashTabs
+    dispatch('remove', tab)
+  }
 </script>
 
 <div class="tabs">
@@ -39,7 +48,9 @@
     >
       <span>{tab[displayKey]}</span>
       {#if canClose}
-        <Icon name="close" />
+        <div class="close" on:click={remove(tab)}>
+          <Icon name="close" />
+        </div>
       {/if}
     </div>
   {/each}
@@ -59,6 +70,16 @@
       }}
     >
       <Icon name="plus" />
+    </div>
+  {/if}
+  {#if canRemoveTab}
+    <div
+      class="tab"
+      on:click={() => {
+        dispatch('remove')
+      }}
+    >
+      -
     </div>
   {/if}
 </div>
@@ -119,6 +140,13 @@
     :global(svg) {
       fill: var(--accent);
       font-size: 10px;
+    }
+  }
+  .close {
+    margin-left: 5px;
+    display: inline-block;
+    :global(svg) {
+      font-size: 9px;
     }
   }
 </style>
