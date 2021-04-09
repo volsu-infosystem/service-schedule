@@ -39,7 +39,7 @@
   }
 
   async function fetchCellData(groupId) {
-    const [disciplinesData] = await Promise.all([editor.disciplines()])
+    const [disciplinesData] = await Promise.all([editor.disciplines(groupId)])
 
     tablesData.discipline = disciplinesData
   }
@@ -59,11 +59,11 @@
     ) {
       canAddTab = false
       period = [
-        { label: 'Числитель', id: 0 },
-        { label: 'Знаменатель', id: 1 },
+        { label: 'Числитель', id: 0, type: 'num' },
+        { label: 'Знаменатель', id: 1, type: 'den' },
       ]
     } else {
-      period = [{ label: 'Еженедельно', id: 0 }]
+      period = [{ label: 'Еженедельно', id: 0, type: 'alw' }]
     }
   }
 
@@ -75,15 +75,29 @@
     canAddTab = false
   }
 
+  function removeZnam() {
+    subCell.lessons[0].periodicity = 'alw'
+    subCell.lessons = subCell.lessons.filter((l) => l.periodicity !== 'den')
+    canAddTab = true
+    activePeriod = 0
+  }
+
   const tablesValues = {
     get lesson() {
       if (!subCell || !subCell.lessons.length) {
         subCell = { lessons: [sampleLesson] }
       }
-      return subCell.lessons[activePeriod] || sampleLesson
+      return (
+        subCell.lessons.find(
+          (l) => l.periodicity === period[activePeriod].type
+        ) || sampleLesson
+      )
     },
     set lesson(val) {
-      subCell.lessons[activePeriod] = val
+      subCell.lessons = subCell.lessons.map((l) => {
+        if (l.periodicity === period[activePeriod].type) return val
+        return l
+      })
     },
     get discipline() {
       return this.lesson.discipline
@@ -116,7 +130,14 @@
 </script>
 
 <div class="tabs periods">
-  <Tabs tabs={period} bind:value={activePeriod} {canAddTab} on:new={addZnam} />
+  <Tabs
+    tabs={period}
+    bind:value={activePeriod}
+    {canAddTab}
+    canRemoveTab={!canAddTab}
+    on:new={addZnam}
+    on:remove={removeZnam}
+  />
 </div>
 
 {#key activePeriod}
