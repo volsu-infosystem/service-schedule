@@ -4,10 +4,12 @@
   let marginTop
   let marginBottom
   $: {
-    const firstLesson = subcell.lessons[0]
-    marginTop = firstLesson && firstLesson.periodicity === 'den'
-    const lastLesson = subcell.lessons[subcell.lessons.length - 1]
-    marginBottom = lastLesson && lastLesson.periodicity === 'num'
+    if (subcell.lessons.length === 1) {
+      const firstLesson = subcell.lessons[0]
+      marginTop = firstLesson && firstLesson.periodicity === 'den'
+      const lastLesson = subcell.lessons[subcell.lessons.length - 1]
+      marginBottom = lastLesson && lastLesson.periodicity === 'num'
+    }
   }
 </script>
 
