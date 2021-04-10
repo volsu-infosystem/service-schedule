@@ -1,20 +1,39 @@
 <script>
   export let subcell
 
+  const periodicity = ['alw', 'num', 'den']
+
+  let lessons = []
+
+  $: {
+    lessons = subcell.lessons.sort((prev, current) => {
+      const currentPeriodIndex = periodicity.findIndex(
+        (period) => period === current.periodicity
+      )
+      const prevPeriodIndex = periodicity.findIndex(
+        (period) => period === prev.periodicity
+      )
+      if (currentPeriodIndex === prevPeriodIndex) {
+        return 0
+      }
+      return currentPeriodIndex > prevPeriodIndex ? -1 : 1
+    })
+  }
+
   let marginTop
   let marginBottom
   $: {
-    if (subcell.lessons.length === 1) {
-      const firstLesson = subcell.lessons[0]
+    if (lessons.length === 1) {
+      const firstLesson = lessons[0]
       marginTop = firstLesson && firstLesson.periodicity === 'den'
-      const lastLesson = subcell.lessons[subcell.lessons.length - 1]
+      const lastLesson = lessons[lessons.length - 1]
       marginBottom = lastLesson && lastLesson.periodicity === 'num'
     }
   }
 </script>
 
 <div class="subcell" class:marginTop class:marginBottom>
-  {#each subcell.lessons as lesson}
+  {#each lessons as lesson}
     <div class="lesson">
       <span class="discipline">
         {lesson.discipline.name}
