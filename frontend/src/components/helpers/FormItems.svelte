@@ -48,7 +48,7 @@
     z-index: 4;
   }
   .input {
-    z-index: 15;
+    z-index: 60;
     position: relative;
   }
 </style>
