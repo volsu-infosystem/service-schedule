@@ -33,9 +33,7 @@
       }
     },
     professor: () => {},
-    room: () => {
-      dispatch('save')
-    },
+    room: () => {},
   }
 
   async function fetchCellData(groupId) {

@@ -1,35 +1,35 @@
-<script context="module">
-  import Editor from '@api/editor'
-  import Profile from '@api/profile'
-
-  export async function preload(page, session) {
-    const editor = new Editor(this.fetch, session)
-    const profile = new Profile(this.fetch, session)
-
-    const disciplines = await editor.disciplines()
-    const professors = await profile.professorList()
-
-    return {
-      disciplines,
-      professors,
-    }
-  }
-</script>
-
 <script>
   import Create from '@/components/admin/professors/Create.svelte'
   import Attach from '@/components/admin/professors/Attach.svelte'
   import List from '@/components/admin/professors/List.svelte'
 
-  export let disciplines
-  export let professors
+  import Editor from '@api/editor'
+  import Profile from '@api/profile'
+
+  import { stores } from '@sapper/app'
+  import { onMount } from 'svelte'
+  const { session } = stores()
 
   let selected = {}
+  let disciplines = []
+  let professors = []
+
+  async function updateProfessors() {
+    const editor = new Editor(fetch, $session)
+    const profile = new Profile(fetch, $session)
+
+    disciplines = await editor.disciplines()
+    professors = await profile.professorList()
+  }
+
+  onMount(() => {
+    updateProfessors()
+  })
 </script>
 
 <div class="forms">
-  <Create {disciplines} />
-  <Attach {disciplines} {selected} />
+  <Create {disciplines} on:update={updateProfessors} />
+  <Attach {disciplines} {selected} on:update={updateProfessors} />
   <List bind:selected {professors} />
 </div>
 
