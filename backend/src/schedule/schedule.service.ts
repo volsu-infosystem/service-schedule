@@ -97,13 +97,14 @@ export class ScheduleService {
         group,
         semester,
       })
-      .leftJoinAndSelect('schedule.group', 'groups')
-      .leftJoinAndSelect('groups.subGroups', 'subGroups')
-      .leftJoinAndSelect('subGroups.lessons', 'lessons')
+      .leftJoinAndSelect('schedule.cells', 'cells')
+      .leftJoinAndSelect('cells.subCells', 'subCells')
+      .leftJoinAndSelect('subCells.subGroup', 'subGroup')
+      .leftJoinAndSelect('subCells.lessons', 'lessons')
       .leftJoinAndSelect('lessons.professor', 'professor')
       .leftJoinAndSelect('lessons.room', 'room')
       .leftJoinAndSelect('lessons.discipline', 'discipline')
-      .getMany();
+      .getOne();
     return schedule;
   }
 

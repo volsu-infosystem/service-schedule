@@ -135,14 +135,14 @@ export class ProfileService {
     let result;
 
     const findByStudents = await this.studentRepository.findOne({
-      where: { email: userEmail },
+      where: { email: userEmail }, loadRelationIds: true
     });
 
     if (findByStudents) {
       result = findByStudents;
     } else {
       const findByProfessors = await this.professorRepository.findOne({
-        where: { email: userEmail },
+        where: { email: userEmail }, loadRelationIds: true
       });
       result = findByProfessors;
     }

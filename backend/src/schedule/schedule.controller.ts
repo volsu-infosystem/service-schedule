@@ -1,16 +1,7 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { InsertLessonsToCellDto } from './dto/insert-lessons-to-cell.dto';
-import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { CellEntity } from './entities/cell.entity';
 import { ScheduleEntity } from './entities/schedule.entity';
 import { ScheduleService } from './schedule.service';
