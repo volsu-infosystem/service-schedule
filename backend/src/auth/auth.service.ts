@@ -88,7 +88,7 @@ export class AuthService {
       user.email,
     );
 
-    if (currUser) {
+    if (currUser && currUserProfile) {
       const userPayload = {
         user: currUser.id,
         role: currUser.role,
