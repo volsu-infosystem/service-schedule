@@ -32,8 +32,8 @@ export class DisciplineHouredService {
     return await this.disciplineHouredRepository.createQueryBuilder('disciplineHoured')
     .innerJoin('disciplineHoured.studyDirection', 'studyDirection')
     .innerJoin('studyDirection.group', 'group')
-    .where('group.name = :group', { group })
-    .andWhere('disciplineHoured.semester = :semester', { semester })
+    .where('group.name = :group AND disciplineHoured.semester = :semester', { group, semester })
+    .innerJoinAndSelect('disciplineHoured.discipline', 'discipline')
     .getMany();
   }
 
