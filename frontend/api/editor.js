@@ -13,9 +13,9 @@ class Editor {
     return this.api.get(`/group/${group}/subGroups`);
   }
 
-  disciplines() {
+  disciplines(group, semester = 1) {
     /* TODO Потом получать по айдишники группы */
-    return this.api.get(`/discipline`);
+    return this.api.get(`/disciplinehoured/${group}/${semester}`);
   }
 
   professors(professorId) {

@@ -3,7 +3,7 @@
   import Attach from '@/components/admin/professors/Attach.svelte'
   import List from '@/components/admin/professors/List.svelte'
 
-  import Editor from '@api/editor'
+  import Discipline from '@api/discipline'
   import Profile from '@api/profile'
 
   import { stores } from '@sapper/app'
@@ -15,10 +15,10 @@
   let professors = []
 
   async function updateProfessors() {
-    const editor = new Editor(fetch, $session)
+    const discipline = new Discipline(fetch, $session)
     const profile = new Profile(fetch, $session)
 
-    disciplines = await editor.disciplines()
+    disciplines = await discipline.disciplines()
     professors = await profile.professorList()
   }
 

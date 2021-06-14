@@ -153,7 +153,7 @@
     {#key activeSubgroup}
       <CellSubgroup
         bind:subCell={subCell.value}
-        id={edit.schedule.group.id}
+        groupName={edit.schedule.group.name}
         on:save={save}
       />
     {/key}

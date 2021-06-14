@@ -17,6 +17,7 @@
       headers: [
         { label: 'Название', key: 'name' },
         { label: 'Экипировка', key: 'needEquipment' },
+        { label: 'Часы в семестре', key: 'hours' },
       ],
       description: (v) => {
         return v.desc

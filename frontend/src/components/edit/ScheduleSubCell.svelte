@@ -23,7 +23,6 @@
   let marginTop = false
   let marginBottom = false
   $: {
-    console.log(lessons.length === 1 && lessons)
     if (lessons.length === 1) {
       const firstLesson = lessons[0]
       marginTop = firstLesson && firstLesson.periodicity === 'den'

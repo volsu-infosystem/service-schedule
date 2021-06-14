@@ -4,12 +4,10 @@
   import Editor from '@api/editor'
   import { stores } from '@sapper/app'
   import { sampleLesson } from '@/consts/schedule-sample'
-  import { createEventDispatcher } from 'svelte'
 
   export let subCell
-  export let id
+  export let groupName
 
-  const dispatch = createEventDispatcher()
   const { session } = stores()
 
   const editor = new Editor(fetch, $session)
@@ -36,13 +34,15 @@
     room: () => {},
   }
 
-  async function fetchCellData(groupId) {
-    const [disciplinesData] = await Promise.all([editor.disciplines(groupId)])
-
-    tablesData.discipline = disciplinesData
+  async function fetchCellData(group) {
+    const disciplinesData = await editor.disciplines(group)
+    tablesData.discipline = disciplinesData.map((d) => ({
+      ...d.discipline,
+      hours: d.hours,
+    }))
   }
   $: {
-    fetchCellData(id)
+    fetchCellData(groupName)
   }
 
   let period
