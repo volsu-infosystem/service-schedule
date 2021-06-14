@@ -10,24 +10,24 @@ import { StudyDirectionNotFoundException } from './exceptions/studyDirection.exc
 export class StudyDirectionService {
   constructor(
     @InjectRepository(StudyDirectionEntity)
-    private readonly studydirectionRepository: Repository<StudyDirectionEntity>,
+    private readonly studyDirectionRepository: Repository<StudyDirectionEntity>,
   ) {}
 
   async create(
     studydirection: CreateStudyDirectionDto,
   ): Promise<StudyDirectionEntity> {
-    const newStudyDirection = this.studydirectionRepository.create(
+    const newStudyDirection = this.studyDirectionRepository.create(
       studydirection,
     );
-    return await this.studydirectionRepository.save(newStudyDirection);
+    return await this.studyDirectionRepository.save(newStudyDirection);
   }
 
   async findAll(): Promise<StudyDirectionEntity[]> {
-    return await this.studydirectionRepository.find();
+    return await this.studyDirectionRepository.find();
   }
 
   async findOneById(studydirectionId: number): Promise<StudyDirectionEntity> {
-    return await this.studydirectionRepository.findOne({
+    return await this.studyDirectionRepository.findOne({
       id: studydirectionId,
     });
   }
@@ -36,11 +36,11 @@ export class StudyDirectionService {
     studydirectionId: number,
     updateStudyDirection: DeepPartial<UpdateStudyDirectionDto>,
   ): Promise<StudyDirectionEntity> {
-    await this.studydirectionRepository.update(
+    await this.studyDirectionRepository.update(
       { id: studydirectionId },
       updateStudyDirection,
     );
-    const updatedStudyDirection = await this.studydirectionRepository.findOne(
+    const updatedStudyDirection = await this.studyDirectionRepository.findOne(
       studydirectionId,
     );
     if (updatedStudyDirection) {
@@ -50,9 +50,9 @@ export class StudyDirectionService {
   }
 
   async deleteOne(studydirectionId: number): Promise<StudyDirectionEntity[]> {
-    const studydirectionToRemove = await this.studydirectionRepository.find({
+    const studydirectionToRemove = await this.studyDirectionRepository.find({
       id: studydirectionId,
     });
-    return await this.studydirectionRepository.remove(studydirectionToRemove);
+    return await this.studyDirectionRepository.remove(studydirectionToRemove);
   }
 }

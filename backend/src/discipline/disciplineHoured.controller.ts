@@ -18,26 +18,34 @@ import { DisciplineHouredEntity } from './entities/disciplineHoured.entity';
 @UseGuards(JwtAuthGuard)
 export class DisciplineHouredController {
   constructor(
-    private readonly disciplinehouredService: DisciplineHouredService,
+    private readonly disciplineHouredService: DisciplineHouredService,
   ) {}
 
   @Post()
   async create(
     @Body() createDisciplineHouredDto: CreateDisciplineHouredDto,
   ): Promise<DisciplineHouredEntity> {
-    return await this.disciplinehouredService.create(createDisciplineHouredDto);
+    return await this.disciplineHouredService.create(createDisciplineHouredDto);
   }
 
   @Get()
   async findAll(): Promise<DisciplineHouredEntity[]> {
-    return await this.disciplinehouredService.findAll();
+    return await this.disciplineHouredService.findAll();
+  }
+
+  @Get(':group/:semester')
+  async findAllByGroupAndSemester(
+    @Param('group') group: string,
+    @Param('semester') semester: number
+  ): Promise<DisciplineHouredEntity[]> {
+    return await this.disciplineHouredService.findAllByGroupAndSemester(group, semester)
   }
 
   @Get(':id')
   async findOneById(
     @Param('id') disciplinehouredId: number,
   ): Promise<DisciplineHouredEntity> {
-    return await this.disciplinehouredService.findOneById(disciplinehouredId);
+    return await this.disciplineHouredService.findOneById(disciplinehouredId);
   }
 
   @Put(':id')
@@ -45,7 +53,7 @@ export class DisciplineHouredController {
     @Param('id') disciplinehouredId: number,
     @Body() updateDisciplineHouredDto: UpdateDisciplineHouredDto,
   ): Promise<DisciplineHouredEntity> {
-    return await this.disciplinehouredService.updateOne(
+    return await this.disciplineHouredService.updateOne(
       disciplinehouredId,
       updateDisciplineHouredDto,
     );
@@ -55,6 +63,6 @@ export class DisciplineHouredController {
   async remove(
     @Param('id') disciplinehouredId: number,
   ): Promise<DisciplineHouredEntity[]> {
-    return await this.disciplinehouredService.deleteOne(disciplinehouredId);
+    return await this.disciplineHouredService.deleteOne(disciplinehouredId);
   }
 }

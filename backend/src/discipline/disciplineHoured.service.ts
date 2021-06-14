@@ -10,7 +10,7 @@ import { DisciplineHouredNotFoundException } from './exceptions/disciplineHoured
 export class DisciplineHouredService {
   constructor(
     @InjectRepository(DisciplineHouredEntity)
-    private readonly disciplinehouredRepository: Repository<
+    private readonly disciplineHouredRepository: Repository<
       DisciplineHouredEntity
     >,
   ) {}
@@ -18,20 +18,29 @@ export class DisciplineHouredService {
   async create(
     disciplinehoured: CreateDisciplineHouredDto,
   ): Promise<DisciplineHouredEntity> {
-    const newDisciplineHoured = this.disciplinehouredRepository.create(
+    const newDisciplineHoured = this.disciplineHouredRepository.create(
       disciplinehoured,
     );
-    return await this.disciplinehouredRepository.save(newDisciplineHoured);
+    return await this.disciplineHouredRepository.save(newDisciplineHoured);
   }
 
   async findAll(): Promise<DisciplineHouredEntity[]> {
-    return await this.disciplinehouredRepository.find();
+    return await this.disciplineHouredRepository.find();
+  }
+
+  async findAllByGroupAndSemester(group: string, semester: number): Promise<DisciplineHouredEntity[]> {
+    return await this.disciplineHouredRepository.createQueryBuilder('disciplineHoured')
+    .innerJoin('disciplineHoured.studyDirection', 'studyDirection')
+    .innerJoin('studyDirection.group', 'group')
+    .where('group.name = :group AND disciplineHoured.semester = :semester', { group, semester })
+    .innerJoinAndSelect('disciplineHoured.discipline', 'discipline')
+    .getMany();
   }
 
   async findOneById(
     disciplinehouredId: number,
   ): Promise<DisciplineHouredEntity> {
-    return await this.disciplinehouredRepository.findOne({
+    return await this.disciplineHouredRepository.findOne({
       id: disciplinehouredId,
     });
   }
@@ -40,11 +49,11 @@ export class DisciplineHouredService {
     disciplinehouredId: number,
     updateDisciplineHoured: DeepPartial<UpdateDisciplineHouredDto>,
   ): Promise<DisciplineHouredEntity> {
-    await this.disciplinehouredRepository.update(
+    await this.disciplineHouredRepository.update(
       { id: disciplinehouredId },
       updateDisciplineHoured,
     );
-    const updatedDisciplineHoured = await this.disciplinehouredRepository.findOne(
+    const updatedDisciplineHoured = await this.disciplineHouredRepository.findOne(
       disciplinehouredId,
     );
     if (updatedDisciplineHoured) {
@@ -56,10 +65,10 @@ export class DisciplineHouredService {
   async deleteOne(
     disciplinehouredId: number,
   ): Promise<DisciplineHouredEntity[]> {
-    const disciplinehouredToRemove = await this.disciplinehouredRepository.find(
+    const disciplinehouredToRemove = await this.disciplineHouredRepository.find(
       { id: disciplinehouredId },
     );
-    return await this.disciplinehouredRepository.remove(
+    return await this.disciplineHouredRepository.remove(
       disciplinehouredToRemove,
     );
   }
