@@ -19,6 +19,7 @@
   const schedule = new Schedule(fetch, $session)
 
   export let edit
+  export let semester
 
   let currentEdit
   let activeSubgroup
@@ -80,7 +81,9 @@
 
   let subGroups = []
   async function fetchCellData(groupId) {
-    const [subGroupsData] = await Promise.all([editor.subgroups(groupId)])
+    const [subGroupsData] = await Promise.all([
+      editor.subgroups(groupId, semester),
+    ])
     if (!subGroupsData) return
     subGroups = subGroupsData
   }
@@ -154,6 +157,7 @@
       <CellSubgroup
         bind:subCell={subCell.value}
         groupName={edit.schedule.group.name}
+        {semester}
         on:save={save}
       />
     {/key}

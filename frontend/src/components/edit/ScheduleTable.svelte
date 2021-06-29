@@ -5,6 +5,7 @@
   export let schedules
   export let days
   export let pinned
+  export let semester
 
   let hovered = {
     group: null,
@@ -103,7 +104,12 @@
     </div>
   {/each}
   {#if cellInEdit.group && cellInEdit.day && cellInEdit.time}
-    <CellEditor bind:edit={cellInEdit} on:close={clearEdit} on:update />
+    <CellEditor
+      bind:edit={cellInEdit}
+      {semester}
+      on:close={clearEdit}
+      on:update
+    />
   {/if}
 </div>
 

@@ -3,6 +3,7 @@
   import ScheduleTable from './ScheduleTable.svelte'
 
   export let schedules
+  export let semester
 
   const sentials = {
     left: null,
@@ -28,7 +29,7 @@
 <div class="schedule-table">
   <div bind:this={sentials.left} class="sential left" />
   <div bind:this={sentials.top} class="sential top" />
-  <ScheduleTable {schedules} {days} {pinned} on:update />
+  <ScheduleTable {schedules} {days} {pinned} {semester} on:update />
 </div>
 
 <style lang="scss">

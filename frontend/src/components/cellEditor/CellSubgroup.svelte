@@ -7,6 +7,7 @@
 
   export let subCell
   export let groupName
+  export let semester
 
   const { session } = stores()
 
@@ -35,7 +36,7 @@
   }
 
   async function fetchCellData(group) {
-    const disciplinesData = await editor.disciplines(group)
+    const disciplinesData = await editor.disciplines(group, semester)
     tablesData.discipline = disciplinesData.map((d) => ({
       ...d.discipline,
       hours: d.hours,
